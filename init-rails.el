@@ -1,0 +1,30 @@
+(require 'rinari)
+(setq rinari-tags-file-name "TAGS")
+(global-rinari-mode)
+
+;; All the rails related bindings
+(global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
+(global-set-key (kbd "C-c f m") 'rinari-find-model)
+(global-set-key (kbd "C-c f v") 'rinari-find-view)
+(global-set-key (kbd "C-c f c") 'rinari-find-controller)
+(global-set-key (kbd "C-c f h") 'rinari-find-helper)
+(global-set-key (kbd "C-c f i") 'rinari-find-migration)
+(global-set-key (kbd "C-c f y") 'rinari-find-stylesheet)
+(global-set-key (kbd "C-c f j") 'rinari-find-javascript)
+(global-set-key (kbd "C-c f r") 'rinari-find-rspec)
+(global-set-key (kbd "C-c f e") 'rinari-find-environment)
+(global-set-key (kbd "C-c f l") 'rinari-find-plugin)
+(global-set-key (kbd "C-c f n") 'rinari-find-configuration)
+(global-set-key (kbd "C-c f o") 'rinari-find-log)
+(global-set-key (kbd "C-c f p") 'rinari-find-public)
+(global-set-key (kbd "C-c f s") 'rinari-find-script)
+(global-set-key (kbd "C-c f w") 'rinari-find-worker)
+(global-set-key (kbd "C-c f x") 'rinari-find-fixture)
+
+
+(defun update-rails-ctags ()
+  (interactive)
+  (let ((default-directory (or (rinari-root) default-directory)))
+    (shell-command (concat "ctags -a -e -f " rinari-tags-file-name " --tag-relative -R app lib vendor test"))))
+
+(provide 'init-rails)

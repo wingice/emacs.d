@@ -1,0 +1,12 @@
+[submodule "packages/rinari"]
+	path = packages/rinari
+	url = git://github.com/eschulte/rinari.git
+[submodule "packages/rhtml"]
+	path = packages/rhtml
+	url = https://github.com/eschulte/rhtml.git
+[submodule "packages/autocomplete"]
+	path = packages/autocomplete
+	url = https://github.com/auto-complete/auto-complete.git
+[submodule "packages/yasnippet"]
+	path = packages/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
