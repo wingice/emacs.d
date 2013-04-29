@@ -20,7 +20,6 @@
 ;;----------------------------------------------------------------------------
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
-(require 'init-osx-keys)
 (require 'init-ido)
 (require 'init-auto-complete)
 (require 'init-windows)
@@ -29,6 +28,7 @@
 (require 'init-rails)
 (require 'init-misc)
 (require 'init-yasnippet)
+(require 'init-osx-keys)
 
 
 ;;----------------------------------------------------------------------------

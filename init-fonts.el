@@ -7,5 +7,9 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq sgml-basic-offset 4)
 
+;;disable splash screen and startup message
+(setq inhibit-startup-message t) 
+(setq initial-scratch-message nil)
+(setq inhibit-splash-screen t)
 
 (provide 'init-fonts)
