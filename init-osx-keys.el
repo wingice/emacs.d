@@ -16,7 +16,9 @@
 
 
 (when *is-a-mac*
-  (set-default-font "-*-Courier-*-normal-normal-*-19-*-*-*-m-0-*-*"))
+  (set-default-font "-*-Courier-*-normal-normal-*-19-*-*-*-m-0-*-*")
+  (global-set-key (kbd "<f9>") 'buffer-menu)
+)
 
 
 (provide 'init-osx-keys)
