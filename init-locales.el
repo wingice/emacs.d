@@ -18,4 +18,6 @@
    (set-selection-coding-system 'utf-8))
   (prefer-coding-system 'utf-8))
 
+(setq system-time-locale "en_US")
+
 (provide 'init-locales)

@@ -7,4 +7,8 @@
 ;; to fix the conflict issue between yasnippet and auto-complete
 (ac-set-trigger-key "TAB")
 
+(setq ac-comphist-file (concat emacs-cache-dir "auto-complete.dat"))
+(define-key ac-complete-mode-map [tab] 'ac-expand)
+
+
 (provide 'init-auto-complete)

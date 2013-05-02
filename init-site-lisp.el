@@ -1,5 +1,17 @@
 ;;; Set load path
 
+(defconst emacs-dir "~/.emacs.d/" "The top-level emacs-configure directory.")
+(defconst emacs-cache-dir (concat emacs-dir "tmp/cache/") "cache file directory.")
+(defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
+(defconst emacs-bookmark-file (concat emacs-cache-dir "bookmarks") "File to save bookmarks")
+
+(setq backup-directory-alist '(("." . (concat emacs-backup-dir "auto-save-list/"))))
+
+;; overrride the default function....
+(defun emacs-session-filename (SESSION-ID)
+  (concat emacs-cache-dir SESSION-ID))
+
+
 (eval-when-compile (require 'cl))
 (defun add-subdirs-to-load-path (parent-dir)
   "Adds every non-hidden subdir of PARENT-DIR to `load-path'."
@@ -13,5 +25,13 @@
              load-path)))))
 
 (add-subdirs-to-load-path "~/.emacs.d/packages/")
+
+
+
+
+
+
+
+
 
 (provide 'init-site-lisp)

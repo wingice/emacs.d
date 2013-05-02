@@ -9,11 +9,9 @@
 
 (setq make-backup-files nil)
 
-(setq auto-save-list-file-prefix "~/.emacs.d/tmp/")
+
 (setq
    backup-by-copying t      ; don't clobber symlinks
-   backup-directory-alist
-    '((".*" . "~/.emacs.d/tmp/backup"))    ; don't litter my fs tree
    delete-old-versions t
    kept-new-versions 3
    kept-old-versions 2
