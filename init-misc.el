@@ -7,6 +7,7 @@
 (global-set-key (kbd "M-[")   'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 
+(setq make-backup-files nil)
 
 (setq auto-save-list-file-prefix "~/.emacs.d/tmp/")
 (setq

@@ -4,4 +4,7 @@
 (ac-config-default)
 (setq ac-ignore-case 0)
 
+;; to fix the conflict issue between yasnippet and auto-complete
+(ac-set-trigger-key "TAB")
+
 (provide 'init-auto-complete)
