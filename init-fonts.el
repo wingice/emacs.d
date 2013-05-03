@@ -1,5 +1,5 @@
 ;;  ---  Font, Display and General Setttings   ---
-(set-default-font "-*-Courier 10 Pitch-normal-normal-normal-*-17-*-*-*-m-0-*-*") 
+(set-default-font "-*-Courier-normal-normal-normal-*-17-*-*-*-m-0-*-*") 
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0)) ;; Do not display toolbar
 
 (column-number-mode t)
