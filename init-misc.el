@@ -17,10 +17,6 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
-(setq auto-save-file-name-transforms
-          `((".*", "~/.emacs.d/tmp/backup" t)))
-
-
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive (if mark-active (list (region-beginning) (region-end))

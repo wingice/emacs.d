@@ -1,7 +1,9 @@
 (ido-mode t)
 (ido-everywhere t)
-(setq ido-enable-flex-matching t)
+;;(setq ido-enable-flex-matching t)
 (setq ido-use-filename-at-point nil)
+
+;; Can use alt+s to retrigger the searching, this feature is very nice, :-)
 ;;(setq ido-auto-merge-work-directories-length 0)
 (setq ido-use-virtual-buffers t)
 

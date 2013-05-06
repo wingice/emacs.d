@@ -22,11 +22,12 @@
 (global-set-key (kbd "C-c f x") 'rinari-find-fixture)
 
 (global-set-key [C-f6] 'rinari-rgrep)
+(global-set-key [C-f7] 'update-rails-ctags)
 
 
 (defun update-rails-ctags ()
   (interactive)
   (let ((default-directory (or (rinari-root) default-directory)))
-    (shell-command (concat "ctags -a -e -f " rinari-tags-file-name " --tag-relative -R app lib vendor test"))))
+    (shell-command (concat "ctags -a -e -f " rinari-tags-file-name " --tag-relative -R app lib vendor spec"))))
 
 (provide 'init-rails)
