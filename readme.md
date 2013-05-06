@@ -14,7 +14,6 @@ Steps
    3.1 Update auto-complete
        * cd .emacs.d/packages/autocomplete
        * git submodule update --init
-       * cp lib/popup/popup.el ./       # I have to do this to remove a popup error
        * make byte-compile
  
    3.2 Update the rinari

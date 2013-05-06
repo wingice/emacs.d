@@ -1,6 +1,6 @@
-(add-to-list 'load-path "~/.emacs.d/packages/autocomplete/")
+(add-to-list 'load-path "~/.emacs.d/packages/autocomplete/lib/popup")
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/conf_data/ac-dict")
 (ac-config-default)
 (setq ac-ignore-case 0)
 
