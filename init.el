@@ -21,13 +21,13 @@
 ;; Load configs for specific features and modes
 ;;----------------------------------------------------------------------------
 (require 'init-ido)
-(require 'init-auto-complete)
 (require 'init-windows)
 (require 'init-fonts)
 (require 'init-ruby-mode)
 (require 'init-rails)
 (require 'init-misc)
 (require 'init-yasnippet)
+(require 'init-auto-complete)
 (require 'init-osx-keys)
 
 
