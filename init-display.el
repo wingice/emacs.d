@@ -12,4 +12,7 @@
 (setq initial-scratch-message nil)
 (setq inhibit-splash-screen t)
 
-(provide 'init-fonts)
+(setq-default truncate-lines t)
+(global-set-key [F12] 'toggle-truncate-lines)
+
+(provide 'init-display)

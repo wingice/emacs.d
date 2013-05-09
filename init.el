@@ -22,7 +22,7 @@
 ;;----------------------------------------------------------------------------
 (require 'init-ido)
 (require 'init-windows)
-(require 'init-fonts)
+(require 'init-display)
 (require 'init-ruby-mode)
 (require 'init-rails)
 (require 'init-misc)

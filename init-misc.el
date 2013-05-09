@@ -7,8 +7,7 @@
 (global-set-key (kbd "M-[")   'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 
-(setq make-backup-files nil)
-
+;;(setq make-backup-files nil)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks

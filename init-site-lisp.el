@@ -6,10 +6,7 @@
 (defconst emacs-bookmark-file (concat emacs-cache-dir "bookmarks") "File to save bookmarks")
 
 (setq auto-save-list-file-prefix (concat emacs-backup-dir "auto-save-list/"))
-
-(setq backup-directory-alist '(("." . (concat emacs-backup-dir "auto-save-list/"))))
-
-
+(setq backup-directory-alist `(("." . "~/.emacs.d/tmp/backup/auto-save-list")))
 
 ;; overrride the default function....
 (defun emacs-session-filename (SESSION-ID)

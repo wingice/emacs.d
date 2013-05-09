@@ -9,5 +9,6 @@
 
 ;; Allow the same buffer to be open in different frames
 (setq ido-default-buffer-method 'selected-window)
+(setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
 
 (provide 'init-ido)
