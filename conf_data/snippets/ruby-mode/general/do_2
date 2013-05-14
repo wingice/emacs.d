@@ -1,0 +1,4 @@
+# name: do block {}
+# key: {
+# --
+{ $0 }

@@ -1,0 +1,5 @@
+# name: html-erb-output
+# key: <%=
+# --
+<%= $1 %>
+$0

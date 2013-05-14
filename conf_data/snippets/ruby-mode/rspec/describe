@@ -1,0 +1,6 @@
+# name: rspec / describe-full
+# key: describe
+# --
+describe "$1" do
+  $0
+end

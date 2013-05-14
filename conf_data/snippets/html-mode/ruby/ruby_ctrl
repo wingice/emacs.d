@@ -1,0 +1,5 @@
+# name: html-erb-control
+# key: <%
+# --
+<% $1 %>
+$0
