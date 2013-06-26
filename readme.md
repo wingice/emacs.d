@@ -22,3 +22,11 @@ Steps
 
 
 
+
+
+Notes
+--------------------
+If you need add other git submodule, do it like this.
+      git submodule add git://jblevins.org/git/markdown-mode.git packages/markdown
+
+
