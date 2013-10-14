@@ -29,6 +29,7 @@
 (require 'init-yasnippet)
 (require 'init-auto-complete)
 (require 'init-osx-keys)
+(require 'init-fly-check)
 
 
 ;;----------------------------------------------------------------------------
