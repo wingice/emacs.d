@@ -30,7 +30,7 @@
 (require 'init-auto-complete)
 (require 'init-osx-keys)
 (require 'init-fly-check)
-
+(require 'init-authoring)
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
