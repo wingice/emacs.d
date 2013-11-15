@@ -1,5 +1,9 @@
 ;;  ---  Font, Display and General Setttings   ---
-(set-default-font "-*-Courier-normal-normal-normal-*-20-*-*-*-m-0-*-*") 
+
+
+(when (eq system-type 'gnu/linux)
+  (set-default-font "-*-Courier 10 Pitch-normal-normal-normal-*-19-*-*-*-m-0-*-*"))
+
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0)) ;; Do not display toolbar
 
 (column-number-mode t)
@@ -14,5 +18,6 @@
 
 (setq-default truncate-lines t)
 (global-set-key [F12] 'toggle-truncate-lines)
+(set-scroll-bar-mode 'right) 
 
 (provide 'init-display)
