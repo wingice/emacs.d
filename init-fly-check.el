@@ -1,7 +1,7 @@
 (require 'flymake)
 
 ;; I don't like the default colors :)
-(set-face-background 'flymake-errline "red4")
+;;(set-face-background 'flymake-errline "brown1")
 (set-face-background 'flymake-warnline "dark slate blue")
 
 ;; Invoke ruby with '-c' to get syntax checking
@@ -17,6 +17,7 @@
 (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
 
 (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
+
 
 (add-hook 'ruby-mode-hook
           '(lambda ()

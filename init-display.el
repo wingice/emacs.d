@@ -1,8 +1,6 @@
 ;;  ---  Font, Display and General Setttings   ---
 
 
-(when (eq system-type 'gnu/linux)
-  (set-default-font "-*-Courier 10 Pitch-normal-normal-normal-*-19-*-*-*-m-0-*-*"))
 
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0)) ;; Do not display toolbar
 

@@ -28,6 +28,7 @@
 (require 'init-misc)
 (require 'init-yasnippet)
 (require 'init-auto-complete)
+(require 'init-linux)
 (require 'init-osx-keys)
 (require 'init-fly-check)
 (require 'init-authoring)

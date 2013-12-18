@@ -21,7 +21,7 @@
 (global-set-key (kbd "C-c f w") 'rinari-find-worker)
 (global-set-key (kbd "C-c f x") 'rinari-find-fixture)
 
-(global-set-key [C-f6] 'rinari-rgrep)
+(global-set-key [f6] 'rinari-rgrep)
 (define-key ruby-mode-map [f9] 'update-rails-ctags)
 
 (defun update-rails-ctags ()
