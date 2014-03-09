@@ -23,4 +23,4 @@
 )
 
 
-(provide 'init-osx-keys)
+(provide 'init-osx)
