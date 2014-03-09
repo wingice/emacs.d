@@ -18,6 +18,8 @@
 (when *is-a-mac*
   (set-default-font "-*-Courier-*-normal-normal-*-19-*-*-*-m-0-*-*")
   (global-set-key (kbd "<f9>") 'buffer-menu)
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")) ;;to support homebrew Path
+  (setq exec-path (append exec-path '("/usr/local/bin")))
 )
 
 
