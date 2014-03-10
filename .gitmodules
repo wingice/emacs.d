@@ -16,3 +16,12 @@
 [submodule "packages/flycheck"]
 	path = packages/flycheck
 	url = https://github.com/flycheck/flycheck.git
+[submodule "packages/flymake-easy"]
+	path = packages/flymake-easy
+	url = https://github.com/purcell/flymake-easy.git
+[submodule "packages/flymake-jslint"]
+	path = packages/flymake-jslint
+	url = https://github.com/purcell/flymake-jslint.git
+[submodule "packages/flymake-ruby"]
+	path = packages/flymake-ruby
+	url = https://github.com/purcell/flymake-ruby.git
