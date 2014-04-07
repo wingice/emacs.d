@@ -36,8 +36,8 @@
 (global-set-key "\C-x|" 'split-window-horizontally-instead)
 (global-set-key "\C-x_" 'split-window-vertically-instead)
 
-(global-set-key [(shift delete)] 'clipboard-kill-region)
-(global-set-key [(control insert)] 'clipboard-kill-ring-save)
-(global-set-key [(shift insert)] 'clipboard-yank)
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
 
 (provide 'init-windows)
