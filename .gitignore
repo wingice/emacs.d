@@ -25,3 +25,5 @@ site-lisp/package/
 tmp/
 tmp/cache/
 tmp/backup/
+eshell/
+recentf

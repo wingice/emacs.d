@@ -28,6 +28,6 @@
   "Update rails project tags"
   (interactive)
   (let ((default-directory (or (rinari-root) default-directory)))
-    (shell-command (concat "ctags -a -e -f " rinari-tags-file-name " --tag-relative -R app lib vendor spec"))))
+    (shell-command "ripper-tags -R -f TAGS")))
 
 (provide 'init-rails)
