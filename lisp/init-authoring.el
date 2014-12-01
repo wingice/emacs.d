@@ -18,8 +18,5 @@
 	    ))
 
 (setq org-clock-into-drawer 1)
-(setq system-time-locale "C")
-
-
 
 (provide 'init-authoring)

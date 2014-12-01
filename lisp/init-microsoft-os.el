@@ -11,8 +11,9 @@
   (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
 		    'han '("Microsoft YaHei" . "unicode-bmp"))
   
+  (setq system-time-locale "C")
 
-  (when window-system (set-frame-size (selected-frame) 80 32))
+  (when window-system (set-frame-size (selected-frame) 120 32))
 
   ;;------------org-mode and appt settings
   (setq org-agenda-files '("c:/workspace/orgagenda/agenda.org" "c:/workspace/orgagenda/rem.notes.org"))
@@ -34,6 +35,7 @@
    appt-display-format 'window) ;; use our func
   (appt-activate 1) ;; active appt (appointment notification)
   (display-time) ;; time display is required for this...
-)
+
+  )
 
 (provide 'init-microsoft-os)
