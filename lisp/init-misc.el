@@ -6,6 +6,7 @@
 ;;  ---  Global Key Bindings   ---
 (global-set-key (kbd "M-[")   'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
+(global-set-key (kbd "<apps>") 'buffer-menu)
 
 ;;(setq make-backup-files nil)
 

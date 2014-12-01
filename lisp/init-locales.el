@@ -20,4 +20,6 @@
 
 (setq system-time-locale "en_US")
 
+(setq display-time-24hr-format t)
+
 (provide 'init-locales)
