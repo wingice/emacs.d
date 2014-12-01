@@ -23,7 +23,6 @@
 (require 'init-ido)
 (require 'init-windows)
 (require 'init-display)
-(require 'init-ruby-mode)
 (require 'init-rails)
 (require 'init-misc)
 (require 'init-yasnippet)
@@ -33,6 +32,9 @@
 (require 'init-fly-check)
 (require 'init-authoring)
 
+(require 'init-locales)
+(require 'init-microsoft-os)
+
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -40,12 +42,6 @@
 (unless (server-running-p)
   (server-start))
 
-;;----------------------------------------------------------------------------
-;; Locales (setting them earlier in this file doesn't work in X)
-;;----------------------------------------------------------------------------
-(require 'init-locales)
-;; Local Variables:
-;; coding: utf-8
-;; no-byte-compile: t
-;; End:
+
+
 
