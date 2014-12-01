@@ -7,8 +7,8 @@
 					 :size 18)))
 
 
-  (require 'ibus) 
-  (add-hook 'after-init-hook 'ibus-mode-on) 
+;;  (require 'ibus) 
+;;  (add-hook 'after-init-hook 'ibus-mode-on) 
 )
 
 
