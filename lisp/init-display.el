@@ -16,4 +16,5 @@
 (global-set-key [F12] 'toggle-truncate-lines)
 (set-scroll-bar-mode 'right) 
 
+
 (provide 'init-display)

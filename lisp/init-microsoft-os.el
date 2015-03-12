@@ -1,4 +1,4 @@
-(when (eq system-type 'windows-nt)
+﻿(when (eq system-type 'windows-nt)
   (set-language-environment 'UTF-8)
   (set-locale-environment "UTF-8")
   (prefer-coding-system 'utf-8)
@@ -13,15 +13,17 @@
   
   (setq system-time-locale "C")
 
-  (when window-system (set-frame-size (selected-frame) 120 32))
+  (when window-system (set-frame-size (selected-frame) 132 36))
 
   ;;------------org-mode and appt settings
   (setq org-agenda-files '("c:/workspace/orgagenda/agenda.org" "c:/workspace/orgagenda/rem.notes.org"))
 
   (setq org-default-notes-file "c:\workspace/orgagenda/rem.notes.org")
   (setq default-directory "C:/workspace/working/")
+  ;;  (setq org-agenda-clockreport-parameter-plist
+  ;;      (quote (:maxlevel 5 :indent t :scope file)))
 
-
+  (setq org-agenda-clockreport-parameter-plist '(:maxlevel 5 :indent t :scope file))
 
   ;; appt and reminder
   (require 'appt)
@@ -35,7 +37,12 @@
    appt-display-format 'window) ;; use our func
   (appt-activate 1) ;; active appt (appointment notification)
   (display-time) ;; time display is required for this...
-
-  )
+  
+  (require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       (color-theme-robin-hood)))
+)
 
 (provide 'init-microsoft-os)

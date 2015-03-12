@@ -16,7 +16,58 @@
 	  (lambda()
 	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
 	    ))
-
 (setq org-clock-into-drawer 1)
+(setq org-agenda-clockreport-parameter-plist
+      (quote(:maxlevel 5 :scope file)))
+(setq org-agenda-clockreport-parameter-plist (quote (:link t :maxlevel 6 :fileskip0 t :scope file)))
+(setq org-clock-clocktable-default-properties '(:maxlevel 4 :scope file))
+
+
+
+;; appt and reminder
+(require 'appt)
+(setq org-agenda-include-diary t)
+(setq appt-time-msg-list nil)
+
+;; the appointment notification facility
+(setq
+ appt-message-warning-time 3
+ appt-display-mode-line t ;; show in the modeline
+ appt-display-format 'window) ;; use our func
+
+(appt-activate 1) ;; active appt (appointment notification)
+(display-time) ;; time display is required for this...
+
+(defun my-org-clocktable-indent-string (level)
+  (if (= level 1)
+      ""
+    (let ((str "\\"))
+      (while (> level 2)
+        (setq level (1- level)
+              str (concat str "___")))
+      (concat str "_ "))))
+
+(advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
+
+
+(setq org-agenda-custom-commands
+      '(("d" "Printed agenda"
+         ((agenda "" ((org-agenda-ndays 7)                      ;; overview of appointments
+                      (org-agenda-repeating-timestamp-show-all t)
+                      (org-agenda-entry-types '(:timestamp :sexp))
+	              (org-agenda-overriding-header "Weekly Tasks\n---------------------------------------------")))
+          (agenda "" ((org-agenda-ndays 1)                      ;; daily agenda
+                      (org-deadline-warning-days 7)             ;; 7 day advanced warning for deadlines
+                      (org-agenda-todo-keyword-format "[ ]")
+                      (org-agenda-scheduled-leaders '("" ""))
+                      (org-agenda-prefix-format "%t%s")
+	              (org-agenda-overriding-header "\nDaily Tasks\n---------------------------------------------")))
+
+          (todo "TODO"                                          ;; todos sorted by context
+                ((org-agenda-prefix-format "[ ] %T: ")
+                 (org-agenda-sorting-strategy '(tag-up priority-down))
+                 (org-agenda-todo-keyword-format "")
+                 (org-agenda-overriding-header "\nTodos\n---------------------------------------------")))))
+        ))
 
 (provide 'init-authoring)
