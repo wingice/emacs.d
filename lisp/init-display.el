@@ -16,5 +16,8 @@
 (global-set-key [F12] 'toggle-truncate-lines)
 (set-scroll-bar-mode 'right) 
 
+(setq Buffer-menu-name-width 30)
+(setq Buffer-menu-mode-width 12)
+
 
 (provide 'init-display)

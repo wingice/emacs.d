@@ -30,6 +30,15 @@
   "Update rails project tags"
   (interactive)
   (let ((default-directory (or (rinari-root) default-directory)))
-    (shell-command "ripper-tags -R -f TAGS")))
+    (shell-command "ripper-tags -R -e -f TAGS")))
+
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+	  '(lambda ()
+	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+
 
 (provide 'init-rails)

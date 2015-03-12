@@ -25,3 +25,6 @@
 [submodule "packages/flymake-ruby"]
 	path = packages/flymake-ruby
 	url = https://github.com/purcell/flymake-ruby.git
+[submodule "packages/yaml-mode"]
+	path = packages/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
