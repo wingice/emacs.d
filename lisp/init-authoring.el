@@ -18,11 +18,8 @@
 	    ))
 (setq org-clock-into-drawer 1)
 (setq org-agenda-clockreport-parameter-plist
-      (quote(:maxlevel 5 :scope file)))
-(setq org-agenda-clockreport-parameter-plist (quote (:link t :maxlevel 6 :fileskip0 t :scope file)))
+      (quote(:maxlevel 5 :scope file :block today)))
 (setq org-clock-clocktable-default-properties '(:maxlevel 4 :scope file))
-
-
 
 ;; appt and reminder
 (require 'appt)
@@ -51,23 +48,30 @@
 
 
 (setq org-agenda-custom-commands
-      '(("d" "Printed agenda"
+      '(("d" "Daily Planner"
          ((agenda "" ((org-agenda-ndays 7)                      ;; overview of appointments
                       (org-agenda-repeating-timestamp-show-all t)
                       (org-agenda-entry-types '(:timestamp :sexp))
-	              (org-agenda-overriding-header "Weekly Tasks\n---------------------------------------------")))
-          (agenda "" ((org-agenda-ndays 1)                      ;; daily agenda
-                      (org-deadline-warning-days 7)             ;; 7 day advanced warning for deadlines
-                      (org-agenda-todo-keyword-format "[ ]")
-                      (org-agenda-scheduled-leaders '("" ""))
-                      (org-agenda-prefix-format "%t%s")
-	              (org-agenda-overriding-header "\nDaily Tasks\n---------------------------------------------")))
+	              (org-agenda-overriding-header "[Weekly Tasks:]")))
 
           (todo "TODO"                                          ;; todos sorted by context
                 ((org-agenda-prefix-format "[ ] %T: ")
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "")
-                 (org-agenda-overriding-header "\nTodos\n---------------------------------------------")))))
+                 (org-agenda-overriding-header "Next Actions:")))
+
+	  (todo "TODO" ((org-agenda-overriding-header "All Todos:")))
+	  (tags "NA" ((org-agenda-overriding-header "All Next Actions:")))
+
+	  (agenda "" ((org-agenda-ndays 1)                      ;; daily agenda
+                      (org-deadline-warning-days 7)             ;; 7 day advanced warning for deadlines
+                      (org-agenda-todo-keyword-format "[ ]")
+                      (org-agenda-scheduled-leaders '("" ""))
+                      (org-agenda-prefix-format "%t%s")
+	              (org-agenda-overriding-header "Daily Tasks:")))
+
+
+	  ))
         ))
 
 (provide 'init-authoring)
