@@ -39,7 +39,4 @@
 	  '(lambda ()
 	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
-(require 'chruby)
-(chruby "2.2")
-
 (provide 'init-rails)

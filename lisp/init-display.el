@@ -36,4 +36,7 @@
 
 (add-hook 'comint-output-filter-functions 'remove-shell-wrong-sequences)
 
+(setq shell-file-name "bash")
+(setq shell-command-switch "-ic")
+
 (provide 'init-display)
