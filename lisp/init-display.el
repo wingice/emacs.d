@@ -20,6 +20,8 @@
 (setq Buffer-menu-name-width 30)
 (setq Buffer-menu-mode-width 12)
 
+(set-background-color "#FFFFFB")
+
 (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'shell-mode-hook (lambda ()
@@ -35,8 +37,5 @@
     ))
 
 (add-hook 'comint-output-filter-functions 'remove-shell-wrong-sequences)
-
-(setq shell-file-name "bash")
-(setq shell-command-switch "-ic")
 
 (provide 'init-display)

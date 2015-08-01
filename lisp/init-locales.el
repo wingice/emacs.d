@@ -19,7 +19,7 @@
   (prefer-coding-system 'utf-8))
 
 (setq system-time-locale "en_US")
-
+(set-coding-system-priority 'utf-8 'chinese-gb18030)
 (setq display-time-24hr-format t)
 
 (provide 'init-locales)

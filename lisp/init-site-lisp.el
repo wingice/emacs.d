@@ -25,14 +25,4 @@
                    collecting (expand-file-name dir))
              load-path)))))
 
-(add-subdirs-to-load-path "~/.emacs.d/packages/")
-
-
-
-
-
-
-
-
-
 (provide 'init-site-lisp)
