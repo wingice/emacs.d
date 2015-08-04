@@ -22,4 +22,8 @@
   (interactive (if mark-active (list (region-beginning) (region-end))
                 (list (line-beginning-position) (line-beginning-position 2)))))
 
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
+
 (provide 'init-misc)

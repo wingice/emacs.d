@@ -13,16 +13,7 @@
   (concat emacs-cache-dir SESSION-ID))
 
 
-(eval-when-compile (require 'cl))
-(defun add-subdirs-to-load-path (parent-dir)
-  "Adds every non-hidden subdir of PARENT-DIR to `load-path'."
-  (let* ((default-directory parent-dir))
-    (progn
-      (setq load-path
-            (append
-             (loop for dir in (directory-files parent-dir)
-                   unless (string-match "^\\." dir)
-                   collecting (expand-file-name dir))
-             load-path)))))
+;;(setq bookmark-default-file (concat emacs-dir "tmp/bookmarks")
+;;      bookmark-save-flag nil)
 
 (provide 'init-site-lisp)

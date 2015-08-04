@@ -1,8 +1,13 @@
 (autoload 'gtags-mode "gtags-mode" "Loading GNU Global")
 (require 'gtags)
 
+(setq srecode-map-save-file (concat emacs-dir "tmp/srecode-map.el"))
 
 (load-file "~/.emacs.d/packages/cedet-bzr/cedet-devel-load.el")
+
+(setq ede-project-placeholder-cache-file (concat emacs-dir "tmp/ede-projects.el"))
+(setq semanticdb-default-save-directory 
+     (expand-file-name "~/.emacs.d/tmp/semanticdb")) 
 
 (semantic-mode 1)
 (global-ede-mode t)
@@ -10,6 +15,8 @@
 (require 'semantic/ia)
 (setq-mode-local c-mode semanticdb-find-default-throttle
                  '(project unloaded system recursive))
+
+
 
 (global-set-key [f12] 'semantic-ia-fast-jump)  
 (global-set-key [S-f12]  
@@ -60,5 +67,8 @@
     (gtags-mode t)))
 
 (projectile-global-mode)
+
+(setq projectile-known-projects-file
+       (expand-file-name "projectile-bookmarks.eld" (concat emacs-dir "tmp")))
 
 (provide 'init-cpp)
