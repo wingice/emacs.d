@@ -26,7 +26,7 @@
 (require 'init-yasnippet)
 (require 'init-linux)
 (require 'init-osx)
-;;(require 'init-authoring)
+(require 'init-authoring)
 (require 'init-locales)
 (require 'init-microsoft-os)
 (require 'init-cpp)
