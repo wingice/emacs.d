@@ -16,7 +16,7 @@
 	  (lambda()
 	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
 	    ))
-(setq org-clock-into-drawer 1)
+;;(setq org-clock-into-drawer 1)
 (setq org-agenda-clockreport-parameter-plist
       (quote(:maxlevel 5 :scope file :block today)))
 (setq org-clock-clocktable-default-properties '(:maxlevel 4 :scope file))
@@ -49,28 +49,18 @@
 
 (setq org-agenda-custom-commands
       '(("d" "Daily Planner"
-         ((agenda "" ((org-agenda-ndays 7)                      ;; overview of appointments
-                      (org-agenda-repeating-timestamp-show-all t)
-                      (org-agenda-entry-types '(:timestamp :sexp))
-	              (org-agenda-overriding-header "[Weekly Tasks:]")))
-
-          (todo "TODO"                                          ;; todos sorted by context
+         ((agenda "")
+          (tags-todo "NA"                                         ;; todos sorted by context
                 ((org-agenda-prefix-format "[ ] %T: ")
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "")
+		 (org-deadline-warning-days 5)
                  (org-agenda-overriding-header "Next Actions:")))
 
-	  (todo "TODO" ((org-agenda-overriding-header "All Todos:")))
+	  (todo "TODO" ((org-agenda-overriding-header "All Todos:")
+			(org-agenda-sorting-strategy '(tag-up priority-down))
+			))
 	  (tags "NA" ((org-agenda-overriding-header "All Next Actions:")))
-
-	  (agenda "" ((org-agenda-ndays 1)                      ;; daily agenda
-                      (org-deadline-warning-days 7)             ;; 7 day advanced warning for deadlines
-                      (org-agenda-todo-keyword-format "[ ]")
-                      (org-agenda-scheduled-leaders '("" ""))
-                      (org-agenda-prefix-format "%t%s")
-	              (org-agenda-overriding-header "Daily Tasks:")))
-
-
 	  ))
         ))
 
