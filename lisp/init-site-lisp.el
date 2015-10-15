@@ -1,10 +1,11 @@
 ;;; Set load path
 
 (defconst emacs-dir "~/.emacs.d/" "The top-level emacs-configure directory.")
+(defconst emacs-tmp-dir (concat emacs-dir "tmp/") "cache file directory.")
 (defconst emacs-cache-dir (concat emacs-dir "tmp/cache/") "cache file directory.")
 (defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
-(defconst emacs-bookmark-file (concat emacs-cache-dir "bookmarks") "File to save bookmarks")
 
+(setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
 (setq auto-save-list-file-prefix (concat emacs-backup-dir "auto-save-list/"))
 (setq backup-directory-alist `(("." . "~/.emacs.d/tmp/backup/auto-save-list")))
 

@@ -8,7 +8,8 @@
 
 (add-hook 'ruby-mode-hook 'robe-mode)
 (eval-after-load 'company
-  '(push 'company-robe company-backends))
+  '(progn
+    (push 'company-robe company-backends)))
 
 (setq rinari-tags-file-name "TAGS")
 (global-rinari-mode)
