@@ -6,9 +6,11 @@
 		      charset (font-spec :family "Microsoft Yahei"
 					 :size 18)))
 
-
-;;  (require 'ibus) 
-;;  (add-hook 'after-init-hook 'ibus-mode-on) 
+(setq shell-file-name "bash")
+(setq shell-command-switch "-c")
+  
+  ;; (require 'ibus) 
+  ;; (add-hook 'after-init-hook 'ibus-mode-on) 
 )
 
 

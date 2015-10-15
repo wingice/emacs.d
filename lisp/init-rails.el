@@ -1,8 +1,19 @@
-(require 'rhtml-mode)
-(require 'rinari)
+;;(require 'rhtml-mode)
+
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(defun my-web-mode-hook ()
+  (set-face-attribute 'web-mode-symbol-face nil :foreground "darkgreen")
+  (set-face-attribute 'web-mode-html-attr-value-face nil :foreground "darkgreen"))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+(add-hook 'ruby-mode-hook 'robe-mode)
+(eval-after-load 'company
+  '(progn
+    (push 'company-robe company-backends)))
 
 (setq rinari-tags-file-name "TAGS")
 (global-rinari-mode)
+
 
 ;; All the rails related bindings
 (global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
@@ -33,12 +44,13 @@
     (shell-command "ripper-tags -R -e -f TAGS")))
 
 
-(require 'yaml-mode)
+;;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-hook 'yaml-mode-hook
 	  '(lambda ()
 	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
-
+(require 'flymake-ruby)
+(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 (provide 'init-rails)

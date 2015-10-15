@@ -13,11 +13,29 @@
 (setq inhibit-splash-screen t)
 
 (setq-default truncate-lines t)
-(global-set-key [F12] 'toggle-truncate-lines)
+(global-set-key [f12] 'toggle-truncate-lines)
+(global-set-key [f5] 'revert-buffer)
 (set-scroll-bar-mode 'right) 
 
 (setq Buffer-menu-name-width 30)
 (setq Buffer-menu-mode-width 12)
 
+(set-background-color "#FFFFFB")
+
+(add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'shell-mode-hook (lambda ()
+                            (setq buffer-face-mode-face '(:height 120))
+                            (buffer-face-mode)))
+
+(defun remove-shell-wrong-sequences (string)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\[0G\\|\\]2;" nil t)
+      (replace-match "\n"))
+    (goto-char (point-min))
+    ))
+
+(add-hook 'comint-output-filter-functions 'remove-shell-wrong-sequences)
 
 (provide 'init-display)

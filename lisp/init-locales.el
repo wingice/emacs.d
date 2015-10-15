@@ -19,7 +19,15 @@
   (prefer-coding-system 'utf-8))
 
 (setq system-time-locale "en_US")
-
+(set-coding-system-priority 'utf-8 'chinese-gb18030)
 (setq display-time-24hr-format t)
+
+(setq hebrew-holidays nil)
+(setq islamic-holidays nil)
+
+(setq general-holidays '((holiday-fixed 1 1 "元旦")
+			 (holiday-fixed 2 14 "情人节")
+			 (holiday-fixed 5 1 "劳动节")
+			 (holiday-fixed 10 1 "国庆节")))
 
 (provide 'init-locales)
