@@ -22,8 +22,11 @@
 (set-coding-system-priority 'utf-8 'chinese-gb18030)
 (setq display-time-24hr-format t)
 
-(setq hebrew-holidays nil)
-(setq islamic-holidays nil)
+(setq holiday-christian-holidays nil)
+(setq holiday-hebrew-holidays nil)
+(setq holiday-islamic-holidays nil)
+(setq holiday-solar-holidays nil)
+(setq holiday-bahai-holidays nil)
 
 (setq general-holidays '((holiday-fixed 1 1 "元旦")
 			 (holiday-fixed 2 14 "情人节")

@@ -17,14 +17,14 @@
 	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
 	    ))
 ;;(setq org-clock-into-drawer 1)
-(setq org-agenda-clockreport-parameter-plist
-      (quote(:maxlevel 5 :scope file :block today)))
-(setq org-clock-clocktable-default-properties '(:maxlevel 4 :scope file))
+(setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
+;;(setq org-clocktable-defaults '(:maxlevel 5 :scope file :block today :indent t ))
 
 ;; appt and reminder
 (require 'appt)
 (setq org-agenda-include-diary t)
 (setq appt-time-msg-list nil)
+(setq org-startup-indented t)
 
 ;; the appointment notification facility
 (setq
@@ -55,13 +55,36 @@
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "")
 		 (org-deadline-warning-days 5)
-                 (org-agenda-overriding-header "Next Actions:")))
+                 (org-agenda-overriding-header "TODO & NA:")))
 
-	  (todo "TODO" ((org-agenda-overriding-header "All Todos:")
+	  (todo "TODO" ((org-agenda-overriding-header "Todo:")
 			(org-agenda-sorting-strategy '(tag-up priority-down))
 			))
-	  (tags "NA" ((org-agenda-overriding-header "All Next Actions:")))
+	  (todo "HOLD" ((org-agenda-overriding-header "Hold and Waiting:")
+			(org-agenda-sorting-strategy '(tag-up priority-down))
+			))
+	  (todo "DELEGATED" ((org-agenda-overriding-header "Delegated:")
+			(org-agenda-sorting-strategy '(tag-up priority-down))
+			))
+	  (tags "NA" ((org-agenda-overriding-header "Next Action:")))
 	  ))
         ))
 
+(setq org-todo-keywords
+  '((sequence "TODO" "HOLD" "|" "DONE" "DELEGATED")))
+
+(setq org-capture-templates
+ '(("t" "Todo" entry (file+headline "" "Tasks")
+        "* TODO %?\n  %i\n  %a")
+   ("b" "Bookmark" entry (file+datetree "")
+        "* %?\nEntered on %U\n  %i\n  %a")))
+
+;;------------------ Writing tools  --------------------------
+(setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
+
+
+
+
 (provide 'init-authoring)
+
+
