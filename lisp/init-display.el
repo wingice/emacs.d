@@ -16,6 +16,7 @@
 (global-set-key [f12] 'toggle-truncate-lines)
 (global-set-key [f5] 'revert-buffer)
 (set-scroll-bar-mode 'right) 
+(setq auto-revert-interval 0.5)
 
 (setq Buffer-menu-name-width 30)
 (setq Buffer-menu-mode-width 12)

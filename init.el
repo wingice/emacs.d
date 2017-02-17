@@ -37,3 +37,13 @@
 (require 'server)
 (unless (server-running-p)
   (server-start))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-date ((t (:foreground "dim gray" :underline t))))
+ '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
+ '(outline-3 ((t (:foreground "dark green"))))
+ '(outline-4 ((t (:foreground "black")))))
