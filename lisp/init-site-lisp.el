@@ -17,4 +17,6 @@
 ;;(setq bookmark-default-file (concat emacs-dir "tmp/bookmarks")
 ;;      bookmark-save-flag nil)
 
+;; Packages: flx-ido company rinari flymake-ruby yasnippet projectile
+
 (provide 'init-site-lisp)
