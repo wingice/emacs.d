@@ -31,6 +31,7 @@
 (maybe-install-and-require 'flymake-ruby)
 (maybe-install-and-require 'yasnippet)
 (maybe-install-and-require 'projectile)
+(maybe-install-and-require 'web-mode)
 
 
 (provide 'init-site-lisp)

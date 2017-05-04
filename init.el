@@ -8,8 +8,11 @@
 (defconst *is-carbon-emacs* (eq window-system 'mac))
 (defconst *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(setq package-enable-at-startup nil)
 (package-initialize)
 
 ;;----------------------------------------------------------------------------
