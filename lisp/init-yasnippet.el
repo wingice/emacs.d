@@ -1,6 +1,3 @@
-(setq yas-snippet-dirs
-      '("~/.emacs.d/conf_data/snippets"
-	"~/.emacs.d/packages/yasnippet/snippets"))
 (setq yas-snippet-dirs (append yas-snippet-dirs
 			       '("~/.emacs.d/conf_data/snippets")
 			       ))
