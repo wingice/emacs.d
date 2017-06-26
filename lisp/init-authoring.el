@@ -28,9 +28,9 @@
 
 ;; the appointment notification facility
 (setq
- appt-message-warning-time 3
- appt-display-mode-line t ;; show in the modeline
- appt-display-format 'window) ;; use our func
+  appt-message-warning-time 3
+  appt-display-mode-line t ;; show in the modeline
+)
 
 (appt-activate 1) ;; active appt (appointment notification)
 (display-time) ;; time display is required for this...
@@ -78,10 +78,6 @@
         "* TODO %?\n  %i\n  %a")
    ("b" "Bookmark" entry (file+datetree "")
         "* %?\nEntered on %U\n  %i\n  %a")))
-
-;;------------------ Writing tools  --------------------------
-(setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
-
 
 
 
