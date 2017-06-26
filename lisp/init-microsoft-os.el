@@ -28,6 +28,7 @@
   (setq
    appt-message-warning-time 3
    appt-display-mode-line t ;; show in the modeline
+   display-time-default-load-average nil
    appt-display-format 'window) ;; use our func
   
   (appt-activate 1) ;; active appt (appointment notification)

@@ -1,6 +1,3 @@
-(projectile-global-mode)
-
-
 (setq projectile-known-projects-file
       (expand-file-name "projectile-bookmarks.eld" emacs-cache-dir))
 (setq projectile-cache-file
@@ -13,6 +10,7 @@
 (add-hook 'go-mode-hook (lambda ()
   (set (make-local-variable 'company-backends) '(company-go))
   (company-mode)
+  (projectile-mode)
   (add-hook 'before-save-hook 'gofmt-before-save)  
   ))
 
