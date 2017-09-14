@@ -11,10 +11,6 @@
   '(progn
     (push 'company-robe company-backends)))
 
-(setq rinari-tags-file-name "TAGS")
-(global-rinari-mode)
-
-
 ;; All the rails related bindings
 (global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
 (global-set-key (kbd "C-c f m") 'rinari-find-model)
@@ -54,7 +50,11 @@
 (add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 ;; customize rianri to skip not wanted files when find-file-in-project
-(setq findr-skip-directory-regexp "^\\.backups$\\|^_darcs$\\|^\\.git$\\|^CVS$\\|^\\.svn$\\|node_modules$\\|^tmp$") 
+(setq findr-skip-directory-regexp "^\\.backups$\\|^_darcs$\\|/\\.git$\\|^CVS$\\|^\\.svn$\\|/node_modules$\\|/tmp$") 
+
 (setq findr-skip-file-regexp "^[#\\.]\\|\\.cache$")
+
+(setq rinari-tags-file-name "TAGS")
+(global-rinari-mode)
 
 (provide 'init-rails)
