@@ -26,6 +26,12 @@
    (frame-parameter nil 'font)
    'han
    (font-spec :family "Hiragino Sans GB" ))
+
+  (defun popup-notification(title msg)
+    (interactive)
+    (ns-do-applescript (concatenate 'string "display notification \"" msg "\" with title \"" title "\""))
+    
+    )
 )
 
 

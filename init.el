@@ -32,6 +32,7 @@
 (require 'init-locales)
 (require 'init-microsoft-os)
 (require 'init-cpp)
+(require 'local-conf-tpl)
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
