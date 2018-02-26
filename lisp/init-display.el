@@ -39,4 +39,13 @@
 
 (add-hook 'comint-output-filter-functions 'remove-shell-wrong-sequences)
 
+(defun toggle-fold ()
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (hs-toggle-hiding)))
+
+(global-set-key (kbd "C-\\") 'toggle-fold)
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
 (provide 'init-display)
