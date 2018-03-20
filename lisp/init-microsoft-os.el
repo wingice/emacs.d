@@ -2,7 +2,7 @@
   (set-language-environment 'chinese-gbk)
   (prefer-coding-system 'utf-8-auto)
 ;;  (set-default-font "Courier SWA 14")
-  (set-default-font "Lucida Sans Typewriter-11")
+  (set-default-font "Consolas-10")
 
   (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
 		    'han '("Microsoft YaHei" . "unicode-bmp"))
