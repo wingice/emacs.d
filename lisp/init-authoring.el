@@ -18,7 +18,6 @@
 	    ))
 ;;(setq org-clock-into-drawer 1)
 (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
-;;(setq org-clocktable-defaults '(:maxlevel 5 :scope file :block today :indent t ))
 
 ;; appt and reminder
 (require 'appt)
@@ -94,12 +93,10 @@
       (popup-notification "GTD" appt-msg))
 )
 
-  ;; Resume clocking tasks when emacs is restarted
-  (org-clock-persistence-insinuate)
-  ;; Do not prompt to resume an active clock
-  (setq org-clock-persist-query-resume nil)
-  ;; Save the running clock and all clock history when exiting Emacs, load it on startup
-  (setq org-clock-persist t)
+  (setq org-clock-persist 'history) 
+  (org-clock-persistence-insinuate) ;; Resume clocking tasks when emacs is restarted
+  (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
+
 
   
 
