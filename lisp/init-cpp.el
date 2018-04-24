@@ -3,6 +3,8 @@
 (setq projectile-cache-file
       (expand-file-name "projectile.cache" emacs-cache-dir))
 
+(setq projectile-indexing-method 'alien)
+
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
 ;;(require 'go-flymake)
