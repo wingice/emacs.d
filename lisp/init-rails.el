@@ -7,9 +7,9 @@
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 (add-hook 'ruby-mode-hook 'robe-mode)
-(eval-after-load 'company
-  '(progn
-    (push 'company-robe company-backends)))
+;; (eval-after-load 'company
+;;   '(progn
+;;     (push 'company-robe company-backends)))
 
 ;; All the rails related bindings
 (global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
@@ -56,5 +56,27 @@
 
 (setq rinari-tags-file-name "TAGS")
 (global-rinari-mode)
+
+
+(require 'hideshow)
+(require 'sgml-mode)
+(require 'nxml-mode)
+
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
+(add-hook 'nxml-mode-hook 'hs-minor-mode)
+
+;; optional key bindings, easier than hs defaults
+(define-key nxml-mode-map (kbd "<C-tab>") 'hs-toggle-hiding)
+
+;;Temorpary fix the git slow-down emacs problem
+(setq vc-handled-backends nil)
 
 (provide 'init-rails)

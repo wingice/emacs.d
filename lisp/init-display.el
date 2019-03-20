@@ -26,7 +26,7 @@
 (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'shell-mode-hook (lambda ()
-                            (setq buffer-face-mode-face '(:height 120))
+                            (setq buffer-face-mode-face '(:height 96))
                             (buffer-face-mode)))
 
 (defun remove-shell-wrong-sequences (string)
@@ -47,5 +47,17 @@
 
 (global-set-key (kbd "C-\\") 'toggle-fold)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
+
+
+(defvar after-load-theme-hook nil
+    "Hook run after a color theme is loaded using `load-theme'.")
+(defadvice load-theme (after run-after-load-theme-hook activate)
+  "Run `after-load-theme-hook'."
+  (run-hooks 'after-load-theme-hook))
+
+(defun set-helm-hl-color()
+  (set-face-background 'helm-selection "#336622"))
+
+;;(add-hook 'after-load-theme-hook 'set-helm-hl-color)
 
 (provide 'init-display)

@@ -20,18 +20,4 @@
 (defun emacs-session-filename (SESSION-ID)
   (concat emacs-cache-dir SESSION-ID))
 
-(defun maybe-install-and-require (p)
-  (when (not (package-installed-p p))
-   (package-install p))
-  (require p))
-
-(maybe-install-and-require 'flx-ido)
-(maybe-install-and-require 'company)
-(maybe-install-and-require 'rinari)
-(maybe-install-and-require 'flymake-ruby)
-(maybe-install-and-require 'yasnippet)
-(maybe-install-and-require 'projectile)
-(maybe-install-and-require 'web-mode)
-
-
 (provide 'init-site-lisp)
