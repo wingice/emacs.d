@@ -38,6 +38,7 @@
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-(setq projectile-indexing-method 'alien)
+(setq projectile-generic-command "fd . -0")
+(setq projectile-indexing-method 'hybrid)
 
 (provide 'init-cpp)
