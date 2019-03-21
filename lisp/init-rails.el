@@ -1,5 +1,3 @@
-;;(require 'rhtml-mode)
-
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (defun my-web-mode-hook ()
   (set-face-attribute 'web-mode-symbol-face nil :foreground "darkgreen")
@@ -31,7 +29,7 @@
 (global-set-key (kbd "C-c f x") 'rinari-find-fixture)
 
 (global-set-key [f6] 'rinari-rgrep)
-(define-key ruby-mode-map [f9] 'update-rails-ctags)
+;;(define-key ruby-mode-map [f9] 'update-rails-ctags)
 
 (defun update-rails-ctags ()
   "Update rails project tags"
@@ -55,7 +53,7 @@
 (setq findr-skip-file-regexp "^[#\\.]\\|\\.cache$")
 
 (setq rinari-tags-file-name "TAGS")
-(global-rinari-mode)
+;;(global-rinari-mode)
 
 
 (require 'hideshow)

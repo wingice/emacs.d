@@ -58,4 +58,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (nimbus-theme darcula-theme helm-projectile tide json-mode web-mode projectile yasnippet flymake-ruby rinari company flx-ido))))
+    (markdown-mode nimbus-theme darcula-theme helm-projectile tide json-mode web-mode projectile yasnippet flymake-ruby rinari company flx-ido))))

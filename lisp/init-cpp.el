@@ -4,6 +4,7 @@
       (expand-file-name "projectile.cache" emacs-cache-dir))
 
 (setq projectile-indexing-method 'alien)
+(projectile-global-mode)
 
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
