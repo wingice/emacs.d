@@ -21,7 +21,7 @@
 
 ;; appt and reminder
 (require 'appt)
-(setq org-agenda-include-diary t)
+;;(setq org-agenda-include-diary t)
 (setq appt-time-msg-list nil)
 (setq org-startup-indented t)
 
@@ -31,7 +31,7 @@
   appt-display-mode-line t ;; show in the modeline
 )
 
-(appt-activate 1) ;; active appt (appointment notification)
+;;(appt-activate 1) ;; active appt (appointment notification)
 (display-time) ;; time display is required for this...
 
 ;; the appointment notification facility

@@ -41,4 +41,8 @@
 (setq projectile-generic-command "fd . -0")
 (setq projectile-indexing-method 'hybrid)
 
+(projectile-rails-global-mode)
+(setq projectile-rails-add-keywords nil)
+(setq projectile-rails-expand-snippet nil)
+
 (provide 'init-cpp)
