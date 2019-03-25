@@ -10,15 +10,15 @@
 ;;     (push 'company-robe company-backends)))
 
 ;; All the rails related bindings
-(global-set-key (kbd "C-c f f") 'helm-projectile)
-(global-set-key (kbd "C-c f m") 'projectile-rails-find-current-model)
-(global-set-key (kbd "C-c f v") 'projectile-rails-find-current-view)
-(global-set-key (kbd "C-c f c") 'projectile-rails-find-current-controller)
+(global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
+(global-set-key (kbd "C-c f m") 'rinari-find-model)
+(global-set-key (kbd "C-c f v") 'rinari-find-view)
+(global-set-key (kbd "C-c f c") 'rinari-find-controller)
 ;; (global-set-key (kbd "C-c f h") 'rinari-find-helper)
 ;; (global-set-key (kbd "C-c f i") 'rinari-find-migration)
 ;; (global-set-key (kbd "C-c f y") 'rinari-find-stylesheet)
 ;; (global-set-key (kbd "C-c f j") 'rinari-find-javascript)
-;; (global-set-key (kbd "C-c f r") 'rinari-find-rspec)
+(global-set-key (kbd "C-c f r") 'rinari-find-rspec)
 ;; (global-set-key (kbd "C-c f e") 'rinari-find-environment)
 ;; (global-set-key (kbd "C-c f l") 'rinari-find-plugin)
 ;; (global-set-key (kbd "C-c f n") 'rinari-find-configuration)
@@ -53,8 +53,7 @@
 (setq findr-skip-file-regexp "^[#\\.]\\|\\.cache$")
 
 (setq rinari-tags-file-name "TAGS")
-;;(global-rinari-mode)
-
+(global-rinari-mode)
 
 (require 'hideshow)
 (require 'sgml-mode)
