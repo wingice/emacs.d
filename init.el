@@ -10,7 +10,7 @@
 
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.milkbox.net/packages/")))
+			 ("melpa" . "http://melpa.org/packages/")))
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -58,4 +58,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (helm-rg projectile-ripgrep markdown-mode nimbus-theme darcula-theme helm-projectile tide json-mode web-mode projectile yasnippet flymake-ruby company flx-ido))))
+    (yaml-mode chruby helm-rg projectile-ripgrep markdown-mode nimbus-theme helm-projectile tide json-mode web-mode projectile yasnippet rinari flymake-ruby company flx-ido))))

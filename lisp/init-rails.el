@@ -75,5 +75,5 @@
 
 ;;Temorpary fix the git slow-down emacs problem
 (setq vc-handled-backends nil)
-
+(require 'chruby)
 (provide 'init-rails)
