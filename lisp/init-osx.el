@@ -31,7 +31,7 @@
     (interactive)
     (ns-do-applescript (concatenate 'string "display notification \"" msg "\" with title \"" title "\""))
   )
+  (global-set-key (kbd "s-SPC") 'helm-projectile)
 )
-
 
 (provide 'init-osx)
