@@ -4,9 +4,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;;  ---  Global Key Bindings   ---
-(global-set-key (kbd "M-[")   'pop-global-mark)
+(global-set-key (kbd "M-[")    'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
-(global-set-key (kbd "<apps>") 'helm-projectile)
+(global-set-key (kbd "<apps>") 'buffer-menu)
+(global-set-key (kbd "M-p")    'helm-projectile)
 
 ;;(setq make-backup-files nil)
 
