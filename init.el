@@ -13,6 +13,7 @@
 			 ("melpa" . "http://melpa.org/packages/")))
 
 (setq package-enable-at-startup nil)
+
 (package-initialize)
 
 ;;----------------------------------------------------------------------------
@@ -46,7 +47,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-selection ((t (:background "DarkGreen"))))
+ '(helm-selection ((t (:background "dark green"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
  '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
  '(outline-3 ((t (:foreground "dark green"))))
@@ -56,6 +57,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("39ecc1e45ef87d610d0a8296701327010239ab70d2fc22d8e6254a30c80d497e" default)))
  '(package-selected-packages
    (quote
-    (yaml-mode chruby helm-rg projectile-ripgrep markdown-mode nimbus-theme helm-projectile tide json-mode web-mode projectile yasnippet rinari flymake-ruby company flx-ido))))
+    (smart-jump robe yaml-mode chruby helm-rg projectile-ripgrep markdown-mode nimbus-theme helm-projectile tide json-mode web-mode projectile yasnippet rinari flymake-ruby company flx-ido))))

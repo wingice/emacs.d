@@ -73,6 +73,8 @@
 ;; optional key bindings, easier than hs defaults
 (define-key nxml-mode-map (kbd "<C-tab>") 'hs-toggle-hiding)
 
+(smart-jump-setup-default-registers)
+
 ;;Temorpary fix the git slow-down emacs problem
 (setq vc-handled-backends nil)
 (require 'chruby)
