@@ -48,6 +48,7 @@
 (global-set-key (kbd "C-\\") 'toggle-fold)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
+(setq ediff-diff-options "-w")
 
 (defvar after-load-theme-hook nil
     "Hook run after a color theme is loaded using `load-theme'.")
