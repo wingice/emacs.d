@@ -29,9 +29,13 @@
 
   (defun popup-notification(title msg)
     (interactive)
-    (ns-do-applescript (concatenate 'string "display notification \"" msg "\" with title \"" title "\""))
+    (ns-do-applescript (concatenate 'string "display notification \"" msg "\" with title \"" title "\" sound name \"Glass\""))
   )
+
+  (defun test-osx-notification()
+    (interactive)
+    (popup-notification "aa" "bb"))
+  
   (global-set-key (kbd "s-SPC") 'helm-projectile)
 )
-
 (provide 'init-osx)
