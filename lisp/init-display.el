@@ -62,4 +62,14 @@
 
 ;;(add-hook 'after-load-theme-hook 'set-helm-hl-color)
 
+;; (when (require 'so-long nil :noerror)
+;;    (global-so-long-mode 1)
+;;    (add-hook 'compilation-mode-hook 'so-long-minor-mode)
+;;    )
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 (provide 'init-display)

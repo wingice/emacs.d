@@ -9,8 +9,6 @@
 (global-set-key (kbd "<apps>") 'buffer-menu)
 (global-set-key (kbd "M-p")    'helm-projectile)
 
-;;(setq make-backup-files nil)
-
 (setq
    backup-by-copying t      ; don't clobber symlinks
    delete-old-versions t

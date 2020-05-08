@@ -38,6 +38,10 @@
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
+(add-hook 'typescript-mode-hook
+	  '(lambda ()
+	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
+
 (setq projectile-generic-command "fd . -0")
 (setq projectile-indexing-method 'hybrid)
 

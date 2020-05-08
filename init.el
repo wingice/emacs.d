@@ -1,5 +1,8 @@
-;;; This file bootstraps the configuration, which is divided into
-;;; a number of other files.
+;;  Key Bindings
+;;  M+d     -> Kill word
+;;  M+b M+d ->Select whole word and kill word
+;;  
+
 
 ;;----------------------------------------------------------------------------
 ;; Which functionality to enable (use t or nil for true and false)
@@ -35,6 +38,7 @@
 (require 'init-microsoft-os)
 (require 'local-conf-tpl)
 
+
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
@@ -47,7 +51,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-selection ((t (:background "dark green" :foreground "white"))))
+ '(helm-selection ((t (:background "dark green" :foreground "gray92"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
  '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
  '(outline-3 ((t (:foreground "dark green"))))

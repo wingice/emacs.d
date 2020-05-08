@@ -16,7 +16,7 @@
 	  (lambda()
 	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
 	    ))
-;;(setq org-clock-into-drawer 1)
+(setq org-clock-into-drawer nil)
 (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
 
 ;; appt and reminder
