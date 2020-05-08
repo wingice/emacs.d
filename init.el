@@ -27,12 +27,12 @@
 (require 'init-rails)
 (require 'init-misc)
 (require 'init-yasnippet)
-(require 'init-linux)
-(require 'init-osx)
 (require 'init-authoring)
 (require 'init-locales)
-(require 'init-microsoft-os)
 (require 'init-cpp)
+(require 'init-linux)
+(require 'init-osx)
+(require 'init-microsoft-os)
 (require 'local-conf-tpl)
 
 ;;----------------------------------------------------------------------------
@@ -47,7 +47,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-selection ((t (:background "dark green"))))
+ '(helm-selection ((t (:background "dark green" :foreground "white"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
  '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
  '(outline-3 ((t (:foreground "dark green"))))

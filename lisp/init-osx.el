@@ -36,6 +36,6 @@
     (interactive)
     (popup-notification "aa" "bb"))
   
-  (global-set-key (kbd "s-SPC") 'helm-projectile)
+  (global-set-key (kbd "s-p") 'helm-projectile)
 )
 (provide 'init-osx)
