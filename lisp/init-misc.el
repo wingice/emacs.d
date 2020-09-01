@@ -52,4 +52,11 @@
 (global-set-key (kbd "<s-left>")  'previous-code-buffer)
 (global-set-key (kbd "<s-right>") 'next-code-buffer)
 
+
+(global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (previous-code-buffer)))
+(global-set-key "\C-x3" (lambda () (interactive)(split-window-horizontally) (previous-code-buffer)))
+
+(setq gc-cons-threshold 100000000)    ;; Performance enhancement
+(setq read-process-output-max (* 1024 1024)) 
+
 (provide 'init-misc)
