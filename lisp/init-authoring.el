@@ -128,6 +128,37 @@
 	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
 	    ))
 
+(add-hook 'after-init-hook 'org-roam-mode)
+(setq org-roam-tag-sources '(prop all-directories))
+(setq org-roam-completion-system 'helm)
+
+(setq org-roam-capture-templates
+      '(("i" "internet tools and bookmarks" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "internet/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("r" "research and development" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "research/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("g" "growth and learning" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "growth/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("h" "hobbies" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "hobbies/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("o" "others" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "others/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	))
 (provide 'init-authoring)
 
 

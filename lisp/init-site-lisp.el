@@ -4,11 +4,15 @@
 (defconst emacs-tmp-dir (concat emacs-dir "tmp/") "cache file directory.")
 (defconst emacs-cache-dir (concat emacs-dir "tmp/cache/") "cache file directory.")
 (defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
+(defconst emacs-autosave-dir (concat emacs-dir "tmp/autosave/") "directory to backup files.")
 
 (setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
-(setq auto-save-list-file-prefix (concat emacs-backup-dir "auto-save-list/"))
-(setq backup-directory-alist `(("." . "~/.emacs.d/tmp/backup/auto-save-list")))
-
+(setq backup-directory-alist
+        `((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+        `((".*" ,emacs-autosave-dir t)))
+(setq auto-save-list-file-prefix
+        emacs-autosave-dir)
 
 ;;(setq bookmark-default-file (concat emacs-dir "tmp/bookmarks")
 ;;      bookmark-save-flag nil)

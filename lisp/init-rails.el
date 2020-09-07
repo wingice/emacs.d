@@ -4,6 +4,8 @@
   (set-face-attribute 'web-mode-html-attr-value-face nil :foreground "darkgreen"))
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
+(advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding)
+
 (add-hook 'ruby-mode-hook 'robe-mode)
 ;; (eval-after-load 'company
 ;;   '(progn
@@ -77,5 +79,7 @@
 
 ;;Temorpary fix the git slow-down emacs problem
 (setq vc-handled-backends nil)
+(setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes")
+
 (require 'chruby)
 (provide 'init-rails)
