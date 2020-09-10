@@ -56,6 +56,12 @@
 (global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (previous-code-buffer)))
 (global-set-key "\C-x3" (lambda () (interactive)(split-window-horizontally) (previous-code-buffer)))
 
+(global-set-key [(control ?.)] 'goto-last-change)
+(global-set-key [(control ?,)] 'goto-last-change-reverse)
+
+(global-set-key (kbd "M-u") 'helm-bookmarks)
+
+
 (setq gc-cons-threshold 100000000)    ;; Performance enhancement
 (setq read-process-output-max (* 1024 1024)) 
 
