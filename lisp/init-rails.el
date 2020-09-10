@@ -7,9 +7,9 @@
 (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding)
 
 (add-hook 'ruby-mode-hook 'robe-mode)
-;; (eval-after-load 'company
-;;   '(progn
-;;     (push 'company-robe company-backends)))
+(eval-after-load 'company
+  '(progn
+    (push 'company-robe company-backends)))
 
 ;; All the rails related bindings
 (global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
