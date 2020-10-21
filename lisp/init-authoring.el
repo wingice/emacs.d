@@ -83,7 +83,7 @@
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
         "* TODO %?\n  %i\n  %a")
-   ("b" "Bookmark" entry (file+datetree "")
+   ("b" "Bookmark" entry (file+olp+datetree "")
         "* %?\nEntered on %U\n  %i\n  %a")))
 
 (defun popup-appt-msg(min-to-app new-time appt-msg)
@@ -148,14 +148,14 @@
 	 :file-name "growth/${slug}-%<%Y%m%d%H%M%S>"
 	 :head "#+title: ${title}"
 	 :unnarrowed t)
+	("a" "all/general knowledges" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "general/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
 	("h" "hobbies" plain #'org-roam-capture--get-point
 	 "%?"
 	 :file-name "hobbies/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
-	 :unnarrowed t)
-	("o" "others" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "others/${slug}-%<%Y%m%d%H%M%S>"
 	 :head "#+title: ${title}"
 	 :unnarrowed t)
 	))
