@@ -61,6 +61,7 @@
 
 (global-set-key (kbd "M-u") 'helm-bookmarks)
 
+(add-hook 'json-mode-hook #'flycheck-mode)
 
 (setq gc-cons-threshold 100000000)    ;; Performance enhancement
 (setq read-process-output-max (* 1024 1024)) 

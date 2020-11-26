@@ -119,6 +119,7 @@
 (eval-after-load "org" '(my-after-load-org))
 
 
+(setq nxml-child-indent 4 nxml-attribute-indent 4)
 
 ;; update appt each time agenda opened
 (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)

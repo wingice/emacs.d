@@ -3,8 +3,11 @@
 (setq projectile-cache-file
       (expand-file-name "projectile.cache" emacs-cache-dir))
 
+(setq projectile-mode-line nil)
 (setq projectile-indexing-method 'alien)
 (projectile-global-mode)
+
+(add-to-list 'projectile-globally-ignored-directories "node_modules")
 
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")

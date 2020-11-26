@@ -2,7 +2,7 @@
   (set-language-environment 'chinese-gbk)
   (prefer-coding-system 'utf-8-auto)
 ;;  (set-frame-font "Courier SWA 14")
-  (set-frame-font "Consolas-10")
+  (set-frame-font "Consolas-11")
 
   (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
 		    'han '("Microsoft YaHei" . "unicode-bmp"))
@@ -30,6 +30,10 @@
   (defun popup-notification(title msg)
     (interactive)
     (powershell-toast msg))
-  )
 
+   (setq projectile-enable-caching t)
+   (setq default-directory "~")
+
+
+  )
 (provide 'init-microsoft-os)

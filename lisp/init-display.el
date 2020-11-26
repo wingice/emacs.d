@@ -44,7 +44,7 @@
     (end-of-line)
     (hs-toggle-hiding)))
 
-(global-set-key (kbd "C-\\") 'toggle-fold)
+(global-set-key (kbd "C-M-=") 'hs-toggle-hiding)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 (setq ediff-diff-options "-w")
