@@ -24,4 +24,6 @@
 (defun emacs-session-filename (SESSION-ID)
   (concat emacs-cache-dir SESSION-ID))
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (provide 'init-site-lisp)

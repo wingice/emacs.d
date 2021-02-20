@@ -93,12 +93,12 @@
       (popup-notification "GTD" appt-msg))
 )
 
-  (setq org-clock-persist 'history) 
+  (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate) ;; Resume clocking tasks when emacs is restarted
   (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
 
 
-  
+
 
 (setq org-timer-default-timer 25)
 ;;Modify the org-clock-in so that a timer is started with the default
@@ -133,6 +133,7 @@
 (setq org-roam-tag-sources '(prop all-directories))
 (setq org-roam-completion-system 'helm)
 
+(setq org-roam-index-file "org-roam-note-index.org")
 (setq org-roam-capture-templates
       '(("i" "internet tools and bookmarks" plain #'org-roam-capture--get-point
 	 "%?"
@@ -161,5 +162,3 @@
 	 :unnarrowed t)
 	))
 (provide 'init-authoring)
-
-

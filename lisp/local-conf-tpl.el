@@ -17,3 +17,6 @@
 ;;  (setq org-agenda-files '("c:/workspace/orgagenda/agenda.org" "c:/workspace/orgagenda/remember_notes.org"))
 ;;  (setq org-default-notes-file "c:/workspace/orgagenda/remember_notes.org")
 
+
+
+;; (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")

@@ -79,7 +79,7 @@
 
 ;;Temorpary fix the git slow-down emacs problem
 (setq vc-handled-backends nil)
-(setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes")
 
 (require 'chruby)
+
 (provide 'init-rails)
