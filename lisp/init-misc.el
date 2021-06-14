@@ -29,7 +29,7 @@
 (defun next-code-buffer ()
   (interactive)
   (let (( bread-crumb (buffer-name) ))
-    (next-buffer)
+    (bs-cycle-next)
     (while
         (and
          (string-match-p "^\*" (buffer-name))
@@ -39,7 +39,7 @@
 (defun previous-code-buffer ()
   (interactive)
   (let (( bread-crumb (buffer-name) ))
-    (previous-buffer)
+    (bs-cycle-previous)
     (while
         (and
          (string-match-p "^\*" (buffer-name))
@@ -64,6 +64,6 @@
 (add-hook 'json-mode-hook #'flycheck-mode)
 
 (setq gc-cons-threshold 100000000)    ;; Performance enhancement
-(setq read-process-output-max (* 1024 1024)) 
+(setq read-process-output-max (* 1024 1024))
 
 (provide 'init-misc)
