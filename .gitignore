@@ -9,6 +9,8 @@ CVS
 *~
 .cvsignore
 .*.lock
+.DS_Store
+org-roam.db
 /tramp
 /TODO
 /anything-c-adaptive-history
