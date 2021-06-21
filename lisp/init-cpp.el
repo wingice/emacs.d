@@ -5,7 +5,12 @@
 
 (setq projectile-mode-line nil)
 (setq projectile-indexing-method 'alien)
-(projectile-global-mode)
+(setq projectile-require-project-root t)
+(setq projectile-ignored-projects '("~/" "c:/"))
+(projectile-mode +1)
+
+(projectile-update-project-type 'bazel
+				:marker-files '("NOTEXISTED"))
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
 
@@ -17,7 +22,7 @@
   (set (make-local-variable 'company-backends) '(company-go))
   (company-mode)
   (projectile-mode)
-  (add-hook 'before-save-hook 'gofmt-before-save)  
+  (add-hook 'before-save-hook 'gofmt-before-save)
   ))
 
 
@@ -46,9 +51,5 @@
 	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
 
 (setq projectile-generic-command "fd . -0")
-
-(projectile-rails-global-mode)
-(setq projectile-rails-add-keywords nil)
-(setq projectile-rails-expand-snippet nil)
 
 (provide 'init-cpp)
