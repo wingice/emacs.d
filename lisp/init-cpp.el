@@ -6,11 +6,8 @@
 (setq projectile-mode-line nil)
 (setq projectile-indexing-method 'alien)
 (setq projectile-require-project-root t)
-(setq projectile-ignored-projects '("~/" "c:/"))
+(setq projectile-ignored-projects '("~/" "c://"))
 (projectile-mode +1)
-
-(projectile-update-project-type 'bazel
-				:marker-files '("NOTEXISTED"))
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
 
