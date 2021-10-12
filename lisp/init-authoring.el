@@ -150,14 +150,19 @@
 	 :file-name "growth/${slug}-%<%Y%m%d%H%M%S>"
 	 :head "#+title: ${title}"
 	 :unnarrowed t)
-	("a" "all/general knowledges" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "general/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
-	 :unnarrowed t)
 	("h" "hobbies" plain #'org-roam-capture--get-point
 	 "%?"
 	 :file-name "hobbies/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("p" "parenting" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "parenting/${slug}-%<%Y%m%d%H%M%S>"
+	 :head "#+title: ${title}"
+	 :unnarrowed t)
+	("a" "all/general knowledges" plain #'org-roam-capture--get-point
+	 "%?"
+	 :file-name "general/${slug}-%<%Y%m%d%H%M%S>"
 	 :head "#+title: ${title}"
 	 :unnarrowed t)
 	))
