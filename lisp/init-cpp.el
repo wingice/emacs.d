@@ -1,3 +1,9 @@
+(setq projectile-ignored-projects '("~/"
+				    "c://windows"
+				    "c://"))
+(setq projectile-project-root-files
+   '("dune-project" "pubspec.yaml" "info.rkt" "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask" "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot" "project.clj" "build.sc" "build.sbt" "application.properties" "gradlew" "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini" "setup.py" "requirements.txt" "manage.py" "angular.json" "package.json" "gulpfile.js" "Gruntfile.js" "mix.exs" "rebar.config" "composer.json" "CMakeLists.txt" "Makefile" "debian/control" "flake.nix" "default.nix" "meson.build" "SConstruct" "GTAGS" "TAGS" "configure.ac" "configure.in" "cscope.out"))
+
 (setq projectile-known-projects-file
       (expand-file-name "projectile-bookmarks.eld" emacs-cache-dir))
 (setq projectile-cache-file
@@ -6,7 +12,6 @@
 (setq projectile-mode-line nil)
 (setq projectile-indexing-method 'alien)
 (setq projectile-require-project-root t)
-(setq projectile-ignored-projects '("~/" "c://"))
 (projectile-mode +1)
 
 (add-to-list 'projectile-globally-ignored-directories "node_modules")
