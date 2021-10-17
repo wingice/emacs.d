@@ -49,8 +49,8 @@
 
 
 
-(global-set-key (kbd "<s-left>")  'previous-code-buffer)
-(global-set-key (kbd "<s-right>") 'next-code-buffer)
+(global-set-key (kbd "<s-right>")  'previous-code-buffer)
+(global-set-key (kbd "<s-left>") 'next-code-buffer)
 
 
 (global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (previous-code-buffer)))
