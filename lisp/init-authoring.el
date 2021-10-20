@@ -126,8 +126,6 @@
   :init
   (setq org-roam-database-connector 'sqlite3)
   (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory (file-truename "c:\\workspace\\github\\knowledge-n-tools\\notes\\"))
   :config
   (setq org-roam-tag-sources '(prop all-directories))
   (setq org-roam-completion-system 'helm)

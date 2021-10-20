@@ -8,6 +8,9 @@
 (global-set-key (kbd "<menu>") 'buffer-menu)
 (global-set-key (kbd "<apps>") 'buffer-menu)
 (global-set-key (kbd "M-p")    'helm-projectile)
+(global-set-key (kbd "M-j") 'fd-name-dired)
+
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks

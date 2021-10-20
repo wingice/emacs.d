@@ -31,5 +31,6 @@
   (interactive)
   (set-mark-command 1))
 (global-set-key (kbd "M-`") 'jump-to-mark)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 (provide 'init-ido)
