@@ -1,4 +1,4 @@
-(ido-mode t)
+;; (ido-mode t)
 ;; (ido-everywhere t)
 (setq ido-enable-flex-matching t)
 (setq ido-use-filename-at-point 'guess)
@@ -31,6 +31,6 @@
   (interactive)
   (set-mark-command 1))
 (global-set-key (kbd "M-`") 'jump-to-mark)
-(global-set-key (kbd "C-x C-f") 'ido-find-file)
+;;(global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 (provide 'init-ido)

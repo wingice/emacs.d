@@ -1,7 +1,8 @@
 (use-package helm
   :config
   (require 'helm-config)
-  (helm-mode 1))
+  (helm-mode 1)
+  (add-to-list 'helm-completing-read-handlers-alist '(find-file . ido)))
 
 
 (use-package projectile
