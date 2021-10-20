@@ -6,25 +6,10 @@
 
 (add-hook 'markdown-mode-hook (lambda () (visual-line-mode)))
 
-;; OrgMode
-(define-key global-map "\C-cr" 'org-remember)
-(add-to-list 'auto-mode-alist '("\\.\\(org\\ |org_archive\\|txt\\)$" . org-mode))
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-
-(add-hook 'org-mode-hook
-	  (lambda()
-	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
-	    ))
-(setq org-clock-into-drawer nil)
-(setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
-
 ;; appt and reminder
 (require 'appt)
 ;;(setq org-agenda-include-diary t)
 (setq appt-time-msg-list nil)
-(setq org-startup-indented t)
-
 ;; the appointment notification facility
 (setq
   appt-message-warning-time 3
@@ -41,6 +26,14 @@
  display-time-default-load-average nil
  appt-display-format 'window) ;; use our func
 
+(defun popup-appt-msg(min-to-app new-time appt-msg)
+  (interactive)
+  (select-frame-set-input-focus (selected-frame))
+  (if (functionp 'popup-notification)
+      (popup-notification "GTD" appt-msg))
+)
+(setq appt-disp-window-function (function popup-appt-msg))
+
 
 (defun my-org-clocktable-indent-string (level)
   (if (= level 1)
@@ -51,8 +44,43 @@
               str (concat str "___")))
       (concat str "_ "))))
 
-(advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
 
+
+
+(use-package org
+  :defer
+  :hook (org-mode . (lambda ()(add-hook 'before-save-hook 'org-agenda-to-appt t t)))
+  :config
+  (setq org-clock-into-drawer nil)
+  (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
+  (setq org-clock-into-drawer nil)
+  (setq org-startup-indented t)
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate) ;; Resume clocking tasks when emacs is restarted
+  (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
+  (defun my-after-load-org ()  (add-to-list 'org-modules 'org-timer))
+  (eval-after-load "org" '(my-after-load-org))
+  (setq org-timer-default-timer 25)
+
+  (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\ |org_archive\\|txt\\)$" . org-mode))
+  ;;Modify the org-clock-in so that a timer is started with the default
+  ;;value except if a timer is already started :
+  (add-hook 'org-clock-in-hook '(lambda ()
+				  (if (not org-timer-default-timer)
+				      (org-timer-set-timer '(16)))))
+  (add-hook 'org-clock-out-hook '(lambda ()
+				   (setq org-mode-line-string nil)
+				   (org-timer-cancel-timer)
+				   ))
+  (add-hook 'org-timer-done-hook '(lambda()
+				    (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
+  ;; update appt each time agenda opened
+  (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+  (advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
+  :bind (("C-c a" . 'org-agenda)
+         ("C-c c" . 'org-capture)
+         ("C-c r" . 'org-remember)))
 
 (setq org-agenda-custom-commands
       '(("d" "Daily Planner"
@@ -86,55 +114,26 @@
    ("b" "Bookmark" entry (file+olp+datetree "")
         "* %?\nEntered on %U\n  %i\n  %a")))
 
-(defun popup-appt-msg(min-to-app new-time appt-msg)
-  (interactive)
-  (select-frame-set-input-focus (selected-frame))
-  (if (functionp 'popup-notification)
-      (popup-notification "GTD" appt-msg))
-)
-
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate) ;; Resume clocking tasks when emacs is restarted
-  (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
+(use-package emacsql-sqlite3
+  :ensure t
+  )
 
 
-
-
-(setq org-timer-default-timer 25)
-;;Modify the org-clock-in so that a timer is started with the default
-;;value except if a timer is already started :
-(add-hook 'org-clock-in-hook '(lambda ()
-				(if (not org-timer-default-timer)
-				    (org-timer-set-timer '(16)))))
-(add-hook 'org-clock-out-hook '(lambda ()
-				 (setq org-mode-line-string nil)
-				 (org-timer-cancel-timer)
-				 ))
-
-(add-hook 'org-timer-done-hook '(lambda()
-				  (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
-
-(defun my-after-load-org ()
-  (add-to-list 'org-modules 'org-timer))
-(eval-after-load "org" '(my-after-load-org))
-
-
-(setq nxml-child-indent 4 nxml-attribute-indent 4)
-
-;; update appt each time agenda opened
-(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
-(setq appt-disp-window-function (function popup-appt-msg))
-(add-hook 'org-mode-hook
-	  (lambda()
-	    (add-hook 'before-save-hook 'org-agenda-to-appt t t)
-	    ))
-
-(add-hook 'after-init-hook 'org-roam-mode)
-(setq org-roam-tag-sources '(prop all-directories))
-(setq org-roam-completion-system 'helm)
-
-(setq org-roam-index-file "org-roam-note-index.org")
-(setq org-roam-capture-templates
+(use-package org-roam
+  :after org
+  :ensure t
+  :commands (org-oram-node-find org-roam-node-insert)
+  :init
+  (setq org-roam-database-connector 'sqlite3)
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory (file-truename "c:\\workspace\\github\\knowledge-n-tools\\notes\\"))
+  :config
+  (setq org-roam-tag-sources '(prop all-directories))
+  (setq org-roam-completion-system 'helm)
+  (setq org-roam-index-file "org-roam-note-index.org")
+  (org-roam-db-autosync-mode)
+  (setq org-roam-capture-templates
       '(("i" "internet tools and bookmarks" plain #'org-roam-capture--get-point
 	 "%?"
 	 :file-name "internet/${slug}-%<%Y%m%d%H%M%S>"
@@ -165,7 +164,7 @@
 	 :file-name "general/${slug}-%<%Y%m%d%H%M%S>"
 	 :head "#+title: ${title}"
 	 :unnarrowed t)
-	))
+	)))
 
 
 (defun compile-on-save-start ()
@@ -183,5 +182,7 @@ nothing happens."
         (add-hook 'after-save-hook 'compile-on-save-start nil t))
       (kill-local-variable 'after-save-hook)))
 
+  (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
+  (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 
 (provide 'init-authoring)

@@ -1,20 +1,25 @@
-(setq projectile-ignored-projects '("~/"
-				    "c://windows"
-				    "c://"))
-(setq projectile-project-root-files
-   '("dune-project" "pubspec.yaml" "info.rkt" "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask" "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot" "project.clj" "build.sc" "build.sbt" "application.properties" "gradlew" "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini" "setup.py" "requirements.txt" "manage.py" "angular.json" "package.json" "gulpfile.js" "Gruntfile.js" "mix.exs" "rebar.config" "composer.json" "CMakeLists.txt" "Makefile" "debian/control" "flake.nix" "default.nix" "meson.build" "SConstruct" "GTAGS" "TAGS" "configure.ac" "configure.in" "cscope.out"))
+(use-package helm
+  :config
+  (require 'helm-config)
+  (helm-mode 1))
 
-(setq projectile-known-projects-file
+
+(use-package projectile
+  :ensure
+  :config
+  (setq projectile-known-projects-file
       (expand-file-name "projectile-bookmarks.eld" emacs-cache-dir))
-(setq projectile-cache-file
+  (setq projectile-cache-file
       (expand-file-name "projectile.cache" emacs-cache-dir))
-
-(setq projectile-mode-line nil)
-(setq projectile-indexing-method 'alien)
-(setq projectile-require-project-root t)
-(projectile-mode +1)
-
-(add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (setq projectile-mode-line nil)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-require-project-root t)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (setq projectile-generic-command "fd . -0")
+  (setq projectile-ignored-projects '("~/" "c://windows" "c://"))
+  (setq projectile-project-root-files
+   '("dune-project" "pubspec.yaml" "info.rkt" "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask" "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot" "project.clj" "build.sc" "build.sbt" "application.properties" "gradlew" "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini" "setup.py" "requirements.txt" "manage.py" "angular.json" "package.json" "gulpfile.js" "Gruntfile.js" "mix.exs" "rebar.config" "composer.json" "CMakeLists.txt" "Makefile" "debian/control" "flake.nix" "default.nix" "meson.build" "SConstruct" "GTAGS" "TAGS" "configure.ac" "configure.in" "cscope.out"))
+  (projectile-mode +1))
 
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
@@ -51,7 +56,5 @@
 (add-hook 'typescript-mode-hook
 	  '(lambda ()
 	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
-
-(setq projectile-generic-command "fd . -0")
 
 (provide 'init-cpp)

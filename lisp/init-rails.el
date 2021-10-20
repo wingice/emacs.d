@@ -61,6 +61,8 @@
 (require 'sgml-mode)
 (require 'nxml-mode)
 
+(setq nxml-child-indent 4 nxml-attribute-indent 4)
+
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
                "<!--\\|<[^/>]*[^/]>"
