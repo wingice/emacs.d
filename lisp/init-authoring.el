@@ -110,9 +110,9 @@
 
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
-        "* TODO %?\n  %i\n  %a")
-   ("b" "Bookmark" entry (file+olp+datetree "")
-        "* %?\nEntered on %U\n  %i\n  %a")))
+        "* TODO %?\n  %i\n  %a\n")
+   ("b" "Bookmark" entry (file+headline "" "Bookmarks")
+        "* %?\nEntered on %U\n  %i\n  %a\n")))
 
 (use-package emacsql-sqlite3
   :ensure t

@@ -3,6 +3,10 @@
    (load-file personal-settings))
 )
 
+(setq org-default-notes-file (concat org-directory "/remember.org"))
+(setq org-agenda-files (list (concat org-directory "/planning.org")
+			     (concat org-directory "/tracking.org")
+			     (concat org-directory "/remember.org")))
 
 (provide 'local-conf-tpl)
 
@@ -17,5 +21,8 @@
 
 ;;  (setq org-agenda-files '("c:/workspace/orgagenda/agenda.org" "c:/workspace/orgagenda/remember_notes.org"))
 ;;  (setq org-default-notes-file "c:/workspace/orgagenda/remember_notes.org")
+
+;;  (setq org-directory "~/workspace/orgfiles")
+;;  (setq org-default-notes-file (concat org-directory "remember.org"))
 
 ;; (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
