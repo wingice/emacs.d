@@ -33,5 +33,6 @@ eshell/
 recentf
 server
 packages/
+network-security.data
 
 org-roam.db

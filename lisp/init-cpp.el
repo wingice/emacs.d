@@ -5,6 +5,11 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . ido)))
 
+(defun li-create-file-in-dir(name)
+  (interactive)
+  (let* ((file (read-file-name "Create file: " default-directory name nil name nil))
+	 (expanded (expand-file-name file)))
+    (find-file expanded)))
 
 (use-package projectile
   :ensure
