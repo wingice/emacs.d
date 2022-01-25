@@ -7,6 +7,7 @@
 (setq org-agenda-files (list (concat org-directory "/planning.org")
 			     (concat org-directory "/tracking.org")
 			     (concat org-directory "/remember.org")))
+(setq org-roam-index-file (concat org-roam-directory "/NoteIndex.org"))
 
 (provide 'local-conf-tpl)
 
@@ -19,10 +20,5 @@
 ;;(setq find-program "c:\\Users\\i348151\\scoop\\shims\\find.exe")
 ;;(setq find-ls-option '("-print0 | xargs -0 ls -alhd" . ""))
 
-;;  (setq org-agenda-files '("c:/workspace/orgagenda/agenda.org" "c:/workspace/orgagenda/remember_notes.org"))
-;;  (setq org-default-notes-file "c:/workspace/orgagenda/remember_notes.org")
-
 ;;  (setq org-directory "~/workspace/orgfiles")
-;;  (setq org-default-notes-file (concat org-directory "remember.org"))
-
 ;; (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
