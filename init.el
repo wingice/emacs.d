@@ -1,7 +1,7 @@
 ;;  Key Bindings
 ;;  M+d     -> Kill word
-;;  M+b M+d ->Select whole word and kill word
-;;
+;;  M+b M+d -> Select whole word and kill word
+;;  M+\     -> Kill space
 
 ;;----------------------------------------------------------------------------
 ;; Which functionality to enable (use t or nil for true and false)
