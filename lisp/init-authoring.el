@@ -132,35 +132,29 @@
   (setq org-roam-index-file "org-roam-note-index.org")
   (org-roam-db-autosync-mode)
   (setq org-roam-capture-templates
-      '(("i" "internet tools and bookmarks" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "internet/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+      '(("i" "internet tools and bookmarks" plain "%?"
+	 :target (file+head "internet/${slug}-%<%Y%m%d%H%M%S>.org"
+	                    "#+title: ${title}")
 	 :unnarrowed t)
-	("r" "research and development" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "research/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+	("r" "research and development" plain "%?"
+	 :target (file+head "research/${slug}-%<%Y%m%d%H%M%S>.org"
+			    "#+title: ${title}")
 	 :unnarrowed t)
-	("g" "growth and learning" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "growth/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+	("g" "growth and learning" plain "%?"
+	 :target (file+head "growth/${slug}-%<%Y%m%d%H%M%S>.org"
+			    :head "#+title: ${title}")
 	 :unnarrowed t)
-	("h" "hobbies" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "hobbies/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+	("h" "hobbies" plain "%?"
+	 :target (file+head "hobbies/${slug}-%<%Y%m%d%H%M%S>.org"
+			    "#+title: ${title}")
 	 :unnarrowed t)
-	("p" "parenting" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "parenting/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+	("p" "parenting" "%?"
+	 :target (file+head "parenting/${slug}-%<%Y%m%d%H%M%S>.org"
+			    "#+title: ${title}")
 	 :unnarrowed t)
-	("a" "all/general knowledges" plain #'org-roam-capture--get-point
-	 "%?"
-	 :file-name "general/${slug}-%<%Y%m%d%H%M%S>"
-	 :head "#+title: ${title}"
+	("a" "all/general knowledges" plain "%?"
+	 :target (file+head "general/${slug}-%<%Y%m%d%H%M%S>.org"
+	                    "#+title: ${title}")
 	 :unnarrowed t)
 	)))
 

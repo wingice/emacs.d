@@ -71,4 +71,7 @@
 	  '(lambda ()
 	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
 
+(electric-pair-mode 1)
+(setq electric-pair-preserve-balance nil)
+
 (provide 'init-cpp)
