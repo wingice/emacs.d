@@ -2,6 +2,7 @@
 ;;  M+d     -> Kill word
 ;;  M+b M+d -> Select whole word and kill word
 ;;  M+\     -> Kill space
+;;  (force-writable)  -> to make the file writable
 
 ;;----------------------------------------------------------------------------
 ;; Which functionality to enable (use t or nil for true and false)

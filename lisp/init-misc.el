@@ -7,8 +7,12 @@
 (global-set-key (kbd "M-[")    'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 (global-set-key (kbd "<apps>") 'buffer-menu)
+(global-set-key (kbd "<C-268632080>") 'buffer-menu)
 (global-set-key (kbd "M-p")    'helm-projectile)
 (global-set-key (kbd "M-j")    'fd-name-dired)
+(global-set-key (kbd "<home>") 'move-beginning-of-line)
+(global-set-key (kbd "<end>")  'move-end-of-line)
+
 
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 
@@ -68,5 +72,30 @@
 
 (setq gc-cons-threshold 100000000)    ;; Performance enhancement
 (setq read-process-output-max (* 1024 1024))
+
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+(require 'p4) ;; C+x p e -> edit the file
+;;export P4PORT=perforce3230:3230   set ENV in .bashrc
+;;export P4CLIENT=pcode3230
+
+(defun force-writable()
+  (interactive)
+  (change-file-to-writable)
+  (revert-buffer))
+
+(defun change-file-to-writable()
+  (cond ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+         (progn
+           (shell-command-to-string (concat "attrib -R " (buffer-file-name (current-buffer))))
+           ))
+        ((or (eq system-type 'gnu/linux) (eq system-type 'darwin))
+         (progn
+           (shell-command-to-string (concat "chmod u+w " (buffer-file-name (current-buffer))))
+           ))
+        (t (message "file permission change not handle for OS %s" system-type))               
+	)
+  )
 
 (provide 'init-misc)

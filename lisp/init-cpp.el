@@ -71,7 +71,39 @@
 	  '(lambda ()
 	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
 
-(electric-pair-mode 1)
-(setq electric-pair-preserve-balance nil)
+(require 'smartparens-config)
+(add-hook 'js-mode-hook #'smartparens-mode)
+
+;; ---   javacript ---
+(use-package js2-mode
+  :ensure t
+  :interpreter (("node" . js2-mode))
+  :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
+  :mode "\\.\\(js\\|jsonx\\)$"
+  :config
+  (add-hook 'js-mode-hook 'js2-minor-mode)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+  (setq js2-highlight-level 3
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil))
+
+
+(use-package js2-refactor
+  :defer t
+  :diminish js2-refactor-mode
+  :commands js2-refactor-mode
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  :config
+  (js2r-add-keybindings-with-prefix "C-c C-r"))
+
+(setq js2-skip-preprocessor-directives t)
+
+(require 'p4) ;; C+x p e -> edit the file
+;;export P4PORT=perforce3230:3230   set ENV in .bashrc
+;;export P4CLIENT=pcode3230
+
 
 (provide 'init-cpp)
