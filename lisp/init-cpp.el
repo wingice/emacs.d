@@ -35,6 +35,9 @@
   
   (projectile-mode +1))
 
+;; To improve the speed of ripgrep, .ignore or .rgignore file can be defined
+
+
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
 ;;(require 'go-flymake)
@@ -85,7 +88,7 @@
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
   (setq js2-highlight-level 3
-        js2-mode-show-parse-errors nil
+        js2-mode-show-parse-errors t
         js2-mode-show-strict-warnings nil))
 
 
@@ -100,6 +103,12 @@
   (js2r-add-keybindings-with-prefix "C-c C-r"))
 
 (setq js2-skip-preprocessor-directives t)
+
+(add-hook 'json-mode-hook
+          (lambda ()
+	    (setq tab-width 4)
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 4)))
 
 (require 'p4) ;; C+x p e -> edit the file
 ;;export P4PORT=perforce3230:3230   set ENV in .bashrc

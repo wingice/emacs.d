@@ -98,4 +98,9 @@
 	)
   )
 
+(setq bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+(add-hook 'compilation-mode-hook (lambda() (font-lock-mode -1)))
+(setq compilation-scroll-output nil)
+
 (provide 'init-misc)
