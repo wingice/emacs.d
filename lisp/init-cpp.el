@@ -104,11 +104,17 @@
 
 (setq js2-skip-preprocessor-directives t)
 
-(add-hook 'json-mode-hook
-          (lambda ()
-	    (setq tab-width 4)
-            (make-local-variable 'js-indent-level)
-            (setq js-indent-level 4)))
+(defun use-tab-width4()
+  (interactive)
+  (setq tab-width 4)
+  (make-local-variable 'js-indent-level)
+  (setq indent-tabs-mode nil)
+  (setq js-indent-level 4))
+
+
+(add-hook 'json-mode-hook 'use-tab-width4)
+(add-hook 'js2-mode-hook 'use-tab-width4)
+(add-hook 'javascript-mode-hook 'use-tab-width4)
 
 (require 'p4) ;; C+x p e -> edit the file
 ;;export P4PORT=perforce3230:3230   set ENV in .bashrc

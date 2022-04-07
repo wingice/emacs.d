@@ -100,7 +100,9 @@
 
 (setq bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
-(add-hook 'compilation-mode-hook (lambda() (font-lock-mode -1)))
+;; (add-hook 'compilation-mode-hook (lambda() (font-lock-mode -1)))
 (setq compilation-scroll-output nil)
+
+(global-set-key (kbd "s-d")  (lambda ()(interactive)(dired (file-name-directory buffer-file-name))))
 
 (provide 'init-misc)

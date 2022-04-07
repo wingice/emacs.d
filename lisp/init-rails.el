@@ -75,7 +75,7 @@
 (add-hook 'nxml-mode-hook 'hs-minor-mode)
 
 ;; optional key bindings, easier than hs defaults
-(define-key nxml-mode-map (kbd "<C-tab>") 'hs-toggle-hiding)
+(global-set-key (kbd "<C-tab>") 'hs-toggle-hiding)
 
 (smart-jump-setup-default-registers)
 

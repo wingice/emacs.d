@@ -22,3 +22,6 @@
 
 ;;  (setq org-directory "~/workspace/orgfiles")
 ;; (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
+
+;; (setenv "P4CLIENT" "pcode3230")
+;; (setenv "P4PORT" "perforce3230:3230")

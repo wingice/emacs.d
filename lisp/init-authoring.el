@@ -177,4 +177,8 @@ nothing happens."
   (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
   (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 
+(defun useful()
+  (interactive)
+  (org-roam-capture))
+
 (provide 'init-authoring)
