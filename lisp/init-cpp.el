@@ -32,7 +32,7 @@
          "Create file"
          :action (lambda (cand) (li-create-file-in-dir cand))))
     (add-to-list 'helm-projectile-sources-list helm-source-file-not-found t))
-  
+
   (projectile-mode +1))
 
 ;; To improve the speed of ripgrep, .ignore or .rgignore file can be defined
@@ -52,6 +52,7 @@
 
 (defun setup-tide-mode ()
   (interactive)
+  (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
   (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -66,13 +67,23 @@
 (setq company-tooltip-align-annotations t)
 
 ;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
+;;(add-hook 'before-save-hook 'tide-format-before-save)
 
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(dolist (hook (list
+               'js-mode-hook
+               'typescript-mode-hook
+               ))
+  (add-hook hook (lambda ()
+		   (setup-tide-mode)
+		   (define-key tide-mode-map (kbd "s-.") 'tide-fix)
+		   (define-key tide-mode-map (kbd "M-.") nil)
+                   ;; 当 tsserver 服务没有启动时自动重新启动
+                   ;;(unless (tide-current-server)
+                   ;;  (tide-restart-server))
+                   ;;)
+	    ))
+  )
 
-(add-hook 'typescript-mode-hook
-	  '(lambda ()
-	     (define-key typescript-mode-map (kbd "s-.") 'tide-fix)))
 
 (require 'smartparens-config)
 (add-hook 'js-mode-hook #'smartparens-mode)
@@ -87,6 +98,7 @@
   (add-hook 'js-mode-hook 'js2-minor-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+  (define-key js2-mode-map (kbd "M-.") nil)
   (setq js2-highlight-level 3
         js2-mode-show-parse-errors t
         js2-mode-show-strict-warnings nil))
@@ -111,14 +123,19 @@
   (setq indent-tabs-mode nil)
   (setq js-indent-level 4))
 
+(setq xref-js2-search-program 'rg)
+(add-hook 'js2-mode-hook (lambda ()
+  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
 (add-hook 'json-mode-hook 'use-tab-width4)
-(add-hook 'js2-mode-hook 'use-tab-width4)
-(add-hook 'javascript-mode-hook 'use-tab-width4)
+;;(add-hook 'js2-mode-hook 'use-tab-width4)
+(add-hook 'js-mode-hook 'use-tab-width4)
 
 (require 'p4) ;; C+x p e -> edit the file
-;;export P4PORT=perforce3230:3230   set ENV in .bashrc
+;;export P4PORT=perforce3230:3230   set ENV in .bashrc or local_conf_body.el
 ;;export P4CLIENT=pcode3230
 
+(global-set-key (kbd "M-.") 'smart-jump-go)
+;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
 (provide 'init-cpp)
