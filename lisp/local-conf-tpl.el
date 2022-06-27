@@ -6,8 +6,20 @@
 (setq org-default-notes-file (concat org-directory "/remember.org"))
 (setq org-agenda-files (list (concat org-directory "/planning.org")
 			     (concat org-directory "/tracking.org")
+			     (concat org-directory "/future_planning.org")
 			     (concat org-directory "/remember.org")))
 (setq org-roam-index-file (concat org-roam-directory "/NoteIndex.org"))
+
+(defun li-general-note-file ()
+    (interactive)
+    (find-file (concat org-roam-directory "/general/general_reference_note_2022-20220627092617.org")))
+(defun li-capture-file ()
+  (interactive)
+  (find-file (concat org-directory "/remember.org")))
+
+(global-set-key [f12] 'li-general-note-file)
+(global-set-key (kbd"S-<f2>") 'li-capture-file)
+
 
 (provide 'local-conf-tpl)
 

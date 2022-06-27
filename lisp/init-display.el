@@ -7,25 +7,42 @@
 (setq sgml-basic-offset 4)
 
 ;;disable splash screen and startup message
-(setq inhibit-startup-message t) 
+(setq inhibit-startup-message t)
 (setq initial-scratch-message nil)
 (setq inhibit-splash-screen t)
 
 (setq-default truncate-lines t)
-(global-set-key [f12] 'toggle-truncate-lines)
 (global-set-key [f5] 'revert-buffer)
-(set-scroll-bar-mode 'right) 
+(set-scroll-bar-mode 'right)
 (setq auto-revert-interval 0.5)
 
 (setq Buffer-menu-name-width 30)
 (setq Buffer-menu-mode-width 12)
+
+(setq split-height-threshold 36)
+(setq split-width-threshold 156)
+
+(setq split-width-threshold (- (window-width) 10))
+(setq split-height-threshold 36)  ;;https://stackoverflow.com/questions/23207958/how-to-prevent-emacs-dired-from-splitting-frame-into-more-than-two-windows
+
+(defun count-visible-buffers (&optional frame)
+  "Count how many buffers are currently being shown. Defaults to selected frame."
+  (length (mapcar #'window-buffer (window-list frame))))
+
+(defun do-not-split-more-than-two-windows (window &optional horizontal)
+  (if (and horizontal (> (count-visible-buffers) 1))
+      nil
+    t))
+
+(advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-windows)
+
 
 (set-background-color "#FFFFFB")
 
 (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'shell-mode-hook (lambda ()
-                            (setq buffer-face-mode-face '(:height 96))
+                            (setq buffer-face-mode-face '(:height 120))
                             (buffer-face-mode)))
 
 (defun remove-shell-wrong-sequences (string)

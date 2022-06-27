@@ -22,6 +22,7 @@
   (setq projectile-indexing-method 'alien)
   (setq projectile-require-project-root t)
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "\'qunit/reports/*\'")
   (setq projectile-generic-command "fd . -0")
   (setq projectile-ignored-projects '("~/" "c://windows" "c://"))
   (setq projectile-project-root-files
@@ -120,8 +121,15 @@
   (interactive)
   (setq tab-width 4)
   (make-local-variable 'js-indent-level)
-  (setq indent-tabs-mode nil)
+  (setq indent-tabs-mode t)
+  (setq json-mode-indent-level 4)
   (setq js-indent-level 4))
+
+(setq-default js2-basic-offset 4
+              js-indent-level 4)
+(setq js-indent-level 4)
+(setq javascript-indent-level 4)
+(setq tab-width 4)
 
 (setq xref-js2-search-program 'rg)
 (add-hook 'js2-mode-hook (lambda ()
@@ -130,12 +138,15 @@
 (add-hook 'json-mode-hook 'use-tab-width4)
 ;;(add-hook 'js2-mode-hook 'use-tab-width4)
 (add-hook 'js-mode-hook 'use-tab-width4)
+(setq json-encoding-default-indentation "\t")
 
 (require 'p4) ;; C+x p e -> edit the file
 ;;export P4PORT=perforce3230:3230   set ENV in .bashrc or local_conf_body.el
 ;;export P4CLIENT=pcode3230
 
 (global-set-key (kbd "M-.") 'smart-jump-go)
+(global-set-key (kbd "M-/") 'occur)
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
+(setq xref-file-name-display 'project-relative)
 (provide 'init-cpp)

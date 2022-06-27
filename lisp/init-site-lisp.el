@@ -6,6 +6,11 @@
 (defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
 (defconst emacs-autosave-dir (concat emacs-dir "tmp/autosave/") "directory to backup files.")
 
+(defun server-ensure-safe-dir (dir) "Noop" t)
+(setq server-socket-dir (concat emacs-dir "server"))
+(unless (server-running-p)
+  (server-start))
+
 (setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
 (setq backup-directory-alist
         `((".*" . ,emacs-tmp-dir)))
@@ -25,5 +30,8 @@
   (concat emacs-cache-dir SESSION-ID))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; find refences: cd ~/.emacs.d/elpa rg "require 'cl\)"
+(setq byte-compile-warnings '(cl-functions))
 
 (provide 'init-site-lisp)

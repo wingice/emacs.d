@@ -17,9 +17,6 @@
 (require 'server)
 (require 'package)
 
-(unless (server-running-p)
-  (server-start))
-
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (setq package-enable-at-startup nil)

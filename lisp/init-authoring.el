@@ -16,15 +16,16 @@
   appt-display-mode-line t ;; show in the modeline
 )
 
-;;(appt-activate 1) ;; active appt (appointment notification)
-(display-time) ;; time display is required for this...
-
 ;; the appointment notification facility
 (setq
  appt-message-warning-time 3
  appt-display-mode-line t ;; show in the modeline
  display-time-default-load-average nil
  appt-display-format 'window) ;; use our func
+
+;;(appt-activate 1) ;; active appt (appointment notification)
+(display-time) ;; time display is required for this...
+
 
 (defun popup-appt-msg(min-to-app new-time appt-msg)
   (interactive)
@@ -59,6 +60,8 @@
   (org-clock-persistence-insinuate) ;; Resume clocking tasks when emacs is restarted
   (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
   (defun my-after-load-org ()  (add-to-list 'org-modules 'org-timer))
+  (defun my-org-capture () (interactive) (org-capture  "t" "t"))
+  (advice-add 'remember :override #'org-capture)
   (eval-after-load "org" '(my-after-load-org))
   (setq org-timer-default-timer 25)
 
@@ -71,28 +74,36 @@
 				      (org-timer-set-timer '(16)))))
   (add-hook 'org-clock-out-hook '(lambda ()
 				   (setq org-mode-line-string nil)
-				   (org-timer-cancel-timer)
+				   (org-timer-stop)
 				   ))
   (add-hook 'org-timer-done-hook '(lambda()
 				    (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
   ;; update appt each time agenda opened
   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
   (advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
+  (global-set-key (kbd "<f2>") 'my-org-capture)
+  (global-set-key (kbd "S-<f2>") 'my-capture-file)
   :bind (("C-c a" . 'org-agenda)
-         ("C-c c" . 'org-capture)
-         ("C-c r" . 'org-remember)))
+         ("C-c c" . 'my-org-capture)
+         ("C-c r" . 'remember)))
 
 (setq org-agenda-custom-commands
       '(("d" "Daily Planner"
          ((agenda "")
-          (tags-todo "NA"                                         ;; todos sorted by context
+          (tags-todo "@Work"                                         ;; todos sorted by context
                 ((org-agenda-prefix-format "[ ] %T: ")
                  (org-agenda-sorting-strategy '(tag-up priority-down))
-                 (org-agenda-todo-keyword-format "")
+                 (org-agenda-todo-keyword-format "%-12s")
 		 (org-deadline-warning-days 5)
-                 (org-agenda-overriding-header "TODO & NA:")))
-
-	  (todo "TODO" ((org-agenda-overriding-header "Todo:")
+                 (org-agenda-overriding-header "TODO@Work:")))
+          (tags-todo "@Home"                                         ;; todos sorted by context
+                ((org-agenda-prefix-format "[ ] %T: ")
+                 (org-agenda-sorting-strategy '(tag-up priority-down))
+                 (org-agenda-todo-keyword-format "%-12s")
+		 (org-deadline-warning-days 5)
+                 (org-agenda-overriding-header "TODO@Home:")))
+	  (tags "NA" ((org-agenda-overriding-header "Next Action:")))
+	  (todo "TODO" ((org-agenda-overriding-header "TODO:")
 			(org-agenda-sorting-strategy '(tag-up priority-down))
 			))
 	  (todo "HOLD" ((org-agenda-overriding-header "Hold and Waiting:")
@@ -101,7 +112,6 @@
 	  (todo "DELEGATED" ((org-agenda-overriding-header "Delegated:")
 			(org-agenda-sorting-strategy '(tag-up priority-down))
 			))
-	  (tags "NA" ((org-agenda-overriding-header "Next Action:")))
 	  ))
         ))
 
@@ -110,14 +120,19 @@
 
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
-        "* TODO %?\n  %i\n  %a\n")
-   ("b" "Bookmark" entry (file+headline "" "Bookmarks")
-        "* %?\nEntered on %U\n  %i\n  %a\n")))
+    "* TODO %?\n  %i\n  %a\n\n")
+ '(("r" "Reminder" entry (file+headline "" "Reminders")
+    "* %?\n  %i\n  %a\n\n")
+ '(("b" "Bookmark" entry (file+headline "" "Bookmarks")
+    "* TODO %?\n  %i\n  %a\n\n")
+ '(("f" "Reference" entry (file+headline "" "Reference")
+    "* TODO %?\n  %i\n  %a\n\n")
+))
+
 
 (use-package emacsql-sqlite3
   :ensure t
   )
-
 
 (use-package org-roam
   :after org
