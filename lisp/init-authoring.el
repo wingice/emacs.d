@@ -1,4 +1,4 @@
-;; Markdown mode
+;; Markdown mode  -*- lexical-binding: t; -*-
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -46,10 +46,7 @@
       (concat str "_ "))))
 
 
-
-
 (use-package org
-  :defer
   :hook (org-mode . (lambda ()(add-hook 'before-save-hook 'org-agenda-to-appt t t)))
   :config
   (setq org-clock-into-drawer nil)
@@ -69,14 +66,14 @@
   (add-to-list 'auto-mode-alist '("\\.\\(org\\ |org_archive\\|txt\\)$" . org-mode))
   ;;Modify the org-clock-in so that a timer is started with the default
   ;;value except if a timer is already started :
-  (add-hook 'org-clock-in-hook '(lambda ()
+  (add-hook 'org-clock-in-hook #'(lambda ()
 				  (if (not org-timer-default-timer)
 				      (org-timer-set-timer '(16)))))
-  (add-hook 'org-clock-out-hook '(lambda ()
+  (add-hook 'org-clock-out-hook #'(lambda ()
 				   (setq org-mode-line-string nil)
 				   (org-timer-stop)
 				   ))
-  (add-hook 'org-timer-done-hook '(lambda()
+  (add-hook 'org-timer-done-hook #'(lambda()
 				    (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
   ;; update appt each time agenda opened
   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
@@ -121,13 +118,13 @@
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
     "* TODO %?\n  %i\n  %a\n\n")
- '(("r" "Reminder" entry (file+headline "" "Reminders")
+ '("r" "Reminder" entry (file+headline "" "Reminders")
     "* %?\n  %i\n  %a\n\n")
- '(("b" "Bookmark" entry (file+headline "" "Bookmarks")
+ '("b" "Bookmark" entry (file+headline "" "Bookmarks")
     "* TODO %?\n  %i\n  %a\n\n")
- '(("f" "Reference" entry (file+headline "" "Reference")
-    "* TODO %?\n  %i\n  %a\n\n")
-))
+ '("f" "Reference" entry (file+headline "" "Reference")
+    "* TODO %?\n  %i\n  %a\n\n"))
+)
 
 
 (use-package emacsql-sqlite3
