@@ -6,7 +6,6 @@
 (setq org-default-notes-file (concat org-directory "/remember.org"))
 (setq org-agenda-files (list (concat org-directory "/planning.org")
 			     (concat org-directory "/tracking.org")
-			     (concat org-directory "/future_planning.org")
 			     (concat org-directory "/remember.org")))
 (setq org-roam-index-file (concat org-roam-directory "/NoteIndex.org"))
 
@@ -28,11 +27,7 @@
 ;; (add-to-list 'exec-path "c:/tools/msys64/usr/bin")
 ;; (setenv "PATH" (concat  "c:/tools/msys64/usr/bin;" (getenv "PATH")))
 
-;; No need if fd.exe installed
-;;(setq find-program "c:\\Users\\i348151\\scoop\\shims\\find.exe")
-;;(setq find-ls-option '("-print0 | xargs -0 ls -alhd" . ""))
-
-;;  (setq org-directory "~/workspace/orgfiles")
+;; (setq org-directory "~/workspace/orgfiles")
 ;; (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
 
 ;; (setenv "P4CLIENT" "pcode3230")
