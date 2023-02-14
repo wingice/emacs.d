@@ -87,20 +87,23 @@
 (setq org-agenda-custom-commands
       '(("d" "Daily Planner"
          ((agenda "")
-          (tags-todo "@Work"                                         ;; todos sorted by context
+          (tags-todo "@work"                                         ;; todos sorted by context
                 ((org-agenda-prefix-format "[ ] %T: ")
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "%-12s")
 		 (org-deadline-warning-days 5)
-                 (org-agenda-overriding-header "TODO@Work:")))
-          (tags-todo "@Home"                                         ;; todos sorted by context
+                 (org-agenda-overriding-header "TODO@work:")))
+          (tags-todo "@home"                                         ;; todos sorted by context
                 ((org-agenda-prefix-format "[ ] %T: ")
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "%-12s")
 		 (org-deadline-warning-days 5)
-                 (org-agenda-overriding-header "TODO@Home:")))
-	  (tags "NA" ((org-agenda-overriding-header "Next Action:")))
+                 (org-agenda-overriding-header "TODO@home:")))
+	  (tags "action" ((org-agenda-overriding-header "Next Action:")))
 	  (todo "TODO" ((org-agenda-overriding-header "TODO:")
+			(org-agenda-sorting-strategy '(tag-up priority-down))
+			))
+	  (todo "LTDO" ((org-agenda-overriding-header "LTDO:")
 			(org-agenda-sorting-strategy '(tag-up priority-down))
 			))
 	  (todo "HOLD" ((org-agenda-overriding-header "Hold and Waiting:")
@@ -113,7 +116,7 @@
         ))
 
 (setq org-todo-keywords
-  '((sequence "TODO" "HOLD" "|" "DONE" "DELEGATED")))
+  '((sequence "TODO" "LTDO" "HOLD" "|" "DONE" "DELEGATED")))
 
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
