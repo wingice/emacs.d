@@ -80,6 +80,7 @@
   (advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
   (global-set-key (kbd "<f2>") 'my-org-capture)
   (global-set-key (kbd "S-<f2>") 'my-capture-file)
+  (define-key org-mode-map (kbd "M-.") 'nf/link-to-headline)
   :bind (("C-c a" . 'org-agenda)
          ("C-c c" . 'my-org-capture)
          ("C-c r" . 'remember)))
@@ -129,6 +130,20 @@
     "* TODO %?\n  %i\n  %a\n\n"))
 )
 
+
+(defun nf/parse-headline (x)
+    (plist-get (cadr x) :raw-value))
+
+(defun nf/get-headlines ()
+  (org-element-map (org-element-parse-buffer) 'headline #'nf/parse-headline))
+
+(defun nf/link-to-headline ()
+  "Insert an internal link to a headline."
+  (interactive)
+  (let* ((headlines (nf/get-headlines))
+	 (choice (completing-read "Headings: " headlines nil t))
+	 )
+    (org-insert-link buffer-file-name (concat "*" choice) choice)))
 
 (use-package emacsql-sqlite3
   :ensure t
