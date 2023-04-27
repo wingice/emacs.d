@@ -13,13 +13,15 @@
 
   ;;  (setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
 
-  (defun powershell-toast(msg)    ;; Install-Module -Name BurntToast   [@Powershell Administrator mode]
+  (defun powershell-toast(msg)    ;;Requirement: Install-Module -Name BurntToast   [@Powershell Administrator mode]
     (interactive)
     (start-process "remind"  nil "powershell.exe" "-Command" "New-BurntToastNotification" (concat "-Text GTD," "\"" msg "\"")))
 
   (defun toast-test()
     (interactive)
     (powershell-appt 1 2 "Hello World!"))
+
+  ;;(toast-test)
 
   (defun powershell-appt(min-to-app new-time appt-msg)
     (interactive)
