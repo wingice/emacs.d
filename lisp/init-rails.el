@@ -46,8 +46,8 @@
 	  #'(lambda ()
 	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
-(require 'flymake-ruby)
-(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+;;(require 'flymake-ruby)
+;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 ;; customize rianri to skip not wanted files when find-file-in-project
 (setq findr-skip-directory-regexp "^\\.backups$\\|^_darcs$\\|/\\.git$\\|^CVS$\\|^\\.svn$\\|/node_modules$\\|/tmp$")

@@ -14,8 +14,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("49e12929187e8e8ef9ea5f816a21806a0a1966a4a8dd1d7eb4b8e911a187f0db" "41c8c11f649ba2832347fe16fe85cf66dafe5213ff4d659182e25378f9cfc183" "39ecc1e45ef87d610d0a8296701327010239ab70d2fc22d8e6254a30c80d497e" default))
+ '(org-agenda-files nil)
  '(package-selected-packages
-   '(swiper-helm groovy-mode treemacs-evil treeview treemacs-magit treemacs-icons-dired treemacs-projectile treemacs smart-region multiple-cursors shx emacsql-sqlite3 xref-js2 tide org-roam flymake-ruby flycheck p4 expand-region smartparens js2-refactor js2-mode projectile jetbrains-darcula-theme inf-ruby robe goto-chg transpose-frame smart-jump yaml-mode chruby projectile-ripgrep markdown-mode nimbus-theme helm-projectile json-mode web-mode yasnippet rinari company flx-ido))
- '(warning-suppress-types '((use-package))))
+   '(projectile-ripgrep swiper-helm groovy-mode smart-region multiple-cursors shx xref-js2 tide org-roam 4 expand-region smartparens js2-refactor js2-mode projectile inf-ruby goto-chg transpose-frame smart-jump yaml-mode chruby markdown-mode helm-projectile json-mode web-mode yasnippet rinari company flx-ido)))

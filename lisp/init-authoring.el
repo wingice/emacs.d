@@ -144,10 +144,6 @@
 	 )
     (org-insert-link buffer-file-name (concat "*" choice) choice)))
 
-(use-package emacsql-sqlite3
-  :ensure t
-  )
-
 (use-package org-roam
   :after org
   :ensure t

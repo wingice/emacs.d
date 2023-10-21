@@ -7,7 +7,7 @@
 (defconst emacs-autosave-dir (concat emacs-dir "tmp/autosave/") "directory to backup files.")
 
 (defun server-ensure-safe-dir (dir) "Noop" t)
-(setq server-socket-dir (concat emacs-dir "server"))
+(setq server-socket-dir emacs-tmp-dir)
 (cond
  ((eq (server-running-p) nil)
   (progn

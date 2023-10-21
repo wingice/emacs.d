@@ -1,6 +1,6 @@
 (use-package helm
   :config
-  (require 'helm-config)
+;;  (require 'helm-config)
   (helm-mode 1)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (add-to-list 'helm-completing-read-handlers-alist '(find-file . ido)))
