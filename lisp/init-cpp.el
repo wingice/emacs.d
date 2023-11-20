@@ -22,6 +22,7 @@
   (setq projectile-indexing-method 'alien)
   (setq projectile-require-project-root t)
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "\.git")
   (add-to-list 'projectile-globally-ignored-directories "\'qunit/reports/*\'")
   (setq projectile-generic-command "fd . -0")
   (setq projectile-ignored-projects '("~/" "c://windows" "c://"))
@@ -70,20 +71,20 @@
 ;; formats the buffer before saving
 ;;(add-hook 'before-save-hook 'tide-format-before-save)
 
-(dolist (hook (list
-               'js-mode-hook
-               'typescript-mode-hook
-               ))
-  (add-hook hook (lambda ()
-		   (setup-tide-mode)
-		   (define-key tide-mode-map (kbd "s-.") 'tide-fix)
-		   (define-key tide-mode-map (kbd "M-.") nil)
-                   ;; 当 tsserver 服务没有启动时自动重新启动
-                   ;;(unless (tide-current-server)
-                   ;;  (tide-restart-server))
-                   ;;)
-	    ))
-  )
+;; (dolist (hook (list
+;;                'js-mode-hook
+;;                'typescript-mode-hook
+;;                ))
+;;   (add-hook hook (lambda ()
+;; 		   (setup-tide-mode)
+;; 		   (define-key tide-mode-map (kbd "s-.") 'tide-fix)
+;; 		   (define-key tide-mode-map (kbd "M-.") nil)
+;;                    ;; 当 tsserver 服务没有启动时自动重新启动
+;;                    ;;(unless (tide-current-server)
+;;                    ;;  (tide-restart-server))
+;;                    ;;)
+;; 	    ))
+;;   )
 
 
 (require 'smartparens-config)
