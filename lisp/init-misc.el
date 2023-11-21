@@ -13,8 +13,7 @@
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>")  'move-end-of-line)
 
-
-(add-hook 'dired-after-readin-hook 'hl-line-mode)
+;;(add-hook 'dired-after-readin-hook 'hl-line-mode)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks
@@ -70,7 +69,6 @@
 
 (add-hook 'json-mode-hook #'flycheck-mode)
 
-(setq gc-cons-threshold 100000000)    ;; Performance enhancement
 (setq read-process-output-max (* 1024 1024))
 
 (require 'expand-region)
@@ -103,13 +101,13 @@
 ;; (add-hook 'compilation-mode-hook (lambda() (font-lock-mode -1)))
 (setq compilation-scroll-output nil)
 
-(use-package dired-ranger
-  :bind (:map dired-mode-map
-              ("W" . dired-ranger-copy)
-              ("X" . dired-ranger-move)
-              ("Y" . dired-ranger-paste)))
+;; (use-package dired-ranger
+;;   :bind (:map dired-mode-map
+;;               ("W" . dired-ranger-copy)
+;;               ("X" . dired-ranger-move)
+;;               ("Y" . dired-ranger-paste)))
 
-(global-set-key (kbd "s-d")  (lambda ()(interactive)(dired (file-name-directory buffer-file-name))))
+;;(global-set-key (kbd "s-d")  (lambda ()(interactive)(dired (file-name-directory buffer-file-name))))
 
 (defun insert-uuid()
   "Insert a UUID. This commands calls “uuidgen” on MacOS, Linux, and calls PowelShell on Microsoft Windows."

@@ -17,7 +17,7 @@
   (interactive)
   (find-file (concat org-directory "/remember.org")))
 
-(global-set-key [f12] 'li-general-note-file)
+(global-set-key [f12] 'recompile)
 (global-set-key (kbd"S-<f2>") 'li-capture-file)
 
 
