@@ -13,6 +13,10 @@
 
   ;;  (setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
 
+  (defun stretchly-start()
+      (interactive)
+    (start-process "FriendlyReminder" nil "stretchly" "long" "-w 25m" "-T \"Take a break\""))
+
   (defun powershell-toast(msg)    ;;Requirement: Install-Module -Name BurntToast   [@Powershell Administrator mode]
     (interactive)
     (start-process "remind"  nil "powershell.exe" "-Command" "New-BurntToastNotification" (concat "-Text GTD," "\"" msg "\"")))
@@ -28,10 +32,11 @@
     (select-frame-set-input-focus (selected-frame))
     (powershell-toast appt-msg))
 
-
   (defun popup-notification(title msg)
     (interactive)
-    (powershell-toast msg))
+    ;;(powershell-toast msg)
+    (stretchly-start)
+  )
 
 ;;   (setq projectile-enable-caching t)
    (setq default-directory "~")
