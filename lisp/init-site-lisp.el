@@ -10,6 +10,7 @@
 
 (defun server-ensure-safe-dir (dir) "Noop" t)
 (setq server-socket-dir emacs-tmp-dir)
+(setq server-auth-dir emacs-tmp-dir)
 (cond
  ((eq (server-running-p) nil)
   (progn

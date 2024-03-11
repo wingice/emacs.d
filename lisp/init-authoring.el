@@ -67,7 +67,9 @@
   ;;Modify the org-clock-in so that a timer is started with the default
   ;;value except if a timer is already started :
   (add-hook 'org-clock-in-hook #'(lambda ()
-				   (org-timer-set-timer '(16))))
+				   (org-timer-set-timer '(16))
+				   (start-screen-timer)
+				   ))
   (add-hook 'org-clock-out-hook #'(lambda ()
 				   (setq org-mode-line-string nil)
 				   (org-timer-stop)

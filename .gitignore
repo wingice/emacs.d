@@ -22,7 +22,6 @@ cookies
 /ac-comphist.dat
 \#*
 /elpa
-lisp/local-conf-body.el
 site-lisp/package/
 /swank
 /.mc-lists.el

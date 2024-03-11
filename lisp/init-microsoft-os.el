@@ -15,7 +15,7 @@
 
   (defun stretchly-start()
       (interactive)
-    (start-process "FriendlyReminder" nil "stretchly" "long" "-w 25m" "-T \"Take a break\""))
+    (start-process "Reminder" nil "stretchly" "long" "-w" "25m"))
 
   (defun powershell-toast(msg)    ;;Requirement: Install-Module -Name BurntToast   [@Powershell Administrator mode]
     (interactive)
@@ -25,7 +25,12 @@
     (interactive)
     (powershell-appt 1 2 "Hello World!"))
 
+  (defun start-screen-timer()
+    (interactive)
+    (stretchly-start)
+  )
   ;;(toast-test)
+  ;;(stretchly-start)
 
   (defun powershell-appt(min-to-app new-time appt-msg)
     (interactive)
@@ -34,13 +39,11 @@
 
   (defun popup-notification(title msg)
     (interactive)
-    ;;(powershell-toast msg)
-    (stretchly-start)
+    (powershell-toast msg)
+    ;;(stretchly-start)
   )
 
 ;;   (setq projectile-enable-caching t)
    (setq default-directory "~")
-
-
   )
 (provide 'init-microsoft-os)
