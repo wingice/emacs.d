@@ -14,6 +14,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files nil)
+ '(custom-safe-themes
+   '("c5e7a36784b1955b28a89a39fef7c65ddc455b8e7fd70c6f5635cb21e4615670" default))
  '(package-selected-packages
-   '(projectile-ripgrep swiper-helm groovy-mode smart-region multiple-cursors shx xref-js2 tide org-roam 4 expand-region smartparens js2-refactor js2-mode projectile inf-ruby goto-chg transpose-frame smart-jump yaml-mode chruby markdown-mode helm-projectile json-mode web-mode yasnippet rinari company flx-ido)))
+   '(nimbus-theme projectile-ripgrep swiper-helm groovy-mode smart-region multiple-cursors shx xref-js2 tide org-roam expand-region smartparens js2-refactor js2-mode projectile inf-ruby goto-chg transpose-frame smart-jump yaml-mode chruby markdown-mode helm-projectile json-mode web-mode yasnippet rinari company flx-ido)))
