@@ -28,6 +28,9 @@
       (message "Other server works."))))
  (t (message "Server already started.")))
 
+;; emacsclient batch command ec.cmd
+;; c:\users\xxxxx\scoop\shims\emacsclientw.exe -f c:\users\I348151\.emacs.d\tmp\server -n -a c:\users\i348151\scoop\shims\runemacs.exe "%*"
+
 (setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
 (setq backup-directory-alist
         `((".*" . ,emacs-tmp-dir)))
