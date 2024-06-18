@@ -208,4 +208,34 @@ nothing happens."
   (interactive)
   (org-roam-capture))
 
+(defun delete-existed-file(filename)
+  (when (file-exists-p filename) (delete-file filename)))
+
+(defconst webdav-user (getenv "WEBDAV_USER"))
+(defconst webdav-path "https://domi.teracloud.jp/dav/gtd/")
+(defconst server-file-name "mgtd.org")
+
+(defun download-webdav-file(local_file_path)
+  (interactive)
+  (shell-command (concat "curl -u " webdav-user " " webdav-path server-file-name " --output " local_file_path)))
+
+(defun upload-webdav-file(local_file_path)
+  (interactive)
+  (shell-command (concat "curl -T " local_file_path " -u " webdav-user " " webdav-path)))
+
+(defun mobile-gtd-tmp-file()
+  (file-truename (concat emacs-tmp-dir server-file-name)))
+
+(defun read-mobile-gtd()
+  (interactive)
+  (setq tmp-file (mobile-gtd-tmp-file))
+  (delete-existed-file tmp-file)
+  (download-webdav-file tmp-file)
+  (find-file tmp-file))
+
+(defun push-mobile-gtd()
+  (interactive)
+  (setq tmp-file (mobile-gtd-tmp-file))
+  (upload-webdav-file tmp-file))
+
 (provide 'init-authoring)
