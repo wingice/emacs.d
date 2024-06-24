@@ -211,7 +211,7 @@ nothing happens."
 (defun delete-existed-file(filename)
   (when (file-exists-p filename) (delete-file filename)))
 
-(defconst webdav-user (getenv "WEBDAV_USER"))
+(defconst webdav-user (getenv "WEBDAV_USER"))  ;; Need an ENV var WEBDAV_USER=user:token
 (defconst webdav-path "https://domi.teracloud.jp/dav/gtd/")
 (defconst server-file-name "mgtd.org")
 
@@ -226,14 +226,14 @@ nothing happens."
 (defun mobile-gtd-tmp-file()
   (file-truename (concat emacs-tmp-dir server-file-name)))
 
-(defun read-mobile-gtd()
+(defun mobile-gtd-read()
   (interactive)
   (setq tmp-file (mobile-gtd-tmp-file))
   (delete-existed-file tmp-file)
   (download-webdav-file tmp-file)
   (find-file tmp-file))
 
-(defun push-mobile-gtd()
+(defun mobile-gtd-push()
   (interactive)
   (setq tmp-file (mobile-gtd-tmp-file))
   (upload-webdav-file tmp-file))
