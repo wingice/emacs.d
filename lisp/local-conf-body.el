@@ -18,7 +18,8 @@
 )
 
 (when (string= (system-name) "w-PF44DJL0")         ;;<--T15g2
-  (set-frame-font "Fira Code-11")
+  ;;  (set-frame-font "Fira Code-11")
+  ;;  (text-scale-decrease 1)
 )
 
 

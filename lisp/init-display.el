@@ -89,4 +89,6 @@
   (ansi-color-apply-on-region compilation-filter-start (point-max)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+(setq text-scale-mode-step 1.1)
+
 (provide 'init-display)

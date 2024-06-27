@@ -7,6 +7,7 @@
 (setq org-agenda-files (list (concat org-directory "/planning.org")
 			     (concat org-directory "/tracking2023.org")
 			     (concat org-directory "/tracking2024.org")
+			     (mobile-gtd-tmp-file)
 			     (concat org-directory "/remember.org")))
 (setq org-roam-index-file (concat org-roam-directory "/NoteIndex.org"))
 
