@@ -1,6 +1,6 @@
 ﻿(when (eq system-type 'windows-nt)
   (set-language-environment 'chinese-gbk)
-  (prefer-coding-system 'utf-8-auto)
+  (prefer-coding-system 'utf-8)
 ;;  (set-frame-font "Courier SWA 14")
 ;;  (set-frame-font "Consolas-11")
   (set-frame-font "Fira Code-11")
