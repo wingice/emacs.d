@@ -45,6 +45,6 @@
   )
 
 ;;   (setq projectile-enable-caching t)
-   (setq default-directory "~")
+   (setq default-directory "c:\\workspace")
   )
 (provide 'init-microsoft-os)
