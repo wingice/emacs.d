@@ -12,8 +12,9 @@
 (global-set-key (kbd "M-j")    'fd-name-dired)
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>")  'move-end-of-line)
-
+(global-set-key (kbd "<end>")  'move-end-of-line)
 ;;(add-hook 'dired-after-readin-hook 'hl-line-mode)
+(global-set-key [f10] 'toggle-menu-bar-mode-from-frame)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks

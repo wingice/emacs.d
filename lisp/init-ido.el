@@ -11,7 +11,7 @@
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
 
-(flx-ido-mode 1)		       
+(flx-ido-mode 1)
 (setq flx-ido-use-faces nil)
 (setq recentf-save-file (expand-file-name "recentf" emacs-cache-dir))
 
@@ -33,4 +33,29 @@
 (global-set-key (kbd "M-`") 'jump-to-mark)
 ;;(global-set-key (kbd "C-x C-f") 'ido-find-file)
 
+
+
+
+
+;; OPTIONAL configuration
+(setq
+ gptel-model "qwen-turbo"
+ gptel-backend (gptel-make-openai "alibaba"
+  :protocol "https"
+  :host "dashscope.aliyuncs.com"
+  :endpoint "/compatible-mode/v1/chat/completions"
+  :stream t
+  :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
+  :models '("qwen-turbo")))
+
+(setq gptel-log-level 'debug)
+
+(load-file "~/.emacs.d/packages/gptel-complete.el")
+
+(global-set-key (kbd "<C-tab>") 'gptel-complete)
+(global-set-key (kbd "C-<backspace>") 'gptel-complete)
+
+
+(setq gptel-log-level 'debug)
+(setq gptel-api-key "dummy")
 (provide 'init-ido)

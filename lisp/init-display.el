@@ -1,6 +1,7 @@
 ;;  ---  Font, Display and General Setttings   ---
 
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0)) ;; Do not display toolbar
+(if (functionp 'menu-bar-mode) (menu-bar-mode 0)) ;; Do not display toolbar
 
 (column-number-mode t)
 (setq linum-format "%5d ")

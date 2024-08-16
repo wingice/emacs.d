@@ -58,7 +58,7 @@
   (setq org-clock-persist-query-resume nil) ;; Do not prompt to resume an active clock
   (defun my-after-load-org ()  (add-to-list 'org-modules 'org-timer))
   (defun my-org-capture () (interactive) (org-capture  "t" "t"))
-  (advice-add 'remember :override #'org-capture)
+  (advice-add 'remember :override #'my-org-capture)
   (eval-after-load "org" '(my-after-load-org))
   (setq org-timer-default-timer 25)
 
@@ -122,7 +122,7 @@
 
 (setq org-capture-templates
  '(("t" "Todo" entry (file+headline "" "Tasks")
-    "* TODO %?\n  %i\n  %a\n\n")
+    "* TODO %x \n  %i\n  %a\n\n")
  '("r" "Reminder" entry (file+headline "" "Reminders")
     "* %?\n  %i\n  %a\n\n")
  '("b" "Bookmark" entry (file+headline "" "Bookmarks")
@@ -184,6 +184,8 @@
 	                    "#+title: ${title}")
 	 :unnarrowed t)
 	)))
+
+
 
 
 (defun compile-on-save-start ()
