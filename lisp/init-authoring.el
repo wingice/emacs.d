@@ -75,6 +75,7 @@
 				   (org-timer-stop)
 				   ))
   (add-hook 'org-timer-done-hook #'(lambda()
+				    (org-clock-out-if-current)
 				    (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
   ;; update appt each time agenda opened
   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
@@ -130,6 +131,88 @@
  '("f" "Reference" entry (file+headline "" "Reference")
     "* TODO %?\n  %i\n  %a\n\n"))
 )
+
+
+(defun my-org-get-clock-segment-timestamps (line)
+  "Parses a clock segment line and returns the first and last timestamps in a list."
+  (let* ((org-clock-regexp (concat "CLOCK: " org-ts-regexp3 "--" org-ts-regexp3))
+     (t1 (if (string-match org-clock-regexp line)
+         (match-string 1 line)
+           (user-error "The argument must have a valid CLOCK range")))
+     (t2 (match-string 9 line)))
+    (list t1 t2)))
+
+(ert-deftest org-timestamp-test ()
+  (should (equal
+           (my-org-get-clock-segment-timestamps "CLOCK: [2019-09-26 Thu 00:29]--[2019-09-26 Thu 01:11] => 0:42")
+           '("2019-09-26 Thu 00:29" "2019-09-26 Thu 01:11"))))
+
+(defun my-org-compute-timestamp-difference (later-timestamp earlier-timestamp)
+  "Computes the number of seconds difference in string timestamps as a float."
+  (-
+   (float-time (apply #'encode-time (org-parse-time-string later-timestamp)))
+   (float-time (apply #'encode-time (org-parse-time-string earlier-timestamp)))))
+
+(defun my-org-float-time-diff-to-hours-minutes (diff)
+  "Returns a float time difference in hh:mm format."
+  (let* ((hours (floor (/ diff 3600)))
+     (diff_minus_hours (- diff (* 3600 hours)))
+     (minutes (floor (/ diff_minus_hours 60))))
+    (car (split-string (format "%2d:%02d" hours minutes)))))
+
+
+
+;; This block is defined to merge two org clock entries
+(defun my-org-get-clock-segment-timestamps (line)
+  "Parses a clock segment line and returns the first and last timestamps in a list."
+  (let* ((org-clock-regexp (concat "CLOCK: " org-ts-regexp3 "--" org-ts-regexp3))
+     (t1 (if (string-match org-clock-regexp line)
+         (match-string 1 line)
+           (user-error "The argument must have a valid CLOCK range")))
+     (t2 (match-string 9 line)))
+    (list t1 t2)))
+
+(defun my-org-compute-timestamp-difference (later-timestamp earlier-timestamp)
+  "Computes the number of seconds difference in string timestamps as a float."
+  (-
+   (float-time (apply #'encode-time (org-parse-time-string later-timestamp)))
+   (float-time (apply #'encode-time (org-parse-time-string earlier-timestamp)))))
+
+(defun my-org-float-time-diff-to-hours-minutes (diff)
+  "Returns a float time difference in hh:mm format."
+  (let* ((hours (floor (/ diff 3600)))
+     (diff_minus_hours (- diff (* 3600 hours)))
+     (minutes (floor (/ diff_minus_hours 60))))
+    (car (split-string (format "%2d:%02d" hours minutes)))))
+
+(defun my-org-clock-merge ()
+  "Merge the org CLOCK line with the next CLOCK line. If the last timestamp of the current line equals the first timestamp of the
+next line with a tolerance of up to 10 minutes, then merge automatically."
+  (interactive)
+  (let* ((first-line-start (line-beginning-position))
+     (first-line (buffer-substring
+              (line-beginning-position) (line-end-position)))
+     (first-line-timestamps (my-org-get-clock-segment-timestamps first-line))
+     (first-line-t1 (pop first-line-timestamps))
+     (first-line-t2 (pop first-line-timestamps))
+     (second-line (progn
+            (forward-line)
+            (buffer-substring
+             (line-beginning-position) (line-end-position))))
+     (second-line-timestamps (my-org-get-clock-segment-timestamps second-line))
+     (second-line-t1 (pop second-line-timestamps))
+     (second-line-t2 (pop second-line-timestamps))
+     (diff (my-org-compute-timestamp-difference first-line-t1 second-line-t2)))
+
+    ;; ignore discrepancies of 10 minutes or more
+    (when (< diff 600)
+      (delete-region first-line-start (line-end-position)) ;; remove the two lines
+      (org-cycle) ;; indent
+      (insert (concat "CLOCK: [" second-line-t1 "]--[" first-line-t2 "]")) ;; insert new time range
+      ;; generate duration
+      (org-ctrl-c-ctrl-c))))
+(add-hook 'org-clock-out-hook #'my-org-clock-merge)
+
 
 
 (defun nf/parse-headline (x)
