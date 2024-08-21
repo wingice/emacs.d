@@ -72,11 +72,13 @@
 				   ))
   (add-hook 'org-clock-out-hook #'(lambda ()
 				   (setq org-mode-line-string nil)
-				   (org-timer-stop)
+				   (if org-timer-start-time
+				       (org-timer-stop))
 				   ))
   (add-hook 'org-timer-done-hook #'(lambda()
-				    (org-clock-out-if-current)
-				    (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")))
+				     (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")
+				     (org-clock-out)
+				    ))
   ;; update appt each time agenda opened
   (add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
   (advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
