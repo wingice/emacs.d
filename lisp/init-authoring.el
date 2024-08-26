@@ -231,6 +231,26 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 	 )
     (org-insert-link buffer-file-name (concat "*" choice) choice)))
 
+(defun current-line-empty-p()
+  (string-match-p "\\`\\s-*$" (thing-at-point 'line)))
+
+(defun start-today()
+  (interactive)
+  (unless (current-line-empty-p)
+	  (move-beginning-of-line 2))
+  (insert "*** \n")
+  (forward-char -1)
+  (insert (format-time-string "[%Y-%m-%d %a]"))
+  (move-beginning-of-line 2)
+  (insert "**** Planning and email processing\n")
+  (org-clock-in)
+  (move-beginning-of-line 1)
+  (org-insert-heading "")
+  (insert "\n")
+  (forward-char -1)
+)
+
+
 (use-package org-roam
   :after org
   :ensure t
