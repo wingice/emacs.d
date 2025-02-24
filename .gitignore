@@ -35,4 +35,8 @@ server
 packages/
 network-security.data
 
+org-persist/
+transient/
+*.stackdump
+
 org-roam.db

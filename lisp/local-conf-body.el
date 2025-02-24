@@ -1,6 +1,7 @@
 ;;----------------- Reference for Per Computer Customization------------------------------
 ;;--- Windows ---
 (when (eq system-type 'windows-nt)
+  (setq find-program "C:\\Users\\i348151\\scoop\\shims\\find.exe")
   (add-to-list 'exec-path "c:/tools/msys64/usr/bin")
   (setenv "PATH" (concat  "c:/tools/msys64/usr/bin;" (getenv "PATH")))
 
@@ -14,6 +15,7 @@
 
 (when (or (string= (system-name) "w-PF44DJL0"  )         ;;<--T15g2
 	  (string= (system-name) "W-8CC3372YJW"))        ;;<--HPG800
+  (setq find-program "C:/tools/msys64/usr/bin/find.exe")
   ;;(set-frame-font "Fira Code-12")
 )
 

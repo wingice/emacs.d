@@ -89,17 +89,27 @@
          ("C-c c" . 'my-org-capture)
          ("C-c r" . 'remember)))
 
+
+(setq org-agenda-prefix-format
+      (quote
+       ((agenda . "%-14c%?-14t% s")
+        (timeline . "% s")
+        (todo . "%-14:c")
+        (tags . "%-14:c")
+	(tags-todo "[ ] %T: ")
+        (search . "%-14:c"))))
+
 (setq org-agenda-custom-commands
       '(("d" "Daily Planner"
          ((agenda "")
           (tags-todo "@work"                                         ;; todos sorted by context
-                ((org-agenda-prefix-format "[ ] %T: ")
+                (
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "%-12s")
 		 (org-deadline-warning-days 5)
                  (org-agenda-overriding-header "TODO@work:")))
           (tags-todo "@home"                                         ;; todos sorted by context
-                ((org-agenda-prefix-format "[ ] %T: ")
+                (
                  (org-agenda-sorting-strategy '(tag-up priority-down))
                  (org-agenda-todo-keyword-format "%-12s")
 		 (org-deadline-warning-days 5)
@@ -245,8 +255,8 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
   (insert "**** Planning and email processing\n")
   (org-clock-in)
   (move-beginning-of-line 1)
-  (org-insert-heading "")
-  (insert "\n")
+  (org-insert-heading " ")
+  ;;(insert "\n")
   (forward-char -1)
 )
 
