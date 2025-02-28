@@ -252,7 +252,7 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
   (forward-char -1)
   (insert (format-time-string "[%Y-%m-%d %a]"))
   (move-beginning-of-line 2)
-  (insert "**** Planning and email processing\n")
+  (insert "**** Meetings, Planning and Email processing\n")
   (org-clock-in)
   (move-beginning-of-line 1)
   (org-insert-heading " ")
