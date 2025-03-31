@@ -89,6 +89,7 @@
          ("C-c c" . 'my-org-capture)
          ("C-c r" . 'remember)))
 
+(add-hook 'org-mode-hook 'auto-save-visited-mode)
 
 (setq org-agenda-prefix-format
       (quote
