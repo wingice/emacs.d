@@ -46,7 +46,7 @@
   :endpoint "/compatible-mode/v1/chat/completions"
   :stream t
   :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
-  :models '("qwen-turbo")))
+  :models '("qwen-plus")))  ;; turbo/plus
 
 (setq gptel-log-level 'debug)
 

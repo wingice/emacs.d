@@ -85,7 +85,8 @@
   (global-set-key (kbd "<f2>") 'my-org-capture)
   (global-set-key (kbd "S-<f2>") 'my-capture-file)
   (define-key org-mode-map (kbd "M-.") 'nf/link-to-headline)
-  :bind (("C-c a" . 'org-agenda)
+  :bind (("C-c l" . 'org-store-link)
+	 ("C-c a" . 'org-agenda)
          ("C-c c" . 'my-org-capture)
          ("C-c r" . 'remember)))
 

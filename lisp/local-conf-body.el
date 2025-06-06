@@ -22,7 +22,10 @@
 (when (string= (system-name) "w-PF44DJL0")         ;;<--T15g2
   ;;  (set-frame-font "Fira Code-11")
   ;;  (text-scale-decrease 1)
-)
+  )
 
+;;
+;; Create a desktop shortcut to trigger stretchly long break
+;; Target: C:\Users\I348151\scoop\shims\stretchly.exe long
 
 ;;--- Linux/MacOS ---
