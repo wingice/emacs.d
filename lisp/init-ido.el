@@ -39,14 +39,14 @@
 
 ;; OPTIONAL configuration
 (setq
- gptel-model "qwen-turbo"
+ gptel-model 'qwen-turbo
  gptel-backend (gptel-make-openai "alibaba"
   :protocol "https"
   :host "dashscope.aliyuncs.com"
   :endpoint "/compatible-mode/v1/chat/completions"
   :stream t
   :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
-  :models '("qwen-plus")))  ;; turbo/plus
+  :models '(qwen-plus qwen-turbo)))  ;; turbo/plus
 
 (setq gptel-log-level 'debug)
 
