@@ -40,3 +40,4 @@ transient/
 *.stackdump
 
 org-roam.db
+/history

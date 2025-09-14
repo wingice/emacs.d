@@ -4,17 +4,22 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;;  ---  Global Key Bindings   ---
+
+
 (global-set-key (kbd "M-[")    'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 (global-set-key (kbd "<apps>") 'buffer-menu)
 (global-set-key (kbd "<C-268632080>") 'buffer-menu)
-(global-set-key (kbd "M-p")    'helm-projectile)
+(global-set-key (kbd "M-p")    'consult-projectile)
 (global-set-key (kbd "M-j")    'fd-name-dired)
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>")  'move-end-of-line)
 (global-set-key (kbd "<end>")  'move-end-of-line)
 ;;(add-hook 'dired-after-readin-hook 'hl-line-mode)
 (global-set-key [f10] 'toggle-menu-bar-mode-from-frame)
+
+(define-key context-menu-mode-map (kbd "<apps>") 'buffer-menu)
+(define-key context-menu-mode-map (kbd "<menu>") 'buffer-menu)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks
@@ -66,18 +71,12 @@
 (global-set-key [(control ?.)] 'goto-last-change)
 (global-set-key [(control ?,)] 'goto-last-change-reverse)
 
-(global-set-key (kbd "M-u") 'helm-bookmarks)
-
 (add-hook 'json-mode-hook #'flycheck-mode)
 
 (setq read-process-output-max (* 1024 1024))
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-(require 'p4) ;; C+x p e -> edit the file
-;;export P4PORT=perforce3230:3230   set ENV in .bashrc
-;;export P4CLIENT=pcode3230
 
 (defun force-writable()
   (interactive)

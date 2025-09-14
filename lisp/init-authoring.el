@@ -272,7 +272,6 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
   (setq org-roam-v2-ack t)
   :config
   (setq org-roam-tag-sources '(prop all-directories))
-  (setq org-roam-completion-system 'helm)
   (setq org-roam-index-file "org-roam-note-index.org")
   (org-roam-db-autosync-mode)
   (setq org-roam-capture-templates

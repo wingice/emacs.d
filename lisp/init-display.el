@@ -39,7 +39,7 @@
 
 
 (set-background-color "#FFFFFB")
-
+(add-hook 'Buffer-menu-mode-hook 'hl-line-mode)
 (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'shell-mode-hook (lambda ()

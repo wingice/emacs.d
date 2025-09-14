@@ -11,26 +11,11 @@
 ;;   '(progn
 ;;     (push 'company-robe company-backends)))
 
-;; All the rails related bindings
-(global-set-key (kbd "C-c f f") 'rinari-find-file-in-project)
-(global-set-key (kbd "C-c f m") 'rinari-find-model)
-(global-set-key (kbd "C-c f v") 'rinari-find-view)
-(global-set-key (kbd "C-c f c") 'rinari-find-controller)
-;; (global-set-key (kbd "C-c f h") 'rinari-find-helper)
-;; (global-set-key (kbd "C-c f i") 'rinari-find-migration)
-;; (global-set-key (kbd "C-c f y") 'rinari-find-stylesheet)
-;; (global-set-key (kbd "C-c f j") 'rinari-find-javascript)
-(global-set-key (kbd "C-c f r") 'rinari-find-rspec)
-;; (global-set-key (kbd "C-c f e") 'rinari-find-environment)
-;; (global-set-key (kbd "C-c f l") 'rinari-find-plugin)
-;; (global-set-key (kbd "C-c f n") 'rinari-find-configuration)
-;; (global-set-key (kbd "C-c f o") 'rinari-find-log)
-;; (global-set-key (kbd "C-c f p") 'rinari-find-public)
-;; (global-set-key (kbd "C-c f s") 'rinari-find-script)
-;; (global-set-key (kbd "C-c f w") 'rinari-find-worker)
-;; (global-set-key (kbd "C-c f x") 'rinari-find-fixture)
+(projectile-rails-global-mode)
+(define-key projectile-rails-mode-map (kbd "C-c f") 'projectile-rails-command-map)
+(setq projectile-rails-add-keywords nil)
 
-(global-set-key [f6] 'projectile-ripgrep)
+(global-set-key [f6] 'consult-ripgrep)
 ;;(define-key ruby-mode-map [f9] 'update-rails-ctags)
 
 (defun update-rails-ctags ()
@@ -49,13 +34,6 @@
 ;;(require 'flymake-ruby)
 ;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
-;; customize rianri to skip not wanted files when find-file-in-project
-(setq findr-skip-directory-regexp "^\\.backups$\\|^_darcs$\\|/\\.git$\\|^CVS$\\|^\\.svn$\\|/node_modules$\\|/tmp$")
-
-(setq findr-skip-file-regexp "^[#\\.]\\|\\.cache$")
-
-(setq rinari-tags-file-name "TAGS")
-(global-rinari-mode)
 
 (require 'hideshow)
 (require 'sgml-mode)

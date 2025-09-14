@@ -35,7 +35,7 @@
   (defun test-osx-notification()
     (interactive)
     (popup-notification "test-mac-notification" "Hello World!"))
-  
-  (global-set-key (kbd "s-p") 'helm-projectile)
+
+  (global-set-key (kbd "s-p") 'consult-projectile)
 )
 (provide 'init-osx)

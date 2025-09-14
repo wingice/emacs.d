@@ -42,9 +42,6 @@
 ;;(setq bookmark-default-file (concat emacs-dir "tmp/bookmarks")
 ;;      bookmark-save-flag nil)
 
-;; Packages: flx-ido company rinari flymake-ruby yasnippet projectile
-
-
 ;; overrride the default function....
 (defun emacs-session-filename (SESSION-ID)
   (concat emacs-cache-dir SESSION-ID))
