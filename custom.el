@@ -22,8 +22,8 @@
  '(package-selected-packages
    '(chruby company consult consult-projectile embark embark-consult
 	    expand-region goto-chg gptel groovy-mode js2-mode
-	    js2-refactor json-mode markdown-mode multiple-cursors
-	    nimbus-theme orderless org-roam projectile
-	    projectile-rails projectile-ripgrep shx smart-jump
-	    smart-region smartparens transpose-frame vertico web-mode
-	    xref-js2 yaml-mode yasnippet)))
+	    js2-refactor json-mode marginalia markdown-mode
+	    multiple-cursors nimbus-theme orderless org-roam
+	    projectile projectile-rails projectile-ripgrep shx
+	    smart-jump smart-region smartparens transpose-frame
+	    vertico web-mode xref-js2 yaml-mode yasnippet)))

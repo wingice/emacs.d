@@ -20,8 +20,21 @@
          ;; opened file.
          ("M-s M-b" . consult-buffer)))
 
-(use-package embark
-  :ensure t)
+
+;; (use-package embark
+;;   :ensure t
+;;   :bind
+;;    (("C-;" . embark-act)         ;; pick some comfortable binding
+;;     ("C-'" . embark-dwim)        ;; good alternative: M-.
+;;     ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+;;   )
+
+;; Consult users will also want the embark-consult package.
+;; (use-package embark-consult
+;;   :ensure t ; only need to install it, embark loads it after consult if found
+;;   :hook
+;;   (embark-collect-mode . consult-preview-at-point-mode))
+
 
 ;; Enable Vertico.
 (use-package vertico
@@ -64,7 +77,6 @@
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-defaults nil) ;; Disable defaults, use our settings
   (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
-
 
 
 (defun push-mark-no-activate ()
