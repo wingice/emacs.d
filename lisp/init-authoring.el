@@ -47,8 +47,9 @@
 
 
 (use-package org
-  :hook (org-mode . (lambda ()(add-hook 'before-save-hook 'org-agenda-to-appt t t)))
+  :defer t
   :config
+  :hook (org-mode . (lambda ()(add-hook 'before-save-hook 'org-agenda-to-appt t t)))
   (setq org-clock-into-drawer nil)
   (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
   (setq org-clock-into-drawer nil)
@@ -145,7 +146,6 @@
  '("f" "Reference" entry (file+headline "" "Reference")
     "* TODO %?\n  %i\n  %a\n\n"))
 )
-
 
 (defun my-org-get-clock-segment-timestamps (line)
   "Parses a clock segment line and returns the first and last timestamps in a list."
