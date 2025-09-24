@@ -48,8 +48,8 @@
 
 (use-package org
   :defer t
-  :config
   :hook (org-mode . (lambda ()(add-hook 'before-save-hook 'org-agenda-to-appt t t)))
+  :config
   (setq org-clock-into-drawer nil)
   (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
   (setq org-clock-into-drawer nil)
