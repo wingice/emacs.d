@@ -24,7 +24,16 @@
 (define-key projectile-rails-mode-map (kbd "C-c f M")   'projectile-rails-find-model)
 (define-key projectile-rails-mode-map (kbd "C-c f f")   'projectile-rails-goto-file-at-point)
 
-(global-set-key [f6] 'consult-ripgrep)
+
+(defun consult-ripgrep-at-point ()
+  "Ripgrep the current word from a specified directory."
+  (interactive)
+  (let* ((default-directory (or (projectile-project-root) default-directory))
+         (thing (thing-at-point 'word)))
+    (consult-ripgrep default-directory thing)))
+
+
+(global-set-key [f6] 'consult-ripgrep-at-point)
 ;;(define-key ruby-mode-map [f9] 'update-rails-ctags)
 
 (defun update-rails-ctags ()
