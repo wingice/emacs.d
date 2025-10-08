@@ -95,20 +95,22 @@
   (set-mark-command 1))
 (global-set-key (kbd "M-`") 'jump-to-mark)
 
-
-
 ;; OPTIONAL configuration
 (setq
- gptel-model 'qwen-turbo
+ gptel-model 'qwen-flash
  gptel-backend (gptel-make-openai "alibaba"
   :protocol "https"
   :host "dashscope.aliyuncs.com"
   :endpoint "/compatible-mode/v1/chat/completions"
   :stream t
   :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
-  :models '(qwen-plus qwen-turbo)))  ;; turbo/plus
+  :models '(qwen-plus qwen-flash)))  ;; flash/plus
 
 (setq gptel-log-level 'debug)
+
+(use-package gptel-aibo
+  :defer t
+  :ensure t)
 
 (load-file "~/.emacs.d/packages/gptel-complete.el")
 
@@ -116,6 +118,12 @@
 (global-set-key (kbd "C-<backspace>") 'gptel-complete)
 
 
-(setq gptel-log-level 'debug)
+;; (use-package vterm
+;;   :defer t
+;;   :load-path "~/.emacs.d/packages/"
+;;   :config
+;;   (when (eq system-type 'windows-nt)
+;;     (setq vterm-shell "powershell")))
+
 (setq gptel-api-key "dummy")
 (provide 'init-ido)

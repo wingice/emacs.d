@@ -1,11 +1,10 @@
 ;;----------------------------------------------------------------------------
 ;; Misc config - yet to be placed in separate files
 ;;----------------------------------------------------------------------------
-(fset 'yes-or-no-p 'y-or-n-p)
+
+(setopt use-short-answers t)
 
 ;;  ---  Global Key Bindings   ---
-
-
 (global-set-key (kbd "M-[")    'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 (global-set-key (kbd "<apps>") 'buffer-menu)
@@ -146,4 +145,54 @@
     (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
+
+
+(use-package dirvish
+  :defer t
+  :ensure t
+  :init
+  (dirvish-override-dired-mode)
+  :custom
+  (dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "dll" "so" "docx" "pptx" "xlsx"))
+  (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
+   '(("h" "~/"                          "Home")
+     ("/" "/"                "/")
+     ("d" "~/Downloads/"                "Downloads")
+     ("w" "~/../../workspace"           "Drives")))
+  :config
+  ;; (dirvish-peek-mode)             ; Preview files in minibuffer
+  ;; (dirvish-side-follow-mode)      ; similar to `treemacs-follow-mode'
+  ;; open large directory (over 20000 files) asynchronously with `fd' command
+  (setq dirvish-large-directory-threshold 20000)
+   (setq dirvish-mode-line-format
+         '(:left (sort symlink) :right (omit yank index)))
+  :bind ; Bind `dirvish-fd|dirvish-side|dirvish-dwim' as you see fit
+  (("C-c f" . dirvish)
+   :map dirvish-mode-map               ; Dirvish inherits `dired-mode-map'
+   (";"   . dired-up-directory)        ; So you can adjust `dired' bindings here
+   ("?"   . dirvish-dispatch)          ; [?] a helpful cheatsheet
+   ("a"   . dirvish-setup-menu)        ; [a]ttributes settings:`t' toggles mtime, `f' toggles fullframe, etc.
+   ("f"   . dirvish-file-info-menu)    ; [f]ile info
+   ("o"   . dirvish-quick-access)      ; [o]pen `dirvish-quick-access-entries'
+   ("r"   . dirvish-history-jump)      ; [r]ecent visited
+   ("*"   . dirvish-mark-menu)
+   ("y"   . dirvish-yank-menu)
+   ("N"   . dirvish-narrow)
+   ("^"   . dirvish-history-last)
+   ("TAB" . dirvish-subtree-toggle)
+   ("M-f" . dirvish-history-go-forward)
+   ("M-b" . dirvish-history-go-backward)
+   ("M-e" . dirvish-emerge-menu)))
+
+(setq mouse-1-click-follows-link nil)
+(define-key dirvish-mode-map (kbd "<mouse-1>") 'dirvish-subtree-toggle-or-open)
+(define-key dirvish-mode-map (kbd "<mouse-2>") 'dired-mouse-find-file-other-window)
+(define-key dirvish-mode-map (kbd "<mouse-3>") 'dired-mouse-find-file)
+(setq delete-by-moving-to-trash t)
+;; Short guide for Dirvish/Dired
+;; - Open file externally in dired, press "W",  Which runs (browse-url-of-dired-file) and seems to open the file or directory in the default application.
+;; - Want to run in a shell,        press "&", then "start ""
+;; - Open favorite folders,         press "o"
+;; - Open Recent folder/history     press "r"
+;; - Open a folder                  press "C+x d"
 (provide 'init-misc)
