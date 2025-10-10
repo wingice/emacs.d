@@ -167,7 +167,7 @@
    (setq dirvish-mode-line-format
          '(:left (sort symlink) :right (omit yank index)))
   :bind ; Bind `dirvish-fd|dirvish-side|dirvish-dwim' as you see fit
-  (("C-c f" . dirvish)
+  (
    :map dirvish-mode-map               ; Dirvish inherits `dired-mode-map'
    (";"   . dired-up-directory)        ; So you can adjust `dired' bindings here
    ("?"   . dirvish-dispatch)          ; [?] a helpful cheatsheet

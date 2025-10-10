@@ -36,8 +36,7 @@
       (projectile-switch-project-by-name project-path))))
 
 ;; Bind it to a key
-(global-set-key (kbd "C-c p o") 'my/open-project-by-path)
-
+(global-set-key (kbd "M-\\") 'my/open-project-by-path)
 
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
