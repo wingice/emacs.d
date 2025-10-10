@@ -195,4 +195,21 @@
 ;; - Open favorite folders,         press "o"
 ;; - Open Recent folder/history     press "r"
 ;; - Open a folder                  press "C+x d"
+
+
+(defvar my-keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "M-p") 'consult-projectile)
+    map)
+  "my-keys-minor-mode keymap.")
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  :global t
+  :init-value t
+  :lighter " mykeys")
+
+(my-keys-minor-mode 1) ; Enable the minor mode globally
+
+
 (provide 'init-misc)

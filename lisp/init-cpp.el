@@ -27,6 +27,18 @@
 ;; To improve the speed of ripgrep, .ignore or .rgignore file can be defined
 
 
+(defun my/open-project-by-path ()
+  "Open a project by specifying its path directly."
+  (interactive)
+  (let ((project-path (read-directory-name "Project path: ")))
+    (when (file-directory-p project-path)
+      (projectile-add-known-project project-path)
+      (projectile-switch-project-by-name project-path))))
+
+;; Bind it to a key
+(global-set-key (kbd "C-c p o") 'my/open-project-by-path)
+
+
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
 ;;(require 'go-flymake)
