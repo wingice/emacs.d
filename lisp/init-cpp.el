@@ -18,7 +18,7 @@
   (add-to-list 'projectile-globally-ignored-directories "\.git")
   (add-to-list 'projectile-globally-ignored-directories "\'qunit/reports/*\'")
   (setq projectile-generic-command "fd . -0")
-  (setq projectile-ignored-projects '("~/" "c://windows" "c://"))
+  (setq projectile-ignored-projects '("~/" "c://windows" "c://" "~/scoop"))
   (setq projectile-project-root-files
 	'("dune-project" "pubspec.yaml" "info.rkt" "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask" "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot" "project.clj" "build.sc" "build.sbt" "application.properties" "gradlew" "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini" "setup.py" "requirements.txt" "manage.py" "angular.json" "package.json" "gulpfile.js" "Gruntfile.js" "mix.exs" "rebar.config" "composer.json" "CMakeLists.txt" "Makefile" "debian/control" "flake.nix" "default.nix" "meson.build" "SConstruct" "GTAGS" "TAGS" "configure.ac" "configure.in" "cscope.out"))
   (projectile-mode +1))
@@ -35,8 +35,22 @@
       (projectile-add-known-project project-path)
       (projectile-switch-project-by-name project-path))))
 
+(defun my/consult-fd-in-folder ()
+  "Prompt for a folder path and run consult-fd within that directory."
+  (interactive)
+  (let* ((default-directory (expand-file-name
+                            (read-directory-name
+                             "Search in folder: "
+                             default-directory)))
+         (folder-exists (file-directory-p default-directory)))
+    (if folder-exists
+        (progn
+          (message "Searching in: %s" default-directory)
+          (consult-fd)))))
+
 ;; Bind it to a key
-(global-set-key (kbd "M-\\") 'my/open-project-by-path)
+(global-set-key (kbd "M-\\") 'my/consult-fd-in-folder)
+(global-set-key (kbd "<pause>") 'keyboard-escape-quit)
 
 ;; ----------- Golang ----------------
 (setq gofmt-command "goimports")
