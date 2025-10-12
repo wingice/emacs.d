@@ -164,7 +164,8 @@
   ;; (dirvish-side-follow-mode)      ; similar to `treemacs-follow-mode'
   ;; open large directory (over 20000 files) asynchronously with `fd' command
   (setq dirvish-large-directory-threshold 20000)
-   (setq dirvish-mode-line-format
+  (setq dirvish-default-layout '(0 0.4 0.6))
+  (setq dirvish-mode-line-format
          '(:left (sort symlink) :right (omit yank index)))
   :bind ; Bind `dirvish-fd|dirvish-side|dirvish-dwim' as you see fit
   (
