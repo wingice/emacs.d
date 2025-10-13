@@ -266,43 +266,32 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 (use-package org-roam
   :after org
   :ensure t
-  :commands (org-oram-node-find org-roam-node-insert)
-  :init
-  (setq org-roam-database-connector 'sqlite3)
-  (setq org-roam-v2-ack t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
   :config
-  (setq org-roam-tag-sources '(prop all-directories))
   (setq org-roam-index-file "org-roam-note-index.org")
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:16}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   (setq org-roam-capture-templates
-      '(("i" "internet tools and bookmarks" plain "%?"
-	 :target (file+head "internet/${slug}-%<%Y%m%d%H%M%S>.org"
-	                    "#+title: ${title}")
-	 :unnarrowed t)
-	("r" "research and development" plain "%?"
-	 :target (file+head "research/${slug}-%<%Y%m%d%H%M%S>.org"
+      '(
+	("r" "career: reserach,internet,development" plain "%?"
+	 :target (file+head "career/${slug}-%<%Y%m%d%H%M%S>.org"
 			    "#+title: ${title}")
 	 :unnarrowed t)
-	("g" "growth and learning" plain "%?"
-	 :target (file+head "growth/${slug}-%<%Y%m%d%H%M%S>.org"
-			    :head "#+title: ${title}")
-	 :unnarrowed t)
-	("h" "hobbies" plain "%?"
-	 :target (file+head "hobbies/${slug}-%<%Y%m%d%H%M%S>.org"
+	("f" "family/life" plain "%?"
+	 :target (file+head "family/${slug}-%<%Y%m%d%H%M%S>.org"
 			    "#+title: ${title}")
 	 :unnarrowed t)
-	("p" "parenting" "%?"
-	 :target (file+head "parenting/${slug}-%<%Y%m%d%H%M%S>.org"
-			    "#+title: ${title}")
-	 :unnarrowed t)
-	("a" "all/general knowledges" plain "%?"
+	("o" "Other/general knowledges" plain "%?"
 	 :target (file+head "general/${slug}-%<%Y%m%d%H%M%S>.org"
 	                    "#+title: ${title}")
 	 :unnarrowed t)
 	)))
-
-
-
 
 (defun compile-on-save-start ()
   (let ((buffer (compilation-find-buffer)))
@@ -318,9 +307,6 @@ nothing happens."
     (progn  (make-local-variable 'after-save-hook)
         (add-hook 'after-save-hook 'compile-on-save-start nil t))
       (kill-local-variable 'after-save-hook)))
-
-  (global-set-key (kbd "C-c n i") 'org-roam-node-insert)
-  (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 
 (defun useful()
   (interactive)
