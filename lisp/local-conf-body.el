@@ -3,7 +3,7 @@
 (when (eq system-type 'windows-nt)
   (setq find-program "C:\\Users\\i348151\\scoop\\shims\\find.exe")
   (add-to-list 'exec-path "c:/tools/msys64/usr/bin")
-  (setenv "PATH" (concat  "c:/tools/msys64/usr/bin;" (getenv "PATH")))
+  (setenv "PATH" (concat  "C:/tools/tex/tex/texmf-win64/bin;" (getenv "PATH")))
 
   (setq org-directory "C:\\Users\\I348151\\OneDrive - SAP SE\\orgfiles")
   (setq org-roam-directory "c:/workspace/github/knowledge-n-tools/notes/")

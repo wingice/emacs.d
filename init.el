@@ -11,6 +11,12 @@
 (defconst *is-carbon-emacs* (eq window-system 'mac))
 (defconst *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
+;; --- Performance optimization ---
+(when (boundp 'load-path-filter-function)
+  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
+(setq load-suffixes '(".eln" ".elc" ".el"))  ;; to avoid searching .so/.dll
+(setq load-file-rep-suffixes '(""))          ;;;; to avoid searching *.gz
+
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------

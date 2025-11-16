@@ -17,8 +17,9 @@
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "\.git")
   (add-to-list 'projectile-globally-ignored-directories "\'qunit/reports/*\'")
+  (add-to-list 'projectile-globally-ignored-directories "c:/Users/I348151/scoop")
   (setq projectile-generic-command "fd . -0")
-  (setq projectile-ignored-projects '("~/" "c://windows" "c://" "~/scoop"))
+  (setq projectile-ignored-projects '("~/" "c:/windows" "c:/" "~/scoop"))
   (setq projectile-project-root-files
 	'("dune-project" "pubspec.yaml" "info.rkt" "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask" "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot" "project.clj" "build.sc" "build.sbt" "application.properties" "gradlew" "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini" "setup.py" "requirements.txt" "manage.py" "angular.json" "package.json" "gulpfile.js" "Gruntfile.js" "mix.exs" "rebar.config" "composer.json" "CMakeLists.txt" "Makefile" "debian/control" "flake.nix" "default.nix" "meson.build" "SConstruct" "GTAGS" "TAGS" "configure.ac" "configure.in" "cscope.out"))
   (projectile-mode +1))
