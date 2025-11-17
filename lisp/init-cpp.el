@@ -17,7 +17,7 @@
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "\.git")
   (add-to-list 'projectile-globally-ignored-directories "\'qunit/reports/*\'")
-  (add-to-list 'projectile-globally-ignored-directories "c:/Users/I348151/scoop")
+  (add-to-list 'projectile-globally-ignored-directories "scoop")
   (setq projectile-generic-command "fd . -0")
   (setq projectile-ignored-projects '("~/" "c:/windows" "c:/" "~/scoop"))
   (setq projectile-project-root-files

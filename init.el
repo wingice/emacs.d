@@ -46,6 +46,7 @@
 (require 'init-display)
 (require 'init-auto-complete)
 (require 'init-rails)
+(require 'init-media)
 (require 'init-misc)
 (require 'init-yasnippet)
 (require 'init-authoring)

@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(emms-playlist-track-face ((t (:foreground "dark slate gray" :height 0.9))))
  '(hl-line ((t (:background "dark green" :foreground "gray92"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
  '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
@@ -20,10 +21,11 @@
      default))
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
  '(package-selected-packages
-   '(chruby company consult consult-projectile dirvish embark
-	    embark-consult expand-region goto-chg gptel gptel-aibo
-	    groovy-mode js2-mode js2-refactor json-mode marginalia
-	    markdown-mode multiple-cursors nimbus-theme orderless
-	    org-roam projectile projectile-rails projectile-ripgrep
-	    shx smart-jump smart-region smartparens transpose-frame
+   '(chruby company consult consult-projectile dirvish
+	    expand-region goto-chg gptel gptel-aibo
+	    js2-mode js2-refactor json-mode
+	    marginalia markdown-mode multiple-cursors
+	    nimbus-theme orderless org-roam projectile
+	    projectile-rails projectile-ripgrep
+	    smart-jump smart-region smartparens transpose-frame
 	    vertico web-mode xref-js2 yaml-mode yasnippet)))

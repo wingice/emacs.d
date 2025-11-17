@@ -3,15 +3,12 @@
 (when (eq system-type 'windows-nt)
   (setq find-program "C:\\Users\\i348151\\scoop\\shims\\find.exe")
   (add-to-list 'exec-path "c:/tools/msys64/usr/bin")
+  (add-to-list 'exec-path "C:/Users/I348151/scoop/apps/mpv/current")
   (setenv "PATH" (concat  "C:/tools/tex/tex/texmf-win64/bin;" (getenv "PATH")))
 
   (setq org-directory "C:\\Users\\I348151\\OneDrive - SAP SE\\orgfiles")
   (setq org-roam-directory "c:/workspace/github/knowledge-n-tools/notes/")
-
-  (setenv "P4CLIENT" "pcode3230")
-  (setenv "P4PORT" "perforce3230:3230")
 )
-
 
 (when (or (string= (system-name) "w-PF44DJL0"  )         ;;<--T15g2
 	  (string= (system-name) "W-8CC3372YJW"))        ;;<--HPG800

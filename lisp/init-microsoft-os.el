@@ -1,14 +1,21 @@
 ﻿(when (eq system-type 'windows-nt)
-;;  (prefer-coding-system 'utf-8)
-;;  (set-frame-font "Courier SWA 14")
-;;  (set-frame-font "Consolas-11")
+  ;; Enable UTF-8 support for Chinese filenames and content
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq default-file-name-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  
+  ;; Font configuration
   (set-frame-font "Fira Code Retina-10.5")
-
   (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
 		    'han '("Microsoft YaHei" . "unicode-bmp"))
 
+  ;; Set locale for time display
   (setq system-time-locale "C")
-
+  
+  ;; Window size configuration
   (when window-system (set-frame-size (selected-frame) 132 36))
 
   ;;  (setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
