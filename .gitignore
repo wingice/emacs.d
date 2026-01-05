@@ -35,6 +35,7 @@ server
 packages/
 network-security.data
 
+.local/
 org-persist/
 transient/
 *.stackdump

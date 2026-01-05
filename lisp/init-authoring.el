@@ -342,4 +342,10 @@ nothing happens."
   (setq tmp-file (mobile-gtd-tmp-file))
   (upload-webdav-file tmp-file))
 
+
+(use-package javelin
+  :ensure t
+  :config
+  (global-javelin-minor-mode 1))
+
 (provide 'init-authoring)

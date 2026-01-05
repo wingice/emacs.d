@@ -208,7 +208,7 @@
   "A minor mode so that my key settings override annoying major modes."
   :global t
   :init-value t
-  :lighter " mykeys")
+  :lighter "keym")
 
 (my-keys-minor-mode 1) ; Enable the minor mode globally
 
