@@ -3,7 +3,7 @@
   :config
   (emms-default-players)
   (emms-minimalistic)
-  (setq-default emms-source-file-default-directory "~/OneDrive - SAP SE/Apps/Music")
+  (setq emms-source-file-default-directory "c:/workspace/media/Music")
   (defun my/emms-track-description (track)
     "Isolates the filename of TRACK regardless of file type."
     (file-name-nondirectory (cdr (assoc 'name track))))
