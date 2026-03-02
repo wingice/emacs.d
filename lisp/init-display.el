@@ -38,7 +38,7 @@
 (advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-windows)
 
 
-(set-background-color "#FFFFFB")
+(load-theme 'nimbus t)
 (add-hook 'Buffer-menu-mode-hook 'hl-line-mode)
 (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)

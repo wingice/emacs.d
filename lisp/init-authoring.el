@@ -76,8 +76,9 @@
 				   (if org-timer-start-time
 				       (org-timer-stop))
 				   ))
-  (add-hook 'org-timer-done-hook #'(lambda()
+(add-hook 'org-timer-done-hook #'(lambda()
 				     (popup-notification "Congratulations!" "You Finished a Pomodoro Task!")
+				     (my-pomodoro-increment-today-count)
 				     (org-clock-out)
 				    ))
   ;; update appt each time agenda opened
@@ -245,6 +246,30 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 
 (defun current-line-empty-p()
   (string-match-p "\\`\\s-*$" (thing-at-point 'line)))
+
+;; Pomodoro counting - update daily headline with 🍅count
+(defun my-pomodoro-tracking-file ()
+  (expand-file-name (format-time-string "tracking%Y.org") org-directory))
+
+(defun my-pomodoro-today-regexp ()
+  (regexp-quote (format-time-string "[%Y-%m-%d %a]")))
+
+(defun my-pomodoro-update-count ()
+  "Increment or add 🍅 count at current line."
+  (if (re-search-forward "🍅\\([0-9]+\\)" (line-end-position) t)
+      (replace-match (format "🍅%d" (1+ (string-to-number (match-string 1)))))
+    (end-of-line)
+    (insert " 🍅1")))
+
+(defun my-pomodoro-increment-today-count ()
+  "Find today's headline in tracking file and increment the pomodoro count."
+  (interactive)
+  (with-current-buffer (find-file-noselect (my-pomodoro-tracking-file))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward (my-pomodoro-today-regexp) nil t)
+        (my-pomodoro-update-count)))
+    (save-buffer)))
 
 (defun start-today()
   (interactive)
