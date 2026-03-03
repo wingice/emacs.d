@@ -256,10 +256,10 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 
 (defun my-pomodoro-update-count ()
   "Increment or add 🍅 count at current line."
-  (if (re-search-forward "🍅\\([0-9]+\\)" (line-end-position) t)
-      (replace-match (format "🍅%d" (1+ (string-to-number (match-string 1)))))
+  (if (re-search-forward " : \\([0-9]+\\) Pomodoro" (line-end-position) t)
+      (replace-match (format " : %d Pomodoro" (1+ (string-to-number (match-string 1)))))
     (end-of-line)
-    (insert " 🍅1")))
+    (insert " : 1 Pomodoro")))
 
 (defun my-pomodoro-increment-today-count ()
   "Find today's headline in tracking file and increment the pomodoro count."
