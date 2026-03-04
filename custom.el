@@ -23,10 +23,11 @@
  '(package-selected-packages
    '(chruby company consult consult-projectile dirvish
 	    expand-region goto-chg gptel javelin
-	    js2-mode js2-refactor json-mode
+	    js2-mode json-mode
 	    marginalia markdown-mode multiple-cursors
 	    nimbus-theme orderless org-roam projectile
 	    projectile-rails projectile-ripgrep
 	    smart-jump smart-region smartparens
 	    transpose-frame vertico web-mode yaml-mode
 	    yasnippet)))
+
