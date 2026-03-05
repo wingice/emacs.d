@@ -86,6 +86,7 @@
   (advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
   (global-set-key (kbd "<f2>") 'my-org-capture)
   (global-set-key (kbd "S-<f2>") 'my-capture-file)
+  (global-set-key (kbd "C-c m") 'my-meeting-increment-today-count)
   (define-key org-mode-map (kbd "M-.") 'nf/link-to-headline)
   :bind (("C-c l" . 'org-store-link)
 	 ("C-c a" . 'org-agenda)
@@ -247,19 +248,36 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 (defun current-line-empty-p()
   (string-match-p "\\`\\s-*$" (thing-at-point 'line)))
 
-;; Pomodoro counting - update daily headline with 🍅count
+;; Pomodoro counting - update daily headline with counts
+(defconst my-pomodoro-stats-format " Summary: %d meetings, %d pomodoros"
+  "Format string for daily pomodoro/meeting stats appended to the date headline.")
+
+(defconst my-pomodoro-stats-regexp " Summary: \\([0-9]+\\) meetings, \\([0-9]+\\) pomodoros"
+  "Regexp matching the stats string produced by `my-pomodoro-stats-format'.")
+
 (defun my-pomodoro-tracking-file ()
   (expand-file-name (format-time-string "tracking%Y.org") org-directory))
 
 (defun my-pomodoro-today-regexp ()
   (regexp-quote (format-time-string "[%Y-%m-%d %a]")))
 
-(defun my-pomodoro-update-count ()
-  "Increment or add 🍅 count at current line."
-  (if (re-search-forward " : \\([0-9]+\\) Pomodoro" (line-end-position) t)
-      (replace-match (format " : %d Pomodoro" (1+ (string-to-number (match-string 1)))))
+(defun my-pomodoro--update-stats (meetings-delta pomodoros-delta)
+  "Increment meetings and/or pomodoros count at current line.
+MEETINGS-DELTA and POMODOROS-DELTA are integers added to the current counts."
+  (if (re-search-forward my-pomodoro-stats-regexp (line-end-position) t)
+      (let ((meetings  (+ (string-to-number (match-string 1)) meetings-delta))
+            (pomodoros (+ (string-to-number (match-string 2)) pomodoros-delta)))
+        (replace-match (format my-pomodoro-stats-format meetings pomodoros)))
     (end-of-line)
-    (insert " : 1 Pomodoro")))
+    (insert (format my-pomodoro-stats-format meetings-delta pomodoros-delta))))
+
+(defun my-pomodoro-update-count ()
+  "Increment the pomodoro count at current line."
+  (my-pomodoro--update-stats 0 1))
+
+(defun my-meeting-update-count ()
+  "Increment the meeting count at current line."
+  (my-pomodoro--update-stats 1 0))
 
 (defun my-pomodoro-increment-today-count ()
   "Find today's headline in tracking file and increment the pomodoro count."
@@ -271,6 +289,16 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
         (my-pomodoro-update-count)))
     (save-buffer)))
 
+(defun my-meeting-increment-today-count ()
+  "Find today's headline in tracking file and increment the meeting count."
+  (interactive)
+  (with-current-buffer (find-file-noselect (my-pomodoro-tracking-file))
+    (save-excursion
+      (goto-char (point-min))
+      (when (re-search-forward (my-pomodoro-today-regexp) nil t)
+        (my-meeting-update-count)))
+    (save-buffer)))
+
 (defun start-today()
   (interactive)
   (unless (current-line-empty-p)
@@ -278,6 +306,7 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
   (insert "*** \n")
   (forward-char -1)
   (insert (format-time-string "[%Y-%m-%d %a]"))
+  (insert (format my-pomodoro-stats-format 0 0))
   (move-beginning-of-line 2)
   (insert "**** Meetings, Planning and Email processing\n")
   (org-clock-in)
