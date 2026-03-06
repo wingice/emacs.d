@@ -6,7 +6,7 @@
   (set-keyboard-coding-system 'utf-8)
   (setq default-file-name-coding-system 'utf-8)
   (setq locale-coding-system 'utf-8)
-  
+
   ;; Font configuration
   (set-frame-font "Fira Code Retina-10.5")
   (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
@@ -14,15 +14,16 @@
 
   ;; Set locale for time display
   (setq system-time-locale "C")
-  
+
   ;; Window size configuration
   (when window-system (set-frame-size (selected-frame) 132 36))
 
   ;;  (setq pdf-info-epdfinfo-program "C:/Tools/msys64/mingw64/bin/epdfinfo.exe")
 
+
   (defun stretchly-start()
       (interactive)
-    (start-process "Reminder" nil "stretchly" "long" "-w" "25m"))
+    (start-process "Reminder" nil "C:\\Users\\I348151\\scoop\\apps\\stretchly\\current\\Stretchly.exe" "long" "-w" "25m"))
 
   (defun powershell-toast(msg)    ;;Requirement: Install-Module -Name BurntToast   [@Powershell Administrator mode]
     (interactive)
