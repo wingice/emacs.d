@@ -25,3 +25,6 @@
 ;; Target: C:\Users\I348151\scoop\shims\stretchly.exe long
 
 ;;--- Linux/MacOS ---
+(when (eq system-type 'darwin)
+  (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
+  )
