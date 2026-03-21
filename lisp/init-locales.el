@@ -1,3 +1,5 @@
+;;; init-locales.el --- Locale and encoding config  -*- lexical-binding: t; -*-
+
 (when (fboundp 'set-charset-priority)
   (set-charset-priority 'unicode))
   (set-language-environment 'utf-8)

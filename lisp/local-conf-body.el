@@ -1,3 +1,5 @@
+;;; local-conf-body.el --- Per-machine config  -*- lexical-binding: t; -*-
+
 ;;----------------- Reference for Per Computer Customization------------------------------
 ;;--- Windows ---
 (when (eq system-type 'windows-nt)
@@ -27,4 +29,5 @@
 ;;--- Linux/MacOS ---
 (when (eq system-type 'darwin)
   (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
+  (setq org-directory "~/workspace/orgfiles")
   )

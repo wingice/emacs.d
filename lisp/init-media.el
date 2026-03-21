@@ -1,3 +1,5 @@
+;;; init-media.el --- Media playback config  -*- lexical-binding: t; -*-
+
 ;; Since mp3 files whith Chinese characters will cause troubles on Windows, so switch to VLC media player
 ;; EMMS core
 ;; (use-package emms

@@ -12,19 +12,13 @@
 (setq appt-time-msg-list nil)
 ;; the appointment notification facility
 (setq
-  appt-message-warning-time 3
-  appt-display-mode-line t ;; show in the modeline
-)
-
-;; the appointment notification facility
-(setq
  appt-message-warning-time 3
  appt-display-mode-line t ;; show in the modeline
  display-time-default-load-average nil
  appt-display-format 'window) ;; use our func
 
 ;;(appt-activate 1) ;; active appt (appointment notification)
-(display-time) ;; time display is required for this...
+(display-time-mode 1)
 
 
 (defun popup-appt-msg(min-to-app new-time appt-msg)
@@ -178,29 +172,6 @@
 
 
 
-;; This block is defined to merge two org clock entries
-(defun my-org-get-clock-segment-timestamps (line)
-  "Parses a clock segment line and returns the first and last timestamps in a list."
-  (let* ((org-clock-regexp (concat "CLOCK: " org-ts-regexp3 "--" org-ts-regexp3))
-     (t1 (if (string-match org-clock-regexp line)
-         (match-string 1 line)
-           (user-error "The argument must have a valid CLOCK range")))
-     (t2 (match-string 9 line)))
-    (list t1 t2)))
-
-(defun my-org-compute-timestamp-difference (later-timestamp earlier-timestamp)
-  "Computes the number of seconds difference in string timestamps as a float."
-  (-
-   (float-time (apply #'encode-time (org-parse-time-string later-timestamp)))
-   (float-time (apply #'encode-time (org-parse-time-string earlier-timestamp)))))
-
-(defun my-org-float-time-diff-to-hours-minutes (diff)
-  "Returns a float time difference in hh:mm format."
-  (let* ((hours (floor (/ diff 3600)))
-     (diff_minus_hours (- diff (* 3600 hours)))
-     (minutes (floor (/ diff_minus_hours 60))))
-    (car (split-string (format "%2d:%02d" hours minutes)))))
-
 (defun my-org-clock-merge ()
   "Merge the org CLOCK line with the next CLOCK line. If the last timestamp of the current line equals the first timestamp of the
 next line with a tolerance of up to 10 minutes, then merge automatically."
@@ -248,7 +219,6 @@ next line with a tolerance of up to 10 minutes, then merge automatically."
 (defun current-line-empty-p()
   (string-match-p "\\`\\s-*$" (thing-at-point 'line)))
 
-;; Pomodoro counting - update daily headline with counts
 (defconst my-pomodoro-stats-format " Summary: %d meetings, %d pomodoros"
   "Format string for daily pomodoro/meeting stats appended to the date headline.")
 

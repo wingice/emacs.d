@@ -1,10 +1,7 @@
+;;; init-display.el --- Display and UI settings  -*- lexical-binding: t; -*-
 ;;  ---  Font, Display and General Setttings   ---
 
-(if (functionp 'tool-bar-mode) (tool-bar-mode 0)) ;; Do not display toolbar
-(if (functionp 'menu-bar-mode) (menu-bar-mode 0)) ;; Do not display toolbar
-
 (column-number-mode t)
-(setq linum-format "%5d ")
 (setq sgml-basic-offset 4)
 
 ;;disable splash screen and startup message
@@ -71,9 +68,11 @@
 
 (defvar after-load-theme-hook nil
   "Hook run after a color theme is loaded using `load-theme'.")
-(defadvice load-theme (after run-after-load-theme-hook activate)
+
+(defun run-after-load-theme-hook (&rest _args)
   "Run `after-load-theme-hook'."
   (run-hooks 'after-load-theme-hook))
+(add-hook 'enable-theme-functions #'run-after-load-theme-hook)
 
 (defun set-helm-hl-color()
   (set-face-background 'helm-selection "#336622"))
@@ -91,5 +90,8 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (setq text-scale-mode-step 1.1)
+
+(pixel-scroll-precision-mode 1)
+(which-key-mode 1)
 
 (provide 'init-display)

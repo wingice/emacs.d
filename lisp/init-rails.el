@@ -1,3 +1,5 @@
+;;; init-rails.el --- Rails and web development  -*- lexical-binding: t; -*-
+
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (defun my-web-mode-hook ()
   (set-face-attribute 'web-mode-symbol-face nil :foreground "darkgreen")
@@ -6,10 +8,6 @@
 
 (advice-add 'inf-ruby-console-auto :before #'chruby-use-corresponding)
 
-;;(add-hook 'ruby-mode-hook 'robe-mode)   ;; disable robe temporarily
-;; (eval-after-load 'company
-;;   '(progn
-;;     (push 'company-robe company-backends)))
 
 (projectile-rails-global-mode)
 (define-key projectile-rails-mode-map (kbd "C-c f") 'projectile-rails-command-map)
@@ -43,14 +41,10 @@
     (shell-command "ripper-tags -R -e -f TAGS")))
 
 
-;;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-hook 'yaml-mode-hook
 	  #'(lambda ()
 	     (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
-;;(require 'flymake-ruby)
-;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
 
 
 (require 'hideshow)
@@ -75,7 +69,7 @@
 
 (smart-jump-setup-default-registers)
 
-;;Temorpary fix the git slow-down emacs problem
+;; Disable VC integration to avoid git slowdowns
 (setq vc-handled-backends nil)
 
 (require 'chruby)

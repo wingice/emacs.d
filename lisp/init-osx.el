@@ -1,3 +1,5 @@
+;;; init-osx.el --- macOS specific config  -*- lexical-binding: t; -*-
+
 ;;(when *is-a-mac*
 ;;  (setq mac-command-modifier 'meta)
 ;;  (setq mac-option-modifier 'none)
@@ -16,20 +18,20 @@
 
 
 (when *is-a-mac*
-  (set-frame-font "-*-Courier-*-normal-normal-*-17-*-*-*-m-0-*-*")
+  (when (display-graphic-p)
+    (set-frame-font "-*-Courier-*-normal-normal-*-17-*-*-*-m-0-*-*")
+    ;; Fix Chinese italic display — set Han font for the current fontset
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'han
+     (font-spec :family "Hiragino Sans GB")))
   (global-set-key (kbd "<f9>") 'buffer-menu)
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")) ;;to support homebrew Path
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   (setq exec-path (append exec-path '("/usr/local/bin")))
-  ;;在Emacs中显示斜体中文时，无法正常显示，只显示方块的问题。原因是因为Emacs没有为斜体设置中文字体
-  ;;when showing Italic Chinese characters, only rectangle block shown
-  (set-fontset-font
-   (frame-parameter nil 'font)
-   'han
-   (font-spec :family "Hiragino Sans GB" ))
 
   (defun popup-notification(title msg)
     (interactive)
-    (ns-do-applescript (concatenate 'string "display notification \"" msg "\" with title \"" title "\" sound name \"Glass\""))
+    (ns-do-applescript (concat "display notification \"" msg "\" with title \"" title "\" sound name \"Glass\""))
   )
 
   (defun test-osx-notification()

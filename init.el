@@ -25,12 +25,8 @@
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(setq package-enable-at-startup nil)
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
 (setq use-package-verbose t)
 
 (setq custom-file "~/.emacs.d/custom.el")

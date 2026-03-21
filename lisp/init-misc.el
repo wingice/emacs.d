@@ -1,3 +1,4 @@
+;;; init-misc.el --- Miscellaneous config  -*- lexical-binding: t; -*-
 ;;----------------------------------------------------------------------------
 ;; Misc config - yet to be placed in separate files
 ;;----------------------------------------------------------------------------
@@ -27,10 +28,12 @@
    kept-old-versions 2
    version-control t)       ; use versioned backups
 
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end))
-                (list (line-beginning-position) (line-beginning-position 2)))))
+;; When called interactively with no active region, copy current line instead.
+(put 'kill-ring-save 'interactive-form
+     '(interactive
+       (if (use-region-p)
+           (list (region-beginning) (region-end))
+         (list (line-beginning-position) (line-beginning-position 2)))))
 
 (global-set-key "\C-w" 'clipboard-kill-region)
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
@@ -69,8 +72,6 @@
 
 (global-set-key [(control ?.)] 'goto-last-change)
 (global-set-key [(control ?,)] 'goto-last-change-reverse)
-
-(add-hook 'json-mode-hook #'flycheck-mode)
 
 (setq read-process-output-max (* 1024 1024))
 

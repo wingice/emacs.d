@@ -1,4 +1,6 @@
-﻿(when (eq system-type 'windows-nt)
+;;; init-microsoft-os.el --- Windows specific config  -*- lexical-binding: t; -*-
+
+(when (eq system-type 'windows-nt)
   ;; Enable UTF-8 support for Chinese filenames and content
   (prefer-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)

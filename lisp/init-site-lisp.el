@@ -1,3 +1,4 @@
+;;; init-site-lisp.el --- Site lisp setup  -*- lexical-binding: t; -*-
 ;;; Set load path
 
 (defconst emacs-dir "~/.emacs.d/" "The top-level emacs-configure directory.")
@@ -6,9 +7,8 @@
 (defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
 (defconst emacs-autosave-dir (concat emacs-dir "tmp/autosave/") "directory to backup files.")
 
-(setq gc-cons-threshold 16000000)    ;; Performance enhancement
+;; GC threshold is set in early-init.el (high during init, restored after startup)
 
-(defun server-ensure-safe-dir (dir) "Noop" t)
 (setq server-socket-dir emacs-tmp-dir)
 (setq server-auth-dir emacs-tmp-dir)
 (cond

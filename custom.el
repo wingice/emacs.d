@@ -21,13 +21,8 @@
      default))
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
  '(package-selected-packages
-   '(chruby company consult consult-projectile dirvish
-	    expand-region goto-chg gptel javelin
-	    js2-mode json-mode
-	    marginalia markdown-mode multiple-cursors
-	    nimbus-theme orderless org-roam projectile
-	    projectile-rails projectile-ripgrep
-	    smart-jump smart-region smartparens
-	    transpose-frame vertico web-mode yaml-mode
-	    yasnippet)))
-
+   '(chruby company consult consult-projectile dirvish expand-region
+	    goto-chg gptel javelin js2-mode json-mode marginalia
+	    markdown-mode multiple-cursors nimbus-theme orderless
+	    org-roam projectile projectile-rails smart-jump
+	    smartparens vertico web-mode yaml-mode)))

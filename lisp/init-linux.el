@@ -1,3 +1,5 @@
+;;; init-linux.el --- Linux specific config  -*- lexical-binding: t; -*-
+
 (when (eq system-type 'gnu/linux)
   (set-frame-font "-*-Courier 10 Pitch-normal-normal-normal-*-19-*-*-*-m-0-*-*")
   (set-face-attribute 'default nil :font "Courier 10 Pitch 14")  ;; Setting English Font

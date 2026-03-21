@@ -1,3 +1,5 @@
+;;; init-cpp.el --- C++, JS, Go and project config  -*- lexical-binding: t; -*-
+
 (defun li-create-file-in-dir(name)
   (interactive)
   (let* ((file (read-file-name "Create file: " default-directory name nil name nil))
@@ -65,40 +67,8 @@
   ))
 
 
-(defun setup-tide-mode ()
-  (interactive)
-  (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
-
-;; formats the buffer before saving
-;;(add-hook 'before-save-hook 'tide-format-before-save)
-
-;; (dolist (hook (list
-;;                'js-mode-hook
-;;                'typescript-mode-hook
-;;                ))
-;;   (add-hook hook (lambda ()
-;; 		   (setup-tide-mode)
-;; 		   (define-key tide-mode-map (kbd "s-.") 'tide-fix)
-;; 		   (define-key tide-mode-map (kbd "M-.") nil)
-;;                    ;; 当 tsserver 服务没有启动时自动重新启动
-;;                    ;;(unless (tide-current-server)
-;;                    ;;  (tide-restart-server))
-;;                    ;;)
-;; 	    ))
-;;   )
-
 
 (require 'smartparens-config)
 (add-hook 'js-mode-hook #'smartparens-mode)

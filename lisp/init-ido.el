@@ -1,3 +1,5 @@
+;;; init-ido.el --- Completion and consult config  -*- lexical-binding: t; -*-
+
 ;; The `consult' package provides lots of commands that are enhanced
 ;; variants of basic, built-in functionality.  One of the headline
 ;; features of `consult' is its preview facility, where it shows in
@@ -21,21 +23,6 @@
          ("M-s M-b" . consult-buffer)))
 
 
-;; (use-package embark
-;;   :ensure t
-;;   :bind
-;;    (("C-;" . embark-act)         ;; pick some comfortable binding
-;;     ("C-'" . embark-dwim)        ;; good alternative: M-.
-;;     ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-;;   )
-
-;; Consult users will also want the embark-consult package.
-;; (use-package embark-consult
-;;   :ensure t ; only need to install it, embark loads it after consult if found
-;;   :hook
-;;   (embark-collect-mode . consult-preview-at-point-mode))
-
-
 ;; Enable Vertico.
 (use-package vertico
   :custom
@@ -45,6 +32,10 @@
   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
   :init
   (vertico-mode))
+
+(use-package marginalia
+  :init
+  (marginalia-mode))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -117,13 +108,6 @@
 (global-set-key (kbd "<C-tab>") 'gptel-complete)
 (global-set-key (kbd "C-<backspace>") 'gptel-complete)
 
-
-;; (use-package vterm
-;;   :defer t
-;;   :load-path "~/.emacs.d/packages/"
-;;   :config
-;;   (when (eq system-type 'windows-nt)
-;;     (setq vterm-shell "powershell")))
 
 (setq gptel-api-key "dummy")
 (provide 'init-ido)
