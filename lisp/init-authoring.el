@@ -359,7 +359,9 @@ nothing happens."
   (setq tmp-file (mobile-gtd-tmp-file))
   (delete-existed-file tmp-file)
   (download-webdav-file tmp-file)
-  (find-file tmp-file))
+  (if (file-exists-p tmp-file)
+      (find-file tmp-file)
+    (message "Warning: tmp file %s does not exist, download may have failed" tmp-file)))
 
 (defun mobile-gtd-push()
   (interactive)
