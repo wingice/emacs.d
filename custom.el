@@ -7,7 +7,8 @@
  '(hl-line ((t (:background "dark green" :foreground "gray92"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
  '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
- '(outline-3 ((t (:foreground "dark green"))))
+ '(org-level-3 ((t (:foreground "#629677"))))
+ '(org-level-4 ((t (:foreground "#95b6b1"))))
  '(outline-4 ((t (:foreground "black")))))
 
 (custom-set-variables
