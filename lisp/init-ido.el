@@ -103,11 +103,5 @@
   :defer t
   :ensure t)
 
-(load-file "~/.emacs.d/packages/gptel-complete.el")
-
-(global-set-key (kbd "<C-tab>") 'gptel-complete)
-(global-set-key (kbd "C-<backspace>") 'gptel-complete)
-
-
 (setq gptel-api-key "dummy")
 (provide 'init-ido)

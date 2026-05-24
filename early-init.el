@@ -20,6 +20,12 @@
 ;; --- Skip case-insensitive second pass over auto-mode-alist ---
 (setq auto-mode-case-fold nil)
 
+;; --- Speed up library lookup during startup ---
+(when (boundp 'load-path-filter-function)
+  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
+(setq load-suffixes '(".eln" ".elc" ".el"))
+(setq load-file-rep-suffixes '(""))
+
 ;; --- Disable UI elements before frame draws (prevents flash) ---
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)

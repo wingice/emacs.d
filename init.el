@@ -9,17 +9,13 @@
 ;;----------------------------------------------------------------------------
 (defconst *is-a-mac* (eq system-type 'darwin))
 
-;; --- Performance optimization ---
-(when (boundp 'load-path-filter-function)
-  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
-(setq load-suffixes '(".eln" ".elc" ".el"))  ;; to avoid searching .so/.dll
-(setq load-file-rep-suffixes '(""))          ;;;; to avoid searching *.gz
-
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
 (require 'server)
 (require 'package)
+
+(setq package-quickstart t)
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)

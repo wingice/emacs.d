@@ -39,6 +39,12 @@
 (setq auto-save-list-file-prefix
         emacs-autosave-dir)
 
+(defun refresh-package-quickstart ()
+  "Refresh package quickstart cache after package changes."
+  (interactive)
+  (package-quickstart-refresh)
+  (message "Refreshed package quickstart cache"))
+
 ;;(setq bookmark-default-file (concat emacs-dir "tmp/bookmarks")
 ;;      bookmark-save-flag nil)
 

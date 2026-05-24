@@ -9,6 +9,7 @@ Steps
 1. Clone the repo to .emacs.d
 2. Start emacs, M-x package-refresh-contents
 3. Close emacs and start it again. it will automatically install required packages.
+4. After installing, removing, or upgrading packages, run `M-x refresh-package-quickstart` to rebuild the package startup cache.
 
 You are ready to go, enjoy!
 
@@ -19,3 +20,9 @@ If you want to change, just change the lisp file freely.
 If you want to add some local configuration which only applied to local machine, you can add
 a local-conf-body.el in lisp sub folder. It will be automatically loaded. You can set
 working-directory, agenda-file location etc on this file.
+
+
+Notes
+---------------------
+- This config enables `package-quickstart` to speed up startup.
+- If you change installed packages, run `M-x refresh-package-quickstart` once so Emacs can rebuild its quickstart cache.

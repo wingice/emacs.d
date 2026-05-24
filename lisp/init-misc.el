@@ -166,8 +166,7 @@
 (use-package dirvish
   :defer t
   :ensure t
-  :init
-  (dirvish-override-dired-mode)
+  :hook (dired-mode . dirvish-override-dired-mode)
   :custom
   (dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "dll" "so" "docx" "pptx" "xlsx"))
   (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
