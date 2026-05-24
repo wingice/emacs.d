@@ -5,6 +5,9 @@
 
 (setopt use-short-answers t)
 
+;; Emacs 30: disable ispell in text-mode completion (interferes with company)
+(setq text-mode-ispell-word-completion nil)
+
 ;;  ---  Global Key Bindings   ---
 (global-set-key (kbd "M-[")    'pop-global-mark)
 (global-set-key (kbd "<menu>") 'buffer-menu)
@@ -13,7 +16,6 @@
 (global-set-key (kbd "M-p")    'consult-projectile)
 (global-set-key (kbd "M-j")    'fd-name-dired)
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
-(global-set-key (kbd "<end>")  'move-end-of-line)
 (global-set-key (kbd "<end>")  'move-end-of-line)
 ;;(add-hook 'dired-after-readin-hook 'hl-line-mode)
 (global-set-key [f10] 'toggle-menu-bar-mode-from-frame)
@@ -67,13 +69,33 @@
 (global-set-key (kbd "<s-left>") 'next-code-buffer)
 
 
-(global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (previous-code-buffer)))
-(global-set-key "\C-x3" (lambda () (interactive)(split-window-horizontally) (previous-code-buffer)))
+(defun split-window-vertically-and-switch ()
+  (interactive)
+  (split-window-vertically)
+  (previous-code-buffer))
+
+(defun split-window-horizontally-and-switch ()
+  (interactive)
+  (split-window-horizontally)
+  (previous-code-buffer))
+
+(global-set-key "\C-x2" 'split-window-vertically-and-switch)
+(global-set-key "\C-x3" 'split-window-horizontally-and-switch)
 
 (global-set-key [(control ?.)] 'goto-last-change)
 (global-set-key [(control ?,)] 'goto-last-change-reverse)
 
 (setq read-process-output-max (* 1024 1024))
+
+;; Disable adaptive read buffering - proven pessimization (Emacs bug#75574)
+;; Causes 8x perf regression in mixed read flows; will be nil by default in Emacs 31
+(setq process-adaptive-read-buffering nil)
+
+;; Prevent font cache compaction - reduces GC pauses (most impactful on Windows)
+(setq inhibit-compacting-font-caches t)
+
+;; Don't ping things that look like domain names (slows find-file-at-point)
+(setq ffap-machine-p-known 'reject)
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -81,20 +103,15 @@
 (defun force-writable()
   (interactive)
   (change-file-to-writable)
-  (revert-buffer))
+  (revert-buffer nil t))
 
 (defun change-file-to-writable()
-  (cond ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-         (progn
-           (shell-command-to-string (concat "attrib -R " (buffer-file-name (current-buffer))))
-           ))
-        ((or (eq system-type 'gnu/linux) (eq system-type 'darwin))
-         (progn
-           (shell-command-to-string (concat "chmod u+w " (buffer-file-name (current-buffer))))
-           ))
-        (t (message "file permission change not handle for OS %s" system-type))
-	)
-  )
+  (let ((file (buffer-file-name)))
+    (cond ((eq system-type 'windows-nt)
+           (shell-command-to-string (concat "attrib -R " file)))
+          ((memq system-type '(gnu/linux darwin))
+           (shell-command-to-string (concat "chmod u+w " file)))
+          (t (message "file permission change not handled for OS %s" system-type)))))
 
 (setq bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
@@ -110,14 +127,12 @@
 ;;(global-set-key (kbd "s-d")  (lambda ()(interactive)(dired (file-name-directory buffer-file-name))))
 
 (defun insert-uuid()
-  "Insert a UUID. This commands calls “uuidgen” on MacOS, Linux, and calls PowelShell on Microsoft Windows."
+  "Insert a UUID using platform-appropriate tools."
   (interactive)
   (cond
-   ((string-equal system-type "windows-nt")
+   ((eq system-type 'windows-nt)
     (shell-command "pwsh.exe -Command [guid]::NewGuid().toString()" t))
-   ((string-equal system-type "darwin") ; Mac
-    (shell-command "uuidgen" t))
-   ((string-equal system-type "gnu/linux")
+   ((memq system-type '(darwin gnu/linux))
     (shell-command "uuidgen" t))
    (t
     ;; code here by Christopher Wellons, 2011-11-18.
@@ -141,10 +156,10 @@
                       (substring myStr 17 20)
                       (substring myStr 20 32)))))))
 
-    (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-    (global-set-key (kbd "C-+") 'mc/mark-next-like-this)
-    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C-+") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 
 
@@ -168,6 +183,10 @@
   (setq dirvish-default-layout '(0 0.4 0.6))
   (setq dirvish-mode-line-format
          '(:left (sort symlink) :right (omit yank index)))
+  (setq mouse-1-click-follows-link nil)
+  (define-key dirvish-mode-map (kbd "<mouse-1>") 'dirvish-subtree-toggle-or-open)
+  (define-key dirvish-mode-map (kbd "<mouse-2>") 'dired-mouse-find-file-other-window)
+  (define-key dirvish-mode-map (kbd "<mouse-3>") 'dired-mouse-find-file)
   :bind ; Bind `dirvish-fd|dirvish-side|dirvish-dwim' as you see fit
   (
    :map dirvish-mode-map               ; Dirvish inherits `dired-mode-map'
@@ -186,10 +205,6 @@
    ("M-b" . dirvish-history-go-backward)
    ("M-e" . dirvish-emerge-menu)))
 
-(setq mouse-1-click-follows-link nil)
-(define-key dirvish-mode-map (kbd "<mouse-1>") 'dirvish-subtree-toggle-or-open)
-(define-key dirvish-mode-map (kbd "<mouse-2>") 'dired-mouse-find-file-other-window)
-(define-key dirvish-mode-map (kbd "<mouse-3>") 'dired-mouse-find-file)
 (setq delete-by-moving-to-trash t)
 ;; Short guide for Dirvish/Dired
 ;; - Open file externally in dired, press "W",  Which runs (browse-url-of-dired-file) and seems to open the file or directory in the default application.

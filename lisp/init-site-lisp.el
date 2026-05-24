@@ -46,9 +46,13 @@
 (defun emacs-session-filename (SESSION-ID)
   (concat emacs-cache-dir SESSION-ID))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; find refences: cd ~/.emacs.d/elpa rg "require 'cl\)"
 (setq byte-compile-warnings '(cl-functions))
+
+;; Windows: larger pipe buffer for faster subprocess I/O (projectile, compilation, etc.)
+(when (eq system-type 'windows-nt)
+  (setq w32-pipe-buffer-size (* 64 1024)))
 
 (provide 'init-site-lisp)

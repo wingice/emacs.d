@@ -60,11 +60,8 @@
 ;;(require 'go-flymake)
 
 (add-hook 'go-mode-hook (lambda ()
-  (set (make-local-variable 'company-backends) '(company-go))
-  (company-mode)
-  (projectile-mode)
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  ))
+  (setq-local company-backends '(company-go))
+  (add-hook 'before-save-hook #'gofmt-before-save nil t)))
 
 
 ;; aligns annotation to the right hand side
@@ -111,8 +108,6 @@
 
 (setq-default js2-basic-offset 4
               js-indent-level 4)
-(setq js-indent-level 4)
-(setq javascript-indent-level 4)
 (setq tab-width 4)
 
 (setq xref-js2-search-program 'rg)

@@ -8,8 +8,6 @@
 ;; Which functionality to enable (use t or nil for true and false)
 ;;----------------------------------------------------------------------------
 (defconst *is-a-mac* (eq system-type 'darwin))
-(defconst *is-carbon-emacs* (eq window-system 'mac))
-(defconst *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
 ;; --- Performance optimization ---
 (when (boundp 'load-path-filter-function)
