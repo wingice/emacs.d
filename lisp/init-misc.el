@@ -228,4 +228,172 @@
 (my-keys-minor-mode 1) ; Enable the minor mode globally
 
 
+;;; --- Git Review: scan workspace dirs for uncommitted repos ---
+
+(defvar git-review-workspace-dirs
+  (if *is-a-mac*
+      '("~/sapdevelop" "~/workspace")
+    '("c:/workspace" "c:/sapdevelop"))
+  "Directories to scan for git repositories.")
+
+(defvar git-review-max-depth 3
+  "Maximum directory depth to recurse when scanning for git repos.")
+
+(defvar git-review--fd-path (executable-find "fd")
+  "Cached path to fd executable, or nil.")
+
+(defun git-review--find-repos (dir)
+  "Find git repos under DIR using fd, falling back to manual walk."
+  (when (file-directory-p dir)
+    (let ((dir (file-name-as-directory (expand-file-name dir))))
+      (if git-review--fd-path
+          (let ((default-directory dir))
+            (mapcar (lambda (p)
+                      (file-name-directory
+                       (expand-file-name (directory-file-name (string-trim p)) dir)))
+                    (split-string
+                     (shell-command-to-string
+                      (format "%s -td --hidden --no-ignore --max-depth %d -g .git ."
+                              (shell-quote-argument git-review--fd-path)
+                              git-review-max-depth))
+                     "\n" t)))
+        (let (repos)
+          (cl-labels ((walk (d depth)
+                        (cond
+                         ((file-directory-p (expand-file-name ".git" d)) (push d repos))
+                         ((< depth git-review-max-depth)
+                          (dolist (sub (directory-files d t "\\`[^.]" t))
+                            (when (file-directory-p sub)
+                              (walk sub (1+ depth))))))))
+            (walk dir 0))
+          (nreverse repos))))))
+
+(defun git-review--dirty-status (repo)
+  "Return porcelain status string for REPO if dirty, nil if clean."
+  (let* ((default-directory (file-name-as-directory repo))
+         (out (with-output-to-string
+                (with-current-buffer standard-output
+                  (call-process "git" nil t nil "status" "--porcelain")))))
+    (let ((trimmed (string-trim out)))
+      (unless (string-empty-p trimmed) trimmed))))
+
+(defun git-review--scan-all ()
+  "Return (dirty . clean) cons: dirty is alist of (repo . status), clean is list of repos."
+  (let (all-repos dirty clean (home (expand-file-name "~")))
+    ;; Collect repos from workspace dirs
+    (dolist (dir git-review-workspace-dirs)
+      (setq all-repos (nconc all-repos (git-review--find-repos dir))))
+    ;; Collect dotfile repos under ~
+    (dolist (f (directory-files home t "\\`\\." t))
+      (when (and (file-directory-p f)
+                 (file-directory-p (expand-file-name ".git" f)))
+        (push f all-repos)))
+    ;; Check each repo
+    (dolist (repo all-repos)
+      (let ((s (git-review--dirty-status repo)))
+        (if s (push (cons repo s) dirty)
+          (push repo clean))))
+    (cons (nreverse dirty) (nreverse clean))))
+
+(defun git-review--repo-at-point ()
+  "Return repo path for section at point."
+  (or (get-text-property (line-beginning-position) 'git-review-repo)
+      (save-excursion
+        (while (and (not (get-text-property (point) 'git-review-repo))
+                    (not (bobp)))
+          (forward-line -1))
+        (get-text-property (point) 'git-review-repo))))
+
+(defun git-review-commit ()
+  "Stage all and commit the repo at point."
+  (interactive)
+  (if-let ((repo (git-review--repo-at-point)))
+      (let ((default-directory (file-name-as-directory repo))
+            (name (file-name-nondirectory (directory-file-name repo))))
+        (when (yes-or-no-p (format "Stage+commit all in %s?" name))
+          (shell-command-to-string "git add -A")
+          (let ((msg (read-string (format "Commit [%s]: " name))))
+            (if (string-empty-p msg)
+                (message "Aborted.")
+              (message "%s" (string-trim
+                             (shell-command-to-string
+                              (format "git commit -m %s" (shell-quote-argument msg)))))
+              (git-review)))))
+    (message "No repo at point.")))
+
+(defun git-review-shell ()
+  "Open shell in the repo at point on the right half."
+  (interactive)
+  (if-let ((repo (git-review--repo-at-point)))
+      (let ((default-directory (file-name-as-directory repo)))
+        (select-window (split-window-right))
+        (shell (generate-new-buffer-name "*git-shell*")))
+    (message "No repo at point.")))
+
+(defun git-review-dired ()
+  "Open dired for repo at point."
+  (interactive)
+  (if-let ((repo (git-review--repo-at-point)))
+      (dired repo)
+    (message "No repo at point.")))
+
+(defun git-review-next ()
+  "Move to next repo."
+  (interactive)
+  (when-let ((pos (next-single-property-change (line-end-position) 'git-review-repo)))
+    (goto-char pos) (beginning-of-line)))
+
+(defun git-review-prev ()
+  "Move to previous repo."
+  (interactive)
+  (when-let ((pos (previous-single-property-change (line-beginning-position) 'git-review-repo)))
+    (goto-char (1- pos))
+    (goto-char (or (previous-single-property-change (point) 'git-review-repo) (point-min)))
+    (beginning-of-line)))
+
+(defvar git-review-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "c" #'git-review-commit)
+    (define-key map "s" #'git-review-shell)
+    (define-key map "d" #'git-review-dired)
+    (define-key map "n" #'git-review-next)
+    (define-key map "p" #'git-review-prev)
+    (define-key map "q" #'quit-window)
+    map))
+
+(define-derived-mode git-review-mode special-mode "GitReview"
+  "Mode for reviewing dirty git repos.\\{git-review-mode-map}")
+
+(defun git-review ()
+  "Scan workspace dirs for git repos with uncommitted changes."
+  (interactive)
+  (message "Scanning...")
+  (let* ((scan (git-review--scan-all))
+         (dirty (car scan))
+         (clean (cdr scan))
+         (buf (get-buffer-create "*Git Review*")))
+    (with-current-buffer buf
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (git-review-mode)
+        (if (null dirty)
+            (insert "All clean.\n\n")
+          (insert (format "%d dirty repo(s):\n\n" (length dirty)))
+          (pcase-dolist (`(,repo . ,status) dirty)
+            (insert (propertize (format "▶ %s\n" repo)
+                                'face 'font-lock-keyword-face
+                                'git-review-repo repo))
+            (dolist (line (split-string status "\n" t))
+              (insert (format "    %s\n" line)))
+            (insert "\n")))
+        ;; Clean repos at bottom
+        (when clean
+          (insert (propertize (format "--- %d clean repo(s) ---\n" (length clean))
+                              'face 'font-lock-comment-face))
+          (dolist (repo clean)
+            (insert (format "  %s\n" repo))))))
+    (switch-to-buffer buf)
+    (goto-char (point-min))
+    (message "c=commit s=shell d=dired n/p=nav q=quit")))
+
 (provide 'init-misc)

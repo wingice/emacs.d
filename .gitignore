@@ -35,6 +35,7 @@ recentf
 server
 packages/
 network-security.data
+package-quickstart.el
 
 .local/
 org-persist/
