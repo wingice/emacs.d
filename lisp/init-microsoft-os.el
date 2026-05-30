@@ -25,7 +25,9 @@
 
   (defun stretchly-start()
       (interactive)
-    (start-process "Reminder" nil "C:\\Users\\I348151\\scoop\\apps\\stretchly\\current\\Stretchly.exe" "long" "-w" "25m"))
+    (start-process "Reminder" nil
+                   (home-path "scoop/apps/stretchly/current/Stretchly.exe")
+                   "long" "-w" "25m"))
 
   (defun powershell-toast(msg)    ;;Requirement: Install-Module -Name BurntToast   [@Powershell Administrator mode]
     (interactive)
@@ -55,5 +57,8 @@
 
 ;;   (setq projectile-enable-caching t)
    (setq default-directory "c:\\workspace")
+
+   ;; ghostel: Windows lacks xterm-ghostty terminfo, use xterm-256color
+   (setq ghostel-term "xterm-256color")
   )
 (provide 'init-microsoft-os)

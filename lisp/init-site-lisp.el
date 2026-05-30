@@ -7,6 +7,11 @@
 (defconst emacs-backup-dir (concat emacs-dir "tmp/backup/") "directory to backup files.")
 (defconst emacs-autosave-dir (concat emacs-dir "tmp/autosave/") "directory to backup files.")
 
+(defun home-path (relative-path)
+  "Expand RELATIVE-PATH under the user's home directory.
+Portable across Windows, macOS, and Linux."
+  (expand-file-name relative-path "~"))
+
 ;; GC threshold is set in early-init.el (high during init, restored after startup)
 
 (setq server-socket-dir emacs-tmp-dir)
@@ -29,7 +34,7 @@
  (t (message "Server already started.")))
 
 ;; emacsclient batch command ec.cmd
-;; c:\users\xxxxx\scoop\shims\emacsclientw.exe -f c:\users\I348151\.emacs.d\tmp\server -n -a c:\users\i348151\scoop\shims\runemacs.exe "%*"
+;; <home>\scoop\shims\emacsclientw.exe -f <home>\.emacs.d\tmp\server -n -a <home>\scoop\shims\runemacs.exe "%*"
 
 (setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
 (setq backup-directory-alist

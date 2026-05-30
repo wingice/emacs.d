@@ -6,9 +6,9 @@
  '(emms-playlist-track-face ((t (:foreground "dark slate gray" :height 0.9))))
  '(hl-line ((t (:background "dark green" :foreground "gray92"))))
  '(org-date ((t (:foreground "dim gray" :underline t))))
- '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
  '(org-level-3 ((t (:foreground "#629677"))))
  '(org-level-4 ((t (:foreground "#95b6b1"))))
+ '(org-special-keyword ((t (:inherit font-lock-keyword-face :foreground "dim gray"))))
  '(outline-4 ((t (:foreground "black")))))
 
 (custom-set-variables
@@ -23,7 +23,10 @@
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
  '(package-selected-packages
    '(chruby company consult consult-projectile dirvish
-	    exec-path-from-shell expand-region goto-chg gptel-aibo
-	    javelin js2-refactor json-mode marginalia markdown-mode
-	    nimbus-theme orderless org-roam projectile-rails
-	    smart-jump smartparens vertico web-mode yaml-mode)))
+	    exec-path-from-shell expand-region ghostel goto-chg
+	    gptel-aibo javelin js2-refactor json-mode marginalia
+	    markdown-mode nimbus-theme orderless org-roam
+	    projectile-rails smart-jump smartparens vertico web-mode
+	    yaml-mode))
+ '(package-vc-selected-packages
+   '((ghostel :url "https://github.com/kiennq/ghostel" :lisp-dir "lisp"))))
