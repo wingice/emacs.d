@@ -85,7 +85,7 @@
 (global-set-key [(control ?.)] 'goto-last-change)
 (global-set-key [(control ?,)] 'goto-last-change-reverse)
 
-(setq read-process-output-max (* 1024 1024))
+(setq read-process-output-max (* 4 1024 1024)) ; 4MB
 
 ;; Disable adaptive read buffering - proven pessimization (Emacs bug#75574)
 ;; Causes 8x perf regression in mixed read flows; will be nil by default in Emacs 31
@@ -113,8 +113,14 @@
            (shell-command-to-string (concat "chmod u+w " file)))
           (t (message "file permission change not handled for OS %s" system-type)))))
 
-(setq bidi-paragraph-direction 'left-to-right)
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+(setq save-interprogram-paste-before-kill t)
+(setq kill-do-not-save-duplicates t)
+(setq window-combination-resize t)
 ;; (add-hook 'compilation-mode-hook (lambda() (font-lock-mode -1)))
 (setq compilation-scroll-output nil)
 
