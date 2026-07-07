@@ -7,6 +7,9 @@
     (set-fontset-font (frame-parameter nil 'font)
 		      charset (font-spec :family "Microsoft Yahei"
 					 :size 18)))
+  ;; Single unicode fallback for symbols/emoji/box-drawing
+  (set-fontset-font (frame-parameter nil 'font)
+		    'unicode (font-spec :family "Noto Sans Symbols") nil 'append)
 
 (setq shell-file-name "bash")
 (setq shell-command-switch "-c")

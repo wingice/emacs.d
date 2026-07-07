@@ -11,8 +11,11 @@
 
   ;; Font configuration
   (set-frame-font "Fira Code Retina-10.5")
-  (set-fontset-font (frame-parameter nil 'font)    ;;设置中文字体
+  (set-fontset-font (frame-parameter nil 'font)
 		    'han '("Microsoft YaHei" . "unicode-bmp"))
+  ;; Single unicode fallback for symbols/emoji/box-drawing
+  (set-fontset-font (frame-parameter nil 'font)
+		    'unicode '("Segoe UI Symbol" . "unicode-bmp") nil 'append)
 
   ;; Set locale for time display
   (setq system-time-locale "C")

@@ -30,7 +30,12 @@
     (set-fontset-font
      (frame-parameter nil 'font)
      'han
-     (font-spec :family "Hiragino Sans GB")))
+     (font-spec :family "Hiragino Sans GB"))
+    ;; Single unicode fallback for symbols/emoji/box-drawing
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'unicode
+     (font-spec :family "Apple Symbols") nil 'append))
   (global-set-key (kbd "<f9>") 'buffer-menu)
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   (setq exec-path (append exec-path '("/usr/local/bin")))
