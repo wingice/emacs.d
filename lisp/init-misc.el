@@ -234,172 +234,397 @@
 (my-keys-minor-mode 1) ; Enable the minor mode globally
 
 
-;;; --- Git Review: scan workspace dirs for uncommitted repos ---
+;;; --- Repo Review: cross-repo dashboard for dirty git worktrees ---
+;;
+;; `M-x repo-review' scans `repo-review-workspace-dirs' (plus dotfile
+;; repos under $HOME) and lists every repo with uncommitted changes.
+;; From that buffer:
+;;
+;;   c    commit           d  diff (side window)   D  diff --staged
+;;   f    dired            s  eshell               r  restore tracked
+;;   DEL  clean untracked  n/p  next/prev repo     g  refresh   q  quit
+;;
+;; Every destructive action prompts.  `git clean' is scoped to a
+;; single file — directories go through `f' + dired.
 
-(defvar git-review-workspace-dirs
+(defvar repo-review-workspace-dirs
   (if *is-a-mac*
       '("~/sapdevelop" "~/workspace")
     '("c:/workspace" "c:/sapdevelop"))
   "Directories to scan for git repositories.")
 
-(defvar git-review-max-depth 3
-  "Maximum directory depth to recurse when scanning for git repos.")
+(defvar repo-review-max-depth 3
+  "Maximum directory depth when scanning for git repos.")
 
-(defvar git-review--fd-path (executable-find "fd")
-  "Cached path to fd executable, or nil.")
+(defvar repo-review-ignored-repos
+  '("~/.orgfiles" "c:/workspace/orgfiles")
+  "Repo paths excluded from `repo-review'.
+Compared after `expand-file-name' + `file-name-as-directory' so `~',
+backslashes, and trailing slashes all normalize.")
 
-(defun git-review--find-repos (dir)
-  "Find git repos under DIR using fd, falling back to manual walk."
+(defconst repo-review--fd (executable-find "fd")
+  "Path to fd binary, or nil.  Cached at load time.")
+
+;; Forward-declare — eshell.el `defvar's this as dynamic; without the
+;; declaration our lexical-binding `let' would shadow it lexically and
+;; the byte-compiler would warn about the mismatch.
+(defvar eshell-buffer-name)
+
+(defconst repo-review--keys
+  (mapconcat (pcase-lambda (`(,k . ,label))
+               (concat (propertize k 'face 'help-key-binding) "=" label))
+             '(("c" . "commit") ("d" . "diff")    ("D" . "diff-staged")
+               ("f" . "dired")  ("s" . "eshell")  ("r" . "restore")
+               ("DEL" . "clean-file")
+               ("n" . "next")   ("p" . "prev")
+               ("g" . "refresh") ("q" . "quit"))
+             "  ")
+  "Propertized display string of key bindings for the header line.")
+
+;; -------- Discovery --------
+
+(defun repo-review--normalize (p)
+  "Return P as an absolute directory path with trailing slash."
+  (file-name-as-directory (expand-file-name p)))
+
+(defun repo-review--find-repos (dir)
+  "Find git repos under DIR using fd, falling back to a manual walk."
   (when (file-directory-p dir)
-    (let ((dir (file-name-as-directory (expand-file-name dir))))
-      (if git-review--fd-path
-          (let ((default-directory dir))
+    (let ((dir (repo-review--normalize dir)))
+      (if repo-review--fd
+          (let* ((default-directory dir)
+                 (out (with-output-to-string
+                        (with-current-buffer standard-output
+                          (call-process
+                           repo-review--fd nil t nil
+                           "-td" "--hidden" "--no-ignore"
+                           "--max-depth" (number-to-string repo-review-max-depth)
+                           "-g" ".git" ".")))))
             (mapcar (lambda (p)
                       (file-name-directory
-                       (expand-file-name (directory-file-name (string-trim p)) dir)))
-                    (split-string
-                     (shell-command-to-string
-                      (format "%s -td --hidden --no-ignore --max-depth %d -g .git ."
-                              (shell-quote-argument git-review--fd-path)
-                              git-review-max-depth))
-                     "\n" t)))
+                       (expand-file-name (directory-file-name p) dir)))
+                    (split-string out "\n" t)))
         (let (repos)
           (cl-labels ((walk (d depth)
                         (cond
-                         ((file-directory-p (expand-file-name ".git" d)) (push d repos))
-                         ((< depth git-review-max-depth)
+                         ((file-directory-p (expand-file-name ".git" d))
+                          (push (file-name-as-directory d) repos))
+                         ((< depth repo-review-max-depth)
                           (dolist (sub (directory-files d t "\\`[^.]" t))
                             (when (file-directory-p sub)
                               (walk sub (1+ depth))))))))
             (walk dir 0))
           (nreverse repos))))))
 
-(defun git-review--dirty-status (repo)
-  "Return porcelain status string for REPO if dirty, nil if clean."
-  (let* ((default-directory (file-name-as-directory repo))
-         (out (with-output-to-string
-                (with-current-buffer standard-output
-                  (call-process "git" nil t nil "status" "--porcelain")))))
-    (let ((trimmed (string-trim out)))
-      (unless (string-empty-p trimmed) trimmed))))
+(defun repo-review--collect-repos ()
+  "Return deduplicated, non-ignored, absolute repo paths in scan order."
+  (let* ((home (expand-file-name "~"))
+         (ignored (mapcar #'repo-review--normalize repo-review-ignored-repos))
+         (workspaces (mapcan #'repo-review--find-repos
+                             repo-review-workspace-dirs))
+         (dotdirs
+          (delq nil
+                (mapcar (lambda (f)
+                          (and (file-directory-p f)
+                               (file-directory-p (expand-file-name ".git" f))
+                               (file-name-as-directory f)))
+                        (directory-files home t "\\`\\." t))))
+         (seen (make-hash-table :test 'equal))
+         result)
+    (dolist (repo (append workspaces dotdirs))
+      (let ((norm (repo-review--normalize repo)))
+        (unless (or (gethash norm seen) (member norm ignored))
+          (puthash norm t seen)
+          (push norm result))))
+    (nreverse result)))
 
-(defun git-review--scan-all ()
-  "Return (dirty . clean) cons: dirty is alist of (repo . status), clean is list of repos."
-  (let (all-repos dirty clean (home (expand-file-name "~")))
-    ;; Collect repos from workspace dirs
-    (dolist (dir git-review-workspace-dirs)
-      (setq all-repos (nconc all-repos (git-review--find-repos dir))))
-    ;; Collect dotfile repos under ~
-    (dolist (f (directory-files home t "\\`\\." t))
-      (when (and (file-directory-p f)
-                 (file-directory-p (expand-file-name ".git" f)))
-        (push f all-repos)))
-    ;; Check each repo
-    (dolist (repo all-repos)
-      (let ((s (git-review--dirty-status repo)))
-        (if s (push (cons repo s) dirty)
-          (push repo clean))))
+;; -------- Git wrapper + serial scan --------
+
+(defun repo-review--git (repo &rest args)
+  "Run `git' in REPO with ARGS; return output with trailing newlines stripped.
+Leading whitespace is preserved — `git status --porcelain' emits status
+codes like \" M path\" whose leading space is part of the format.
+Non-zero exit yields a string prefixed with `git error (CODE):'."
+  (let ((default-directory (file-name-as-directory repo)))
+    (with-temp-buffer
+      (let* ((code (apply #'call-process "git" nil t nil args))
+             (text (replace-regexp-in-string "\n+\\'" "" (buffer-string))))
+        (if (zerop code) text
+          (format "git error (%d): %s" code (string-trim text)))))))
+
+(defun repo-review--scan-all ()
+  "Return (DIRTY . CLEAN).  DIRTY is (REPO . porcelain) alist."
+  (let (dirty clean)
+    (dolist (repo (repo-review--collect-repos))
+      (let ((status (repo-review--git repo "status" "--porcelain")))
+        (if (string-empty-p status)
+            (push repo clean)
+          (push (cons repo status) dirty))))
     (cons (nreverse dirty) (nreverse clean))))
 
-(defun git-review--repo-at-point ()
-  "Return repo path for section at point."
-  (or (get-text-property (line-beginning-position) 'git-review-repo)
+;; -------- Point / property helpers --------
+
+(defun repo-review--repo-at-point ()
+  "Return the repo path owning the section at point, or nil."
+  (or (get-text-property (line-beginning-position) 'repo-review-repo)
       (save-excursion
-        (while (and (not (get-text-property (point) 'git-review-repo))
+        (while (and (not (get-text-property (point) 'repo-review-repo))
                     (not (bobp)))
           (forward-line -1))
-        (get-text-property (point) 'git-review-repo))))
+        (get-text-property (point) 'repo-review-repo))))
 
-(defun git-review-commit ()
-  "Stage all and commit the repo at point."
+(defun repo-review--file-at-point ()
+  "Return (REPO FILE STATUS) for the status line at point, or nil.
+STATUS is the 2-char porcelain code, e.g. \" M\", \"??\", \"R \"."
+  (let ((bol (line-beginning-position)))
+    (when-let ((repo (repo-review--repo-at-point))
+               (file (get-text-property bol 'repo-review-file)))
+      (list repo file (get-text-property bol 'repo-review-status)))))
+
+(defun repo-review--parse-porcelain-path (line)
+  "Return the pathname from a `git status --porcelain' LINE, or nil.
+Format: `XY SP PATH' or `XY SP OLD -> NEW' (returns NEW).  Quoted
+paths are unquoted."
+  (when (and (stringp line) (>= (length line) 4))
+    (let* ((rest   (substring line 3))
+           (rename (string-match " -> " rest))
+           (path   (string-trim (if rename (substring rest (+ rename 4)) rest))))
+      (if (and (>= (length path) 2)
+               (eq (aref path 0) ?\")
+               (eq (aref path (1- (length path))) ?\"))
+          (substring path 1 -1)
+        path))))
+
+;; -------- Actions --------
+
+(defun repo-review-commit ()
+  "Prompt for a message, then `git add -A' + `git commit'.
+Aborts *before* staging when the message is empty.
+Does not refresh; press \\`g' when you want an updated status."
   (interactive)
-  (if-let ((repo (git-review--repo-at-point)))
-      (let ((default-directory (file-name-as-directory repo))
-            (name (file-name-nondirectory (directory-file-name repo))))
-        (when (yes-or-no-p (format "Stage+commit all in %s?" name))
-          (shell-command-to-string "git add -A")
-          (let ((msg (read-string (format "Commit [%s]: " name))))
-            (if (string-empty-p msg)
-                (message "Aborted.")
-              (message "%s" (string-trim
-                             (shell-command-to-string
-                              (format "git commit -m %s" (shell-quote-argument msg)))))
-              (git-review)))))
+  (if-let ((repo (repo-review--repo-at-point)))
+      (let* ((name (file-name-nondirectory (directory-file-name repo)))
+             (msg  (string-trim
+                    (read-string
+                     (format "Commit [%s] (empty to abort): " name)))))
+        (if (string-empty-p msg)
+            (message "Aborted; nothing staged.")
+          (repo-review--git repo "add" "-A")
+          (message "%s" (repo-review--git repo "commit" "-m" msg))))
     (message "No repo at point.")))
 
-(defun git-review-shell ()
-  "Open shell in the repo at point on the right half."
-  (interactive)
-  (if-let ((repo (git-review--repo-at-point)))
-      (let ((default-directory (file-name-as-directory repo)))
-        (select-window (split-window-right))
-        (shell (generate-new-buffer-name "*git-shell*")))
+(defun repo-review-diff (&optional staged)
+  "Show `git diff' for the repo at point in a `diff-mode' side window.
+With prefix ARG, show the staged diff.
+
+In the resulting buffer: \\`q' buries + closes the window,
+\\`k' also kills the buffer.  Other keys keep `diff-mode' behavior."
+  (interactive "P")
+  (if-let ((repo (repo-review--repo-at-point)))
+      (let* ((name (file-name-nondirectory (directory-file-name repo)))
+             (buf  (get-buffer-create
+                    (format "*repo-diff: %s%s*"
+                            name (if staged " [staged]" "")))))
+        (with-current-buffer buf
+          (setq default-directory (file-name-as-directory repo))
+          (let ((inhibit-read-only t))
+            (erase-buffer)
+            (let ((code (apply #'call-process
+                               "git" nil t nil
+                               `("-c" "color.ui=never" "diff" "--no-ext-diff"
+                                 ,@(and staged '("--staged"))))))
+              (cond
+               ((not (zerop code))
+                (let ((out (buffer-string)))
+                  (erase-buffer)
+                  (insert (format "git exited with code %d\n\n%s" code out))))
+               ((zerop (buffer-size))
+                (insert (format "No %sstaged changes in %s.\n"
+                                (if staged "" "un") name)))
+               (t (diff-mode))))
+            (goto-char (point-min)))
+          ;; Quick-close keys layered on top of whatever mode we ended in.
+          (let ((map (make-sparse-keymap)))
+            (set-keymap-parent map (current-local-map))
+            (define-key map (kbd "q") #'quit-window)
+            (define-key map (kbd "k") #'kill-buffer-and-window)
+            (use-local-map map)))
+        (display-buffer buf '(display-buffer-in-side-window
+                              (side . right) (window-width . 0.5))))
     (message "No repo at point.")))
 
-(defun git-review-dired ()
-  "Open dired for repo at point."
+(defun repo-review-diff-staged ()
+  "Show `git diff --staged' for the repo at point."
   (interactive)
-  (if-let ((repo (git-review--repo-at-point)))
+  (repo-review-diff t))
+
+(defun repo-review-eshell ()
+  "Open an eshell in the repo at point.
+
+If a `*repo-eshell: NAME*' buffer is already visible, jump to its
+window.  Otherwise split right and show the buffer there — creating
+and initialising a fresh one if none exists.
+
+Eshell's own display logic is sandboxed via `save-window-excursion',
+so nothing else in this frame's layout gets disturbed."
+  (interactive)
+  (if-let ((repo (repo-review--repo-at-point)))
+      (let* ((default-directory (file-name-as-directory repo))
+             (name    (file-name-nondirectory (directory-file-name repo)))
+             (bufname (format "*repo-eshell: %s*" name))
+             (buf     (get-buffer bufname)))
+        ;; Initialise a fresh eshell buffer off-layout, so its own
+        ;; `pop-to-buffer-same-window' can't touch our windows.
+        (unless buf
+          (save-window-excursion
+            (let ((eshell-buffer-name bufname))
+              (eshell)))
+          (setq buf (get-buffer bufname)))
+        ;; Display: reuse the buffer's window if any, else split right.
+        (if-let ((w (get-buffer-window buf)))
+            (select-window w)
+          (select-window (split-window-right))
+          (switch-to-buffer buf)))
+    (message "No repo at point.")))
+
+(defun repo-review-dired ()
+  "Open dired for the repo at point."
+  (interactive)
+  (if-let ((repo (repo-review--repo-at-point)))
       (dired repo)
     (message "No repo at point.")))
 
-(defun git-review-next ()
-  "Move to next repo."
+(defun repo-review-restore ()
+  "Discard unstaged changes to the tracked FILE on the current line.
+Refuses untracked entries — press <delete> to clean one of those.
+Does not refresh; press \\`g' when you want an updated status."
   (interactive)
-  (when-let ((pos (next-single-property-change (line-end-position) 'git-review-repo)))
-    (goto-char pos) (beginning-of-line)))
+  (pcase (repo-review--file-at-point)
+    (`(,repo ,file ,status)
+     (if (and (stringp status) (string-prefix-p "??" status))
+         (message "%s is untracked; press <delete> to remove it." file)
+       (when (yes-or-no-p (format "Discard unstaged changes to %s? " file))
+         (message "%s" (repo-review--git repo "restore" "--" file)))))
+    (_ (message "Point is not on a file line."))))
 
-(defun git-review-prev ()
-  "Move to previous repo."
+(defun repo-review-clean-file ()
+  "Delete the untracked FILE on the current line via `git clean -f'.
+Refuses directories and tracked entries.  Irrecoverable; prompts first.
+Does not refresh; press \\`g' when you want an updated status."
   (interactive)
-  (when-let ((pos (previous-single-property-change (line-beginning-position) 'git-review-repo)))
-    (goto-char (1- pos))
-    (goto-char (or (previous-single-property-change (point) 'git-review-repo) (point-min)))
-    (beginning-of-line)))
+  (pcase (repo-review--file-at-point)
+    (`(,repo ,file ,status)
+     (cond
+      ((not (and (stringp status) (string-prefix-p "??" status)))
+       (message "%s is tracked; press `r' to restore it." file))
+      ((string-suffix-p "/" file)
+       (message "%s is a directory; use dired to remove it." file))
+      (t
+       (when (yes-or-no-p (format "DELETE untracked file %s? " file))
+         (message "%s" (repo-review--git repo "clean" "-f" "--" file))))))
+    (_ (message "Point is not on a file line."))))
 
-(defvar git-review-mode-map
+;; -------- Navigation --------
+
+(defun repo-review--goto-header (step)
+  "Move STEP repo headers forward (positive) or backward (negative)."
+  (let ((count (abs step))
+        (dir   (if (> step 0) 1 -1))
+        (start (point)))
+    (while (and (> count 0) (zerop (forward-line dir)))
+      (when (get-text-property (point) 'repo-review-header)
+        (setq count (1- count))))
+    (unless (zerop count)
+      (goto-char start)
+      (message "No more repos."))))
+
+(defun repo-review-next () "Move to the next repo header."
+       (interactive) (repo-review--goto-header  1))
+(defun repo-review-prev () "Move to the previous repo header."
+       (interactive) (repo-review--goto-header -1))
+
+;; -------- Mode / entry point --------
+
+(defvar repo-review-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" #'git-review-commit)
-    (define-key map "s" #'git-review-shell)
-    (define-key map "d" #'git-review-dired)
-    (define-key map "n" #'git-review-next)
-    (define-key map "p" #'git-review-prev)
-    (define-key map "q" #'quit-window)
+    (dolist (b '(("c" . repo-review-commit)
+                 ("d" . repo-review-diff)
+                 ("f" . repo-review-dired)
+                 ("s" . repo-review-eshell)
+                 ("r" . repo-review-restore)
+                 ("<delete>" . repo-review-clean-file)
+                 ("DEL"      . repo-review-clean-file)
+                 ("D" . repo-review-diff-staged)
+                 ("n" . repo-review-next)
+                 ("p" . repo-review-prev)
+                 ("g" . repo-review)
+                 ("q" . quit-window)))
+      (define-key map (kbd (car b)) (cdr b)))
     map))
 
-(define-derived-mode git-review-mode special-mode "GitReview"
-  "Mode for reviewing dirty git repos.\\{git-review-mode-map}")
+(define-derived-mode repo-review-mode special-mode "RepoReview"
+  "Mode for reviewing dirty git repos.\\{repo-review-mode-map}"
+  (setq header-line-format repo-review--keys))
 
-(defun git-review ()
-  "Scan workspace dirs for git repos with uncommitted changes."
+(defun repo-review--render (dirty clean buf)
+  "Populate BUF with DIRTY (alist) and CLEAN (list) sections."
+  (with-current-buffer buf
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (repo-review-mode)
+      (if (null dirty)
+          (insert "All clean.\n\n")
+        (insert (format "%d dirty repo(s):\n\n" (length dirty)))
+        (pcase-dolist (`(,repo . ,status) dirty)
+          (insert (propertize (format "▶ %s\n" repo)
+                              'face 'font-lock-keyword-face
+                              'repo-review-repo repo
+                              'repo-review-header t))
+          (dolist (line (split-string status "\n" t))
+            (insert (propertize
+                     (format "    %s\n" line)
+                     'repo-review-repo repo
+                     'repo-review-file (repo-review--parse-porcelain-path line)
+                     'repo-review-status (and (>= (length line) 2)
+                                              (substring line 0 2)))))
+          (insert "\n")))
+      (when clean
+        (insert (propertize (format "--- %d clean repo(s) ---\n" (length clean))
+                            'face 'font-lock-comment-face))
+        (dolist (repo clean)
+          (insert (propertize (format "  %s\n" repo)
+                              'repo-review-repo repo)))))))
+
+(defun repo-review--restore-point (prev)
+  "Move point to the header for repo PREV in the current buffer, if present."
+  (when prev
+    (let ((pos (point-min)) match)
+      (while (and (not match) pos)
+        (if (equal prev (get-text-property pos 'repo-review-repo))
+            (setq match pos)
+          (setq pos (next-single-property-change pos 'repo-review-repo))))
+      (when match (goto-char match)))))
+
+(defun repo-review ()
+  "Scan workspace dirs for git repos with uncommitted changes.
+Preserves the repo under point when refreshed from the review buffer."
   (interactive)
-  (message "Scanning...")
-  (let* ((scan (git-review--scan-all))
+  (message "Scanning %s and ~/.<dotdirs> ..."
+           (mapconcat #'identity repo-review-workspace-dirs ", "))
+  (let* ((t0    (float-time))
+         (prev  (and (get-buffer "*Repo Review*")
+                     (with-current-buffer "*Repo Review*"
+                       (repo-review--repo-at-point))))
+         (scan  (repo-review--scan-all))
          (dirty (car scan))
          (clean (cdr scan))
-         (buf (get-buffer-create "*Git Review*")))
-    (with-current-buffer buf
-      (let ((inhibit-read-only t))
-        (erase-buffer)
-        (git-review-mode)
-        (if (null dirty)
-            (insert "All clean.\n\n")
-          (insert (format "%d dirty repo(s):\n\n" (length dirty)))
-          (pcase-dolist (`(,repo . ,status) dirty)
-            (insert (propertize (format "▶ %s\n" repo)
-                                'face 'font-lock-keyword-face
-                                'git-review-repo repo))
-            (dolist (line (split-string status "\n" t))
-              (insert (format "    %s\n" line)))
-            (insert "\n")))
-        ;; Clean repos at bottom
-        (when clean
-          (insert (propertize (format "--- %d clean repo(s) ---\n" (length clean))
-                              'face 'font-lock-comment-face))
-          (dolist (repo clean)
-            (insert (format "  %s\n" repo))))))
+         (buf   (get-buffer-create "*Repo Review*")))
+    (repo-review--render dirty clean buf)
     (switch-to-buffer buf)
     (goto-char (point-min))
-    (message "c=commit s=shell d=dired n/p=nav q=quit")))
+    (repo-review--restore-point prev)
+    (message "%s   (%d dirty, %d clean, %.2fs)"
+             repo-review--keys
+             (length dirty) (length clean) (- (float-time) t0))))
 
 (provide 'init-misc)

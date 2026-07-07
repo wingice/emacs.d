@@ -24,9 +24,8 @@
  '(package-selected-packages
    '(chruby company consult consult-projectile dirvish
 	    exec-path-from-shell expand-region ghostel goto-chg
-	    gptel-aibo javelin js2-refactor json-mode marginalia
-	    markdown-mode nimbus-theme orderless org-roam
-	    projectile-rails smart-jump smartparens vertico web-mode
-	    yaml-mode))
+	    gptel-aibo js2-refactor json-mode marginalia markdown-mode
+	    nimbus-theme orderless org-roam projectile-rails
+	    smart-jump smartparens vertico web-mode yaml-mode))
  '(package-vc-selected-packages
    '((ghostel :url "https://github.com/kiennq/ghostel" :lisp-dir "lisp"))))
