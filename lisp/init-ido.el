@@ -104,4 +104,5 @@
   :ensure t)
 
 (setq gptel-api-key "dummy")
+
 (provide 'init-ido)

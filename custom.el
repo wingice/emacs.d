@@ -22,10 +22,12 @@
      default))
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
  '(package-selected-packages
-   '(chruby company consult consult-projectile dirvish
-	    exec-path-from-shell expand-region ghostel goto-chg
-	    gptel-aibo js2-refactor json-mode marginalia markdown-mode
-	    nimbus-theme orderless org-roam projectile-rails
-	    smart-jump smartparens vertico web-mode yaml-mode))
+   '(chruby company consult-projectile dirvish embark ghostel
+	    gnu-elpa-keyring-update
+	    go-rename goto-chg gptel-aibo groovy-mode js2-refactor
+	    json-mode marginalia markdown-mode nimbus-theme orderless
+	    org-roam projectile-rails projectile-ripgrep shx
+	    smart-jump smart-region smartparens sqlformat
+	    transpose-frame vertico web-mode xref-js2 yaml-mode))
  '(package-vc-selected-packages
    '((ghostel :url "https://github.com/kiennq/ghostel" :lisp-dir "lisp"))))
