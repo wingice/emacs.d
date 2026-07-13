@@ -8,8 +8,10 @@
 ;; Emacs 30: disable ispell in text-mode completion (interferes with company)
 (setq text-mode-ispell-word-completion nil)
 
+
 ;;  ---  Global Key Bindings   ---
-(global-set-key (kbd "M-[")    'pop-global-mark)
+(global-set-key (kbd "M-[")    'back-button-global-backward)
+(global-set-key (kbd "M-]")    'back-button-global-forward)
 (global-set-key (kbd "<menu>") 'buffer-menu)
 (global-set-key (kbd "<apps>") 'buffer-menu)
 (global-set-key (kbd "<C-268632080>") 'buffer-menu)
@@ -26,6 +28,8 @@
 (define-key context-menu-mode-map (kbd "<apps>") 'buffer-menu)
 (define-key context-menu-mode-map (kbd "<menu>") 'buffer-menu)
 (define-key context-menu-mode-map (kbd "<f13>") 'buffer-menu)
+
+
 
 (setq
    backup-by-copying t      ; don't clobber symlinks
@@ -632,5 +636,8 @@ Preserves the repo under point when refreshed from the review buffer."
     (message "%s   (%d dirty, %d clean, %.2fs)"
              repo-review--keys
              (length dirty) (length clean) (- (float-time) t0))))
+
+(require 'back-button)
+(back-button-mode 1)
 
 (provide 'init-misc)
