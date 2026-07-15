@@ -45,3 +45,5 @@ transient/
 org-roam.db
 /history
 /emms
+projectile-frecency.eld
+

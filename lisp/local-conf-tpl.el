@@ -6,11 +6,13 @@
 )
 
 (setq org-default-notes-file (concat org-directory "/remember.org"))
-(setq org-agenda-files (list (concat org-directory "/planning.org")
-			     (concat org-directory "/tracking2026.org")
-			     (concat org-directory "/tracking2027.org")
-			     (mobile-gtd-tmp-file)
-			     (concat org-directory "/remember.org")))
+(setq org-agenda-files
+      (seq-filter #'file-exists-p
+                  (list (concat org-directory "/planning.org")
+                        (concat org-directory "/tracking2026.org")
+                        (concat org-directory "/tracking2027.org")
+                        (mobile-gtd-tmp-file)
+                        (concat org-directory "/remember.org"))))
 
 (setq org-roam-index-file (concat org-roam-directory "/NoteIndex.org"))
 

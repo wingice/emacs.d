@@ -11,7 +11,7 @@
   ;; Suppress "terminal is not fully functional" from less/git-pager
   ;; (Windows less lacks termcap for xterm-256color)
   (setenv "LESS" "-FRXd")
-  (setq org-directory (home-path "OneDrive - SAP SE/orgfiles"))
+  (setq org-directory (home-path "OneDrive - SAP SE/Apps/orgfiles"))
   (setq org-roam-directory "c:/workspace/github/knowledge-n-tools/notes/"))
 
 (when (or (string= (system-name) "w-PF44DJL0")          ;;<--T15g2
@@ -32,4 +32,4 @@
 (when (or (eq system-type 'darwin)
           (eq system-type 'gnu/linux))
   (setq org-roam-directory "~/workspace/github/knowledge-n-tools/notes/")
-  (setq org-directory "~/workspace/orgfiles"))
+  (setq org-directory "~/Library/CloudStorage/OneDrive-SAPSE/Apps/orgfiles"))

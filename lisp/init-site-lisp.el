@@ -14,6 +14,12 @@ Portable across Windows, macOS, and Linux."
 
 ;; GC threshold is set in early-init.el (high during init, restored after startup)
 
+(dolist (dir (list emacs-tmp-dir emacs-cache-dir emacs-backup-dir emacs-autosave-dir))
+  (unless (file-directory-p dir)
+    (make-directory dir t))
+  ;; Emacs's server-ensure-safe-dir refuses dirs accessible to others.
+  (set-file-modes dir #o700))
+
 (setq server-socket-dir emacs-tmp-dir)
 (setq server-auth-dir emacs-tmp-dir)
 (cond

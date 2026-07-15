@@ -19,7 +19,7 @@
 
 (when *is-a-mac*
   (when (display-graphic-p)
-    (set-frame-font "-*-Courier-*-normal-normal-*-17-*-*-*-m-0-*-*")
+    (set-frame-font "-*-Courier-*-normal-normal-*-15-*-*-*-m-0-*-*")
     ;; Fix Chinese italic display — set Han font for the current fontset
     (set-fontset-font
      (frame-parameter nil 'font)
