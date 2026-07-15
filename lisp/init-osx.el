@@ -30,7 +30,7 @@
      (frame-parameter nil 'font)
      'unicode
      (font-spec :family "Apple Symbols") nil 'append))
-  (global-set-key (kbd "<f9>") 'buffer-menu)
+  (global-set-key (kbd "<f9>") 'consult-buffer)
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   (setq exec-path (append exec-path '("/usr/local/bin")))
 
@@ -44,5 +44,13 @@
     (popup-notification "test-mac-notification" "Hello World!"))
 
   (global-set-key (kbd "s-p") 'consult-projectile)
-)
+
+  ;; The Lenovo Traditional USB Keyboard's <menu>/<apps> key is delivered
+  ;; by macOS as an NSEvent whose characters field is 0x10 (DLE) with no
+  ;; modifier flag, which Emacs then interprets as `C-p' — colliding with
+  ;; `previous-line'.  Hammerspoon (~/.hammerspoon/init.lua) intercepts
+  ;; the CGEvent when Emacs is frontmost and rewrites it to <f13>, so
+  ;; Finder etc. still see a normal Menu-key event elsewhere.  The <f13>
+  ;; binding itself lives in init-misc.el alongside <menu>/<apps>.
+  )
 (provide 'init-osx)

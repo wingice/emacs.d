@@ -10,9 +10,12 @@
 
 ;;  ---  Global Key Bindings   ---
 (global-set-key (kbd "M-[")    'pop-global-mark)
-(global-set-key (kbd "<menu>") 'buffer-menu)
-(global-set-key (kbd "<apps>") 'buffer-menu)
-(global-set-key (kbd "<C-268632080>") 'buffer-menu)
+(global-set-key (kbd "<menu>") 'consult-buffer)
+(global-set-key (kbd "<apps>") 'consult-buffer)
+(global-set-key (kbd "<C-268632080>") 'consult-buffer)
+;; macOS: Hammerspoon rewrites the Lenovo Menu key to <f13> when Emacs is
+;; frontmost — see ~/.hammerspoon/init.lua and the comment in init-osx.el.
+(global-set-key (kbd "<f13>") 'consult-buffer)
 (global-set-key (kbd "M-p")    'consult-projectile)
 (global-set-key (kbd "M-j")    'fd-name-dired)
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
@@ -20,8 +23,9 @@
 ;;(add-hook 'dired-after-readin-hook 'hl-line-mode)
 (global-set-key [f10] 'toggle-menu-bar-mode-from-frame)
 
-(define-key context-menu-mode-map (kbd "<apps>") 'buffer-menu)
-(define-key context-menu-mode-map (kbd "<menu>") 'buffer-menu)
+(define-key context-menu-mode-map (kbd "<apps>") 'consult-buffer)
+(define-key context-menu-mode-map (kbd "<menu>") 'consult-buffer)
+(define-key context-menu-mode-map (kbd "<f13>") 'consult-buffer)
 
 (setq
    backup-by-copying t      ; don't clobber symlinks
