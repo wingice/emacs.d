@@ -19,7 +19,12 @@
 
 (when *is-a-mac*
   (when (display-graphic-p)
-    (set-frame-font "-*-Courier-*-normal-normal-*-15-*-*-*-m-0-*-*")
+    ;; JetBrains Mono NL (No Ligatures) at Regular weight.
+    ;; NL variant guarantees no ligature substitution regardless of
+    ;; prettify-symbols-mode or composition tables.
+    (set-face-attribute 'default        nil :family "JetBrains Mono NL" :weight 'regular :height 150)
+    (set-face-attribute 'fixed-pitch    nil :family "JetBrains Mono NL" :weight 'regular :height 150)
+    (set-face-attribute 'variable-pitch nil :family "JetBrains Mono NL" :weight 'regular :height 150)
     ;; Fix Chinese italic display — set Han font for the current fontset
     (set-fontset-font
      (frame-parameter nil 'font)

@@ -20,7 +20,11 @@
          ("M-s M-l" . consult-line)
          ;; Switch to another buffer, or bookmarked file, or recently
          ;; opened file.
-         ("M-s M-b" . consult-buffer)))
+         ("M-s M-b" . consult-buffer))
+  :custom
+  (consult-narrow-key "<")           ; `< SPC' reveals hidden buffers
+  :config
+  (add-to-list 'consult-buffer-filter "\\`\\*"))
 
 
 ;; Enable Vertico.
