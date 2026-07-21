@@ -48,6 +48,14 @@
     (interactive)
     (popup-notification "test-mac-notification" "Hello World!"))
 
+  (defun lock-screen ()
+    "Lock the screen immediately (macOS): sends ⌃⌘Q."
+    (interactive)
+    (ns-do-applescript
+     "tell application \"System Events\" to keystroke \"q\" using {control down, command down}"))
+
+  (add-hook 'org-timer-done-hook #'lock-screen)
+
   (global-set-key (kbd "s-p") 'consult-projectile)
 
   ;; The Lenovo Traditional USB Keyboard's <menu>/<apps> key is delivered

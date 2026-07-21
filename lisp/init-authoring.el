@@ -59,12 +59,8 @@
 
   (setq org-clock-clocktable-default-properties '(:maxlevel 5 :scope file :block today :indent t :link t))
   (add-to-list 'auto-mode-alist '("\\.\\(org\\ |org_archive\\|txt\\)$" . org-mode))
-  ;;Modify the org-clock-in so that a timer is started with the default
-  ;;value except if a timer is already started :
-  (add-hook 'org-clock-in-hook #'(lambda ()
-				   (org-timer-set-timer '(16))
-				   (start-screen-timer)
-				   ))
+  ;; Start a timer whenever a task is clocked in.
+  (add-hook 'org-clock-in-hook (lambda () (org-timer-set-timer '(16))))
   (add-hook 'org-clock-out-hook #'(lambda ()
 				   (setq org-mode-line-string nil)
 				   (if org-timer-start-time
@@ -144,13 +140,10 @@
 )
 
 (defun my-org-get-clock-segment-timestamps (line)
-  "Parses a clock segment line and returns the first and last timestamps in a list."
-  (let* ((org-clock-regexp (concat "CLOCK: " org-ts-regexp3 "--" org-ts-regexp3))
-     (t1 (if (string-match org-clock-regexp line)
-         (match-string 1 line)
-           (user-error "The argument must have a valid CLOCK range")))
-     (t2 (match-string 9 line)))
-    (list t1 t2)))
+  "Return (T1 T2) timestamps from LINE, or nil if LINE is not a CLOCK range."
+  (let ((org-clock-regexp (concat "CLOCK: " org-ts-regexp3 "--" org-ts-regexp3)))
+    (when (string-match org-clock-regexp line)
+      (list (match-string 1 line) (match-string 9 line)))))
 
 (ert-deftest org-timestamp-test ()
   (should (equal
@@ -173,30 +166,23 @@
 
 
 (defun my-org-clock-merge ()
-  "Merge the org CLOCK line with the next CLOCK line. If the last timestamp of the current line equals the first timestamp of the
-next line with a tolerance of up to 10 minutes, then merge automatically."
+  "Merge current CLOCK line with the next when their timestamps touch within 10 min."
   (interactive)
-  (let* ((first-line-start (line-beginning-position))
-     (first-line (buffer-substring
-              (line-beginning-position) (line-end-position)))
-     (first-line-timestamps (my-org-get-clock-segment-timestamps first-line))
-     (first-line-t1 (pop first-line-timestamps))
-     (first-line-t2 (pop first-line-timestamps))
-     (second-line (progn
-            (forward-line)
-            (buffer-substring
-             (line-beginning-position) (line-end-position))))
-     (second-line-timestamps (my-org-get-clock-segment-timestamps second-line))
-     (second-line-t1 (pop second-line-timestamps))
-     (second-line-t2 (pop second-line-timestamps))
-     (diff (my-org-compute-timestamp-difference first-line-t1 second-line-t2)))
-
-    ;; ignore discrepancies of 10 minutes or more
-    (when (< diff 600)
-      (delete-region first-line-start (line-end-position)) ;; remove the two lines
-      (org-cycle) ;; indent
-      (insert (concat "CLOCK: [" second-line-t1 "]--[" first-line-t2 "]")) ;; insert new time range
-      ;; generate duration
+  (let* ((start (line-beginning-position))
+         (ts1 (my-org-get-clock-segment-timestamps
+               (buffer-substring start (line-end-position))))
+         (ts2 (and ts1
+                   (save-excursion
+                     (forward-line)
+                     (my-org-get-clock-segment-timestamps
+                      (buffer-substring (line-beginning-position)
+                                        (line-end-position)))))))
+    (when (and ts2
+               (< (my-org-compute-timestamp-difference (car ts1) (cadr ts2)) 600))
+      (forward-line)
+      (delete-region start (line-end-position))
+      (org-cycle)
+      (insert (format "CLOCK: [%s]--[%s]" (car ts2) (cadr ts1)))
       (org-ctrl-c-ctrl-c))))
 (add-hook 'org-clock-out-hook #'my-org-clock-merge)
 

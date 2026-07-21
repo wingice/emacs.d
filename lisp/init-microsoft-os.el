@@ -40,12 +40,7 @@
     (interactive)
     (powershell-appt 1 2 "Hello World!"))
 
-  (defun start-screen-timer()
-    (interactive)
-    (stretchly-start)
-  )
-  ;;(toast-test)
-  ;;(stretchly-start)
+  (add-hook 'org-clock-in-hook #'stretchly-start)
 
   (defun powershell-appt(min-to-app new-time appt-msg)
     (interactive)
