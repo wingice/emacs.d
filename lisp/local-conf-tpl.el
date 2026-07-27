@@ -6,6 +6,7 @@
 )
 
 (setq org-default-notes-file (concat org-directory "/remember.org"))
+(setq remember-data-file org-default-notes-file)
 (setq org-agenda-files
       (seq-filter #'file-exists-p
                   (list (concat org-directory "/planning.org")

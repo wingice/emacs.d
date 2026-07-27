@@ -325,17 +325,37 @@ nothing happens."
 (defun delete-existed-file(filename)
   (when (file-exists-p filename) (delete-file filename)))
 
-(defconst webdav-user (getenv "WEBDAV_USER"))  ;; Need an ENV var WEBDAV_USER=user:token
-(defconst webdav-path "https://domi.teracloud.jp/dav/gtd/")
+;; Credentials read from ~/.authinfo(.gpg):
+;;   machine domi.teracloud.jp login USER password TOKEN
+(defconst webdav-host "domi.teracloud.jp")
+(defconst webdav-path (concat "https://" webdav-host "/dav/gtd/"))
+
+(defun webdav--curl (label &rest args)
+  "Run curl with ARGS, reporting LABEL in the echo area.
+Credentials read from ~/.authinfo (netrc format)."
+  (message "%s..." label)
+  (with-temp-buffer
+    (let ((status (apply #'call-process "curl" nil t nil
+                         "--fail" "--silent" "--show-error"
+                         "--netrc-file" (expand-file-name "~/.authinfo")
+                         args)))
+      (unless (eq status 0)
+        (error "%s...failed (curl %s): %s" label status (buffer-string)))))
+  (message "%s...done" label))
+
 (defconst server-file-name "mgtd.org")
 
-(defun download-webdav-file(local_file_path)
-  (interactive)
-  (shell-command (concat "curl -u " webdav-user " " webdav-path server-file-name " --output " local_file_path)))
+(defun download-webdav-file (local-file)
+  "Download `server-file-name' from WebDAV to LOCAL-FILE."
+  (interactive "FLocal file: ")
+  (webdav--curl (format "Downloading %s" server-file-name)
+                "--output" local-file (concat webdav-path server-file-name)))
 
-(defun upload-webdav-file(local_file_path)
-  (interactive)
-  (shell-command (concat "curl -T " local_file_path " -u " webdav-user " " webdav-path)))
+(defun upload-webdav-file (local-file)
+  "Upload LOCAL-FILE to the WebDAV directory."
+  (interactive "fLocal file: ")
+  (webdav--curl (format "Uploading %s" (file-name-nondirectory local-file))
+                "--upload-file" local-file webdav-path))
 
 (defun mobile-gtd-tmp-file()
   (file-truename (concat emacs-tmp-dir server-file-name)))
