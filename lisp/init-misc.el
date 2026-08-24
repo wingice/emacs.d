@@ -225,6 +225,8 @@
 
 (defvar my-keys-minor-mode-map
   (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "s-w") #'kill-current-buffer)
+    (define-key map (kbd "s-<kp-delete>") #'kill-current-buffer)
     (define-key map (kbd "M-p") 'consult-projectile)
     map)
   "my-keys-minor-mode keymap.")

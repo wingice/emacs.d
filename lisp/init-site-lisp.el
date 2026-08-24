@@ -39,6 +39,10 @@ Portable across Windows, macOS, and Linux."
       (message "Other server works."))))
  (t (message "Server already started.")))
 
+;; When emacsclient opens a file (e.g. from P4), reuse the current
+;; window instead of splitting.
+(setq server-window 'switch-to-buffer)
+
 ;; emacsclient batch command ec.cmd
 ;; <home>\scoop\shims\emacsclientw.exe -f <home>\.emacs.d\tmp\server -n -a <home>\scoop\shims\runemacs.exe "%*"
 

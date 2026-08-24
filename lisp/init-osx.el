@@ -39,6 +39,9 @@
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
   (setq exec-path (append exec-path '("/usr/local/bin")))
 
+  ;; Reuse existing frame for files opened externally (Finder, open, drag-drop)
+  (setq ns-pop-up-frames nil)
+
   (defun popup-notification(title msg)
     (interactive)
     (ns-do-applescript (concat "display notification \"" msg "\" with title \"" title "\" sound name \"Glass\""))
