@@ -26,9 +26,14 @@
   :config
   (add-to-list 'consult-buffer-filter "\\`\\*"))
 
+(use-package consult-projectile
+  :ensure t
+  :commands (consult-projectile))
+
 
 ;; Enable Vertico.
 (use-package vertico
+  :ensure t
   :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
   ;; (vertico-count 20) ;; Show more candidates
@@ -38,6 +43,7 @@
   (vertico-mode))
 
 (use-package marginalia
+  :ensure t
   :init
   (marginalia-mode))
 
@@ -64,6 +70,7 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
+  :ensure t
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))

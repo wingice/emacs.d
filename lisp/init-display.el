@@ -31,7 +31,11 @@
 (advice-add 'window-splittable-p :before-while #'do-not-split-more-than-two-windows)
 
 
-(load-theme 'nimbus t)
+(use-package nimbus-theme
+  :ensure t
+  :config
+  (load-theme 'nimbus t))
+
 (add-hook 'Buffer-menu-mode-hook #'hl-line-mode)
 (add-hook 'shell-mode-hook #'compilation-shell-minor-mode)
 (add-hook 'shell-mode-hook #'ansi-color-for-comint-mode-on)
@@ -86,5 +90,38 @@
 ;; When opening paren is offscreen, show context in echo area
 (setopt show-paren-context-when-offscreen 'overlay
         blink-matching-paren-highlight-offscreen t)
+
+;; --- Outline folding for ASCII-tree profiler logs (+-- / \-- nodes) ---
+
+(defun my-tree-log-outline ()
+  "Fold indented `+--'/`\\--' profiler tree logs with `outline-minor-mode'.
+Outline depth is taken from each node marker's column, so no fixed
+timestamp/prefix width is assumed: the shallowest marker becomes level 1
+and every 4-column indent step (\"|   \" or \"    \") is one level deeper."
+  (interactive)
+  (let* ((marker "[+\\]-- ")         ; a tree node: "+-- " or "\-- "
+         (marker-width 4)            ; characters in a marker
+         (indent-width 4)            ; columns per outline level
+         (column (lambda ()          ; 0-based column of the marker just matched
+                   (- (match-end 0) marker-width (line-beginning-position))))
+         (base (save-excursion       ; column of the shallowest marker in buffer
+                 (goto-char (point-min))
+                 (let ((min most-positive-fixnum))
+                   (while (re-search-forward marker nil t)
+                     (setq min (min min (funcall column))))
+                   (if (= min most-positive-fixnum) 0 min)))))
+    (setq-local outline-regexp (concat "^.*? " marker)
+                outline-level (lambda ()
+                                (1+ (/ (- (funcall column) base) indent-width)))))
+  (outline-minor-mode 1))
+
+;; Org-style folding for any `outline-minor-mode' buffer (incl. tree logs):
+;; C-TAB cycles the node under point, S-TAB cycles the whole buffer.
+(use-package bicycle
+  :ensure t
+  :after outline
+  :bind (:map outline-minor-mode-map
+              ([C-tab]   . bicycle-cycle)
+              ([backtab] . bicycle-cycle-global)))
 
 (provide 'init-display)

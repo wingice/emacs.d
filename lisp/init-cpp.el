@@ -67,8 +67,11 @@
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
 
-(require 'smartparens-config)
-(add-hook 'js-mode-hook #'smartparens-mode)
+(use-package smartparens
+  :ensure t
+  :hook (js-mode . smartparens-mode)
+  :config
+  (require 'smartparens-config))
 
 ;; ---   javacript ---
 (use-package js2-mode
@@ -110,11 +113,19 @@
               js-indent-level 4)
 (setq tab-width 4)
 
-(setq xref-js2-search-program 'rg)
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+(use-package xref-js2
+  :ensure t
+  :defer t
+  :init
+  (setq xref-js2-search-program 'rg)
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
 
-(add-hook 'json-mode-hook 'use-tab-width4)
+(use-package json-mode
+  :ensure t
+  :hook (json-mode . use-tab-width4))
+
 ;;(add-hook 'js2-mode-hook 'use-tab-width4)
 (add-hook 'js-mode-hook 'use-tab-width4)
 (setq json-encoding-default-indentation "\t")
@@ -123,7 +134,12 @@
 ;;export P4PORT=perforce3230:3230   set ENV in .bashrc or local_conf_body.el
 ;;export P4CLIENT=pcode3230
 
-(global-set-key (kbd "M-.") 'smart-jump-go)
+(use-package smart-jump
+  :ensure t
+  :bind ("M-." . smart-jump-go)
+  :config
+  (smart-jump-setup-default-registers))
+
 (global-set-key (kbd "M-/") 'occur)
 ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 

@@ -34,8 +34,14 @@
 ;; --- Prevent expensive frame resizing when loading fonts/UI ---
 (setq frame-inhibit-implied-resize t)
 
-;; --- Package initialization is handled manually in init.el ---
-(setq package-enable-at-startup nil)
+;; --- Package system (paired with init.el) ---
+;; Activate installed packages via Emacs' built-in startup activation and the
+;; `package-quickstart' cache -- no manual `package-initialize' (a second call
+;; double-initializes and warns).  MELPA is added lazily, when package.el loads.
+(setq package-quickstart t)
+(with-eval-after-load 'package
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t))
 
 ;; --- Native compilation settings ---
 (when (featurep 'native-compile)

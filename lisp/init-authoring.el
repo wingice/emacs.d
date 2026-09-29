@@ -1,10 +1,9 @@
 ;; Markdown mode  -*- lexical-binding: t; -*-
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-(add-hook 'markdown-mode-hook (lambda () (visual-line-mode)))
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.text\\'" . markdown-mode)
+         ("\\.md\\'" . markdown-mode))
+  :hook (markdown-mode . visual-line-mode))
 
 ;; appt and reminder
 (require 'appt)

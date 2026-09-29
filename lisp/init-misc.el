@@ -637,7 +637,18 @@ Preserves the repo under point when refreshed from the review buffer."
              repo-review--keys
              (length dirty) (length clean) (- (float-time) t0))))
 
-(require 'back-button)
-(back-button-mode 1)
+(use-package back-button
+  :ensure t
+  :config
+  (back-button-mode 1))
+
+;;----------------------------------------------------------------------------
+;; Install-only packages: kept available (e.g. via M-x) but not yet configured.
+;; Declared here so a fresh machine installs them; prune freely if unused.
+;;----------------------------------------------------------------------------
+(use-package goto-chg :ensure t :defer t)
+(use-package smart-region :ensure t :defer t)
+(use-package sqlformat :ensure t :defer t)
+(use-package projectile-ripgrep :ensure t :defer t)
 
 (provide 'init-misc)

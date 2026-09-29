@@ -72,6 +72,4 @@
 ;; optional key bindings, easier than hs defaults
 (global-set-key (kbd "<C-tab>") #'hs-toggle-hiding)
 
-(smart-jump-setup-default-registers)
-
 (provide 'init-rails)

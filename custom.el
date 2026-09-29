@@ -21,12 +21,6 @@
      "c5e7a36784b1955b28a89a39fef7c65ddc455b8e7fd70c6f5635cb21e4615670"
      default))
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
- '(package-selected-packages
-   '(back-button chruby company consult consult-projectile dirvish
-		 exec-path-from-shell expand-region ghostel goto-chg
-		 gptel-aibo javelin js2-refactor json-mode marginalia
-		 markdown-mode nimbus-theme orderless org-roam
-		 projectile-rails smart-jump smartparens vertico
-		 web-mode yaml-mode))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((ghostel :url "https://github.com/kiennq/ghostel" :lisp-dir "lisp"))))

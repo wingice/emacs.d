@@ -13,13 +13,7 @@
 ;; Allow access from emacsclient
 ;;----------------------------------------------------------------------------
 (require 'server)
-(require 'package)
-
-(setq package-quickstart t)
-
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+(require 'package)              ; load package.el now; fires MELPA setup in early-init.el
 
 (setq use-package-verbose t)
 
