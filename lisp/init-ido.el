@@ -98,21 +98,21 @@
 (global-set-key (kbd "M-`") 'jump-to-mark)
 
 ;; OPTIONAL configuration
-(setq
- gptel-model 'qwen-flash
- gptel-backend (gptel-make-openai "alibaba"
-  :protocol "https"
-  :host "dashscope.aliyuncs.com"
-  :endpoint "/compatible-mode/v1/chat/completions"
-  :stream t
-  :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
-  :models '(qwen-plus qwen-flash)))  ;; flash/plus
+(require 'auth-source)
 
-(setq gptel-log-level 'debug)
-
-(use-package gptel-aibo
-  :defer t
-  :ensure t)
+(use-package gptel
+  :ensure t
+  :config
+  (setq
+   gptel-model 'qwen-flash
+   gptel-backend (gptel-make-openai "alibaba"
+                   :protocol "https"
+                   :host "dashscope.aliyuncs.com"
+                   :endpoint "/compatible-mode/v1/chat/completions"
+                   :stream t
+                   :key (auth-source-pick-first-password :host "dashscope.aliyuncs.com")
+                   :models '(qwen-plus qwen-flash)))  ;; flash/plus
+  (setq gptel-log-level 'debug))
 
 (setq gptel-api-key "dummy")
 

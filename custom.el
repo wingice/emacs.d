@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,6 +23,5 @@
      "c5e7a36784b1955b28a89a39fef7c65ddc455b8e7fd70c6f5635cb21e4615670"
      default))
  '(frame-inhibit-implied-resize '(tab-bar-lines tool-bar-lines menu-bar-lines))
- '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((ghostel :url "https://github.com/kiennq/ghostel" :lisp-dir "lisp"))))

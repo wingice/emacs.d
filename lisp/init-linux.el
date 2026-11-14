@@ -1,8 +1,8 @@
 ;;; init-linux.el --- Linux specific config  -*- lexical-binding: t; -*-
 
 (when (eq system-type 'gnu/linux)
-  (set-frame-font "-*-Courier 10 Pitch-normal-normal-normal-*-19-*-*-*-m-0-*-*")
-  (set-face-attribute 'default nil :font "Courier 10 Pitch 14")  ;; Setting English Font
+  (set-frame-font "-*-FiraCode Nerd Font-normal-normal-normal-*-24-*-*-*-m-0-*-*")
+  (set-face-attribute 'default nil :font "FiraCode Nerd Font")  ;; Setting English Font
   (dolist (charset '(kana han symbol cjk-misc bopomofo))         ;; Chinese Font
     (set-fontset-font (frame-parameter nil 'font)
 		      charset (font-spec :family "Microsoft Yahei"

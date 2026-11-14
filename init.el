@@ -1,3 +1,5 @@
+;;; init.el --- Main configuration entry point  -*- lexical-binding: t; -*-
+
 ;;  Key Bindings
 ;;  M+d     -> Kill word
 ;;  M+b M+d -> Select whole word and kill word
