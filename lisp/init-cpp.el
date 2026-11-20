@@ -13,7 +13,12 @@
       (expand-file-name "projectile-bookmarks.eld" emacs-cache-dir))
   (setq projectile-cache-file
       (expand-file-name "projectile.cache" emacs-cache-dir))
-  (setq projectile-mode-line nil)
+  (setq projectile-mode-line-prefix " P"
+        projectile-mode-line-function
+        (lambda ()
+          (format "%s[%s]"
+                  projectile-mode-line-prefix
+                  (projectile-project-name))))
   (setq projectile-indexing-method 'alien)
   (setq projectile-require-project-root t)
   (add-to-list 'projectile-globally-ignored-directories "node_modules")

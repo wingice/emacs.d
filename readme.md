@@ -30,6 +30,7 @@ Notes
 - In-buffer completion uses Emacs 31's built-in `global-completion-preview-mode` instead of Company, with a 0.2-second idle delay and the default 3-character minimum. It uses each buffer's `completion-at-point-functions`, not Company backends. When a preview is visible, TAB accepts it, `M-n`/`M-p` cycle candidates, and `M-i` completes the common prefix. Use `C-M-i` (`completion-at-point`) for the full completion interface. Vertico/Orderless minibuffer completion is unchanged. Restart Emacs to apply the switch; Company is no longer enabled by this config.
 - Dired uses Dirvish, enabled globally once at startup. TAB and left-click expand/collapse directories or visit regular files; middle/right-click keep the existing Dired actions.
 - On macOS, Dired uses GNU `gls` if installed, otherwise Emacs's `ls-lisp` (BSD `ls` cannot handle `--dired`). Restart Emacs after changing this configuration so existing Dired buffers do not retain the old setup.
+- Projectile's mode line shows `P[project-name]`, without the project type; its format is configured in `lisp/init-cpp.el`.
 
 Pomodoro workflow
 ---------------------
