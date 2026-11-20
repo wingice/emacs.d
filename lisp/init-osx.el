@@ -22,9 +22,9 @@
     ;; JetBrains Mono NL (No Ligatures) at Regular weight.
     ;; NL variant guarantees no ligature substitution regardless of
     ;; prettify-symbols-mode or composition tables.
-    (set-face-attribute 'default        nil :family "JetBrains Mono NL" :weight 'regular :height 150)
-    (set-face-attribute 'fixed-pitch    nil :family "JetBrains Mono NL" :weight 'regular :height 150)
-    (set-face-attribute 'variable-pitch nil :family "JetBrains Mono NL" :weight 'regular :height 150)
+    (set-face-attribute 'default        nil :family "Fira Code" :weight 'regular :height 150)
+    (set-face-attribute 'fixed-pitch    nil :family "Fira Code" :weight 'regular :height 150)
+    (set-face-attribute 'variable-pitch nil :family "Fira Code" :weight 'regular :height 150)
     ;; Fix Chinese italic display — set Han font for the current fontset
     (set-fontset-font
      (frame-parameter nil 'font)
@@ -57,7 +57,15 @@
     (ns-do-applescript
      "tell application \"System Events\" to keystroke \"q\" using {control down, command down}"))
 
-  (add-hook 'org-timer-done-hook #'lock-screen)
+  (defun my-pomodoro--lock-screen-unless-presenting ()
+    "Lock on countdown completion unless presentation mode is enabled."
+    ;; macOS configuration loads before the presentation mode is defined.
+    (unless (bound-and-true-p my-pomodoro-presentation-mode)
+      (lock-screen)))
+
+  ;; Remove the old unconditional hook when reloading a running session.
+  (remove-hook 'org-timer-done-hook #'lock-screen)
+  (add-hook 'org-timer-done-hook #'my-pomodoro--lock-screen-unless-presenting)
 
   (global-set-key (kbd "s-p") 'consult-projectile)
 

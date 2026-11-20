@@ -177,10 +177,25 @@
 
 
 
+;; BSD ls has no --dired support.  Prefer GNU ls; otherwise use Emacs' lister.
+(when (eq system-type 'darwin)
+  (if-let* ((gnu-ls (executable-find "gls")))
+      (setq insert-directory-program gnu-ls
+            dired-use-ls-dired t)
+    (require 'ls-lisp)
+    (setq ls-lisp-use-insert-directory-program nil
+          dired-use-ls-dired nil)))
+
+(defun my-dirvish-subtree-toggle-or-open ()
+  "Toggle the directory subtree at point, or visit the file at point."
+  (interactive)
+  (if (file-directory-p (dired-get-file-for-visit))
+      (dirvish-subtree-toggle)
+    (dired-find-file)))
+
 (use-package dirvish
-  :defer t
+  :demand t
   :ensure t
-  :hook (dired-mode . dirvish-override-dired-mode)
   :custom
   (dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "dll" "so" "docx" "pptx" "xlsx"))
   (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
@@ -189,6 +204,9 @@
      ("d" "~/Downloads/"                "Downloads")
      ("w" "~/../../workspace"           "Drives")))
   :config
+  ;; This is a global mode: enable once, before the first Dired buffer is read.
+  (require 'dirvish-subtree)
+  (dirvish-override-dired-mode 1)
   ;; (dirvish-peek-mode)             ; Preview files in minibuffer
   ;; (dirvish-side-follow-mode)      ; similar to `treemacs-follow-mode'
   ;; open large directory (over 20000 files) asynchronously with `fd' command
@@ -213,7 +231,7 @@
    ("y"   . dirvish-yank-menu)
    ("N"   . dirvish-narrow)
    ("^"   . dirvish-history-last)
-   ("TAB" . dirvish-subtree-toggle)
+   ("TAB" . my-dirvish-subtree-toggle-or-open)
    ("M-f" . dirvish-history-go-forward)
    ("M-b" . dirvish-history-go-backward)
    ("M-e" . dirvish-emerge-menu)))
@@ -387,8 +405,8 @@ Non-zero exit yields a string prefixed with `git error (CODE):'."
   "Return (REPO FILE STATUS) for the status line at point, or nil.
 STATUS is the 2-char porcelain code, e.g. \" M\", \"??\", \"R \"."
   (let ((bol (line-beginning-position)))
-    (when-let ((repo (repo-review--repo-at-point))
-               (file (get-text-property bol 'repo-review-file)))
+    (when-let* ((repo (repo-review--repo-at-point))
+                (file (get-text-property bol 'repo-review-file)))
       (list repo file (get-text-property bol 'repo-review-status)))))
 
 (defun repo-review--parse-porcelain-path (line)
@@ -412,7 +430,7 @@ paths are unquoted."
 Aborts *before* staging when the message is empty.
 Does not refresh; press \\`g' when you want an updated status."
   (interactive)
-  (if-let ((repo (repo-review--repo-at-point)))
+  (if-let* ((repo (repo-review--repo-at-point)))
       (let* ((name (file-name-nondirectory (directory-file-name repo)))
              (msg  (string-trim
                     (read-string
@@ -430,7 +448,7 @@ With prefix ARG, show the staged diff.
 In the resulting buffer: \\`q' buries + closes the window,
 \\`k' also kills the buffer.  Other keys keep `diff-mode' behavior."
   (interactive "P")
-  (if-let ((repo (repo-review--repo-at-point)))
+  (if-let* ((repo (repo-review--repo-at-point)))
       (let* ((name (file-name-nondirectory (directory-file-name repo)))
              (buf  (get-buffer-create
                     (format "*repo-diff: %s%s*"
@@ -478,7 +496,7 @@ and initialising a fresh one if none exists.
 Eshell's own display logic is sandboxed via `save-window-excursion',
 so nothing else in this frame's layout gets disturbed."
   (interactive)
-  (if-let ((repo (repo-review--repo-at-point)))
+  (if-let* ((repo (repo-review--repo-at-point)))
       (let* ((default-directory (file-name-as-directory repo))
              (name    (file-name-nondirectory (directory-file-name repo)))
              (bufname (format "*repo-eshell: %s*" name))
@@ -491,7 +509,7 @@ so nothing else in this frame's layout gets disturbed."
               (eshell)))
           (setq buf (get-buffer bufname)))
         ;; Display: reuse the buffer's window if any, else split right.
-        (if-let ((w (get-buffer-window buf)))
+        (if-let* ((w (get-buffer-window buf)))
             (select-window w)
           (select-window (split-window-right))
           (switch-to-buffer buf)))
@@ -500,7 +518,7 @@ so nothing else in this frame's layout gets disturbed."
 (defun repo-review-dired ()
   "Open dired for the repo at point."
   (interactive)
-  (if-let ((repo (repo-review--repo-at-point)))
+  (if-let* ((repo (repo-review--repo-at-point)))
       (dired repo)
     (message "No repo at point.")))
 
