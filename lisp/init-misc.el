@@ -5,7 +5,7 @@
 
 (setopt use-short-answers t)
 
-;; Emacs 30: disable ispell in text-mode completion (interferes with company)
+;; Keep automatic text completion from invoking ispell.
 (setq text-mode-ispell-word-completion nil)
 
 

@@ -27,6 +27,7 @@ Notes
 - This config enables `package-quickstart` to speed up startup.
 - If you change installed packages, run `M-x refresh-package-quickstart` once so Emacs can rebuild its quickstart cache.
 - After changing Emacs major versions, rebuild packages compiled by the old version using `M-x package-recompile-all`, then restart Emacs. In particular, Marginalia compiled for an older Emacs can report `void-function compat--seconds-to-string` in Vertico file completion on Emacs 31. Recompiling Marginalia and refreshing its native cache fixes this without disabling annotations.
+- In-buffer completion uses Emacs 31's built-in `global-completion-preview-mode` instead of Company, with a 0.2-second idle delay and the default 3-character minimum. It uses each buffer's `completion-at-point-functions`, not Company backends. When a preview is visible, TAB accepts it, `M-n`/`M-p` cycle candidates, and `M-i` completes the common prefix. Use `C-M-i` (`completion-at-point`) for the full completion interface. Vertico/Orderless minibuffer completion is unchanged. Restart Emacs to apply the switch; Company is no longer enabled by this config.
 - Dired uses Dirvish, enabled globally once at startup. TAB and left-click expand/collapse directories or visit regular files; middle/right-click keep the existing Dired actions.
 - On macOS, Dired uses GNU `gls` if installed, otherwise Emacs's `ls-lisp` (BSD `ls` cannot handle `--dired`). Restart Emacs after changing this configuration so existing Dired buffers do not retain the old setup.
 

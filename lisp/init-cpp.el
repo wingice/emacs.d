@@ -55,18 +55,6 @@
 (global-set-key (kbd "M-\\") 'my/consult-fd-in-folder)
 (global-set-key (kbd "<pause>") 'keyboard-escape-quit)
 
-;; ----------- Golang ----------------
-(setq gofmt-command "goimports")
-;;(require 'go-flymake)
-
-(add-hook 'go-mode-hook (lambda ()
-  (setq-local company-backends '(company-go))
-  (add-hook 'before-save-hook #'gofmt-before-save nil t)))
-
-
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
-
 (use-package smartparens
   :ensure t
   :hook (js-mode . smartparens-mode)
