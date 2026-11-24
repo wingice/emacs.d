@@ -47,12 +47,6 @@ Portable across Windows, macOS, and Linux."
 ;; <home>\scoop\shims\emacsclientw.exe -f <home>\.emacs.d\tmp\server -n -a <home>\scoop\shims\runemacs.exe "%*"
 
 (setq bookmark-default-file (concat emacs-cache-dir "bookmarks"))
-(setq backup-directory-alist
-        `((".*" . ,emacs-tmp-dir)))
-(setq auto-save-file-name-transforms
-        `((".*" ,emacs-autosave-dir t)))
-(setq auto-save-list-file-prefix
-        emacs-autosave-dir)
 
 (defun refresh-package-quickstart ()
   "Refresh package quickstart cache after package changes."
@@ -67,7 +61,6 @@ Portable across Windows, macOS, and Linux."
 (defun emacs-session-filename (SESSION-ID)
   (concat emacs-cache-dir SESSION-ID))
 
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; find refences: cd ~/.emacs.d/elpa rg "require 'cl\)"
 (setq byte-compile-warnings '(cl-functions))

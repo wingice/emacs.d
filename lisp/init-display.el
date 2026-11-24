@@ -9,9 +9,7 @@
 (setq initial-scratch-message nil)
 
 (setq-default truncate-lines t)
-(global-set-key [f5] 'revert-buffer)
 ;; Scroll bars disabled in early-init.el via default-frame-alist
-(setq auto-revert-interval 0.5)
 
 (setq Buffer-menu-name-width 30)
 (setq Buffer-menu-mode-width 12)

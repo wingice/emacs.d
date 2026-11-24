@@ -31,12 +31,6 @@
 
 
 
-(setq
-   backup-by-copying t      ; don't clobber symlinks
-   delete-old-versions t
-   kept-new-versions 3
-   kept-old-versions 2
-   version-control t)       ; use versioned backups
 
 ;; When called interactively with no active region, copy current line instead.
 (put 'kill-ring-save 'interactive-form
@@ -102,24 +96,10 @@
 ;; Prevent font cache compaction - reduces GC pauses (most impactful on Windows)
 (setq inhibit-compacting-font-caches t)
 
-;; Don't ping things that look like domain names (slows find-file-at-point)
-(setq ffap-machine-p-known 'reject)
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-(defun force-writable()
-  (interactive)
-  (change-file-to-writable)
-  (revert-buffer nil t))
-
-(defun change-file-to-writable()
-  (let ((file (buffer-file-name)))
-    (cond ((eq system-type 'windows-nt)
-           (shell-command-to-string (concat "attrib -R " file)))
-          ((memq system-type '(gnu/linux darwin))
-           (shell-command-to-string (concat "chmod u+w " file)))
-          (t (message "file permission change not handled for OS %s" system-type)))))
 
 (setq-default bidi-display-reordering 'left-to-right
               bidi-paragraph-direction 'left-to-right)
@@ -236,7 +216,6 @@
    ("M-b" . dirvish-history-go-backward)
    ("M-e" . dirvish-emerge-menu)))
 
-(setq delete-by-moving-to-trash t)
 ;; Short guide for Dirvish/Dired
 ;; - Open file externally in dired, press "W",  Which runs (browse-url-of-dired-file) and seems to open the file or directory in the default application.
 ;; - Want to run in a shell,        press "&", then "start ""

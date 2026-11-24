@@ -31,6 +31,7 @@ Notes
 - Dired uses Dirvish, enabled globally once at startup. TAB and left-click expand/collapse directories or visit regular files; middle/right-click keep the existing Dired actions.
 - On macOS, Dired uses GNU `gls` if installed, otherwise Emacs's `ls-lisp` (BSD `ls` cannot handle `--dired`). Restart Emacs after changing this configuration so existing Dired buffers do not retain the old setup.
 - Projectile's mode line shows `P[project-name]`, without the project type; its format is configured in `lisp/init-cpp.el`.
+- File settings live in `lisp/init-files.el`. Unmodified buffers reload automatically after external changes; conflicting unsaved edits recommend `M-x save-conflict-as`, which prefills a timestamped sibling filename. Press Enter to save, or edit the name. Restart Emacs to apply.
 
 Pomodoro workflow
 ---------------------

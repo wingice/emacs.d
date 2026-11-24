@@ -28,6 +28,7 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 
 (require 'init-site-lisp)
+(require 'init-files)
 (require 'init-ido)
 (require 'init-display)
 (require 'init-auto-complete)
